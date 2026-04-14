@@ -171,6 +171,32 @@ const lerp = (a, b, t) => a + (b - a) * t;
   });
 })();
 
+/* ── card videos: play once on view, replay on hover, no loop ── */
+(() => {
+  const videos = document.querySelectorAll("[data-card-video]");
+  if (!videos.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const v = e.target;
+        v.currentTime = 0;
+        v.play().catch(() => {});
+        io.unobserve(v);
+      }
+    });
+  }, { threshold: 0.35 });
+  videos.forEach(v => {
+    io.observe(v);
+    const card = v.closest(".card");
+    if (card) {
+      card.addEventListener("pointerenter", () => {
+        v.currentTime = 0;
+        v.play().catch(() => {});
+      });
+    }
+  });
+})();
+
 /* ── nav: mobile menu toggle ── */
 (() => {
   const nav = document.querySelector(".nav");
@@ -190,10 +216,20 @@ const lerp = (a, b, t) => a + (b - a) * t;
   });
 })();
 
-/* ── nav scroll state ── */
+/* ── nav scroll state + scroll-to-top button visibility ── */
 (() => {
   const nav = document.querySelector(".nav");
-  window.addEventListener("scroll", () => {
-    nav.style.transform = `translateX(-50%) scale(${window.scrollY > 40 ? 0.96 : 1})`;
-  }, { passive: true });
+  const toTop = document.querySelector(".to-top");
+  const onScroll = () => {
+    const y = window.scrollY;
+    if (nav) nav.style.transform = `translateX(-50%) scale(${y > 40 ? 0.96 : 1})`;
+    if (toTop) toTop.classList.toggle("is-visible", y > window.innerHeight * 0.6);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  if (toTop) {
+    toTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 })();
