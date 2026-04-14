@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ivy Grzybowski ✺ Creative Technologist</title>
+<meta name="description" content="Creative technologist building a creative OS for designers experimenting with code." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Grotesk:wght@300;400;500&family=Space+Mono:wght@400;700&family=Dela+Gothic+One&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- grain + fixed backdrop orbs -->
+<div class="grain" aria-hidden="true"></div>
+<div class="backdrop" aria-hidden="true">
+  <span class="orb orb--pink"></span>
+</div>
+
+<!-- custom cursor -->
+<div class="cursor" aria-hidden="true">
+  <span class="cursor__dot"></span>
+  <span class="cursor__ring"></span>
+</div>
+
+<!-- floating navigation -->
+<nav class="nav" aria-label="Primary">
+  <a class="nav__mark" href="#top" data-hover>
+    <span class="nav__glyph">✺</span>
+    <span class="nav__name">ivy grzybowski</span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="#work" data-hover>work</a></li>
+    <li><a href="#experiments" data-hover>experiments</a></li>
+    <li><a href="#about" data-hover>about</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header id="top" class="hero">
+  <div class="hero__meta hero__meta--tl">
+    <span class="tick"></span>
+    <span>open to remote roles</span>
+    <span>starting may 2026</span>
+  </div>
+  <div class="hero__meta hero__meta--tr">
+    <span>37.906° N · 122.545° W</span>
+    <span>mill valley · california</span>
+  </div>
+
+  <div class="hero__stage">
+
+    <figure class="hero__specimen">
+      <img src="images/orchid-01.png" alt="Neon-lit orchid specimen" />
+      <span class="hero__halo"></span>
+    </figure>
+
+    <h1 class="hero__title" aria-label="Creative Technologist">
+      <span class="line">
+        <span class="word" data-split>creative</span>
+      </span>
+      <span class="line">
+        <span class="word word--outline" data-split>techno</span><span class="word word--solid" data-split>logist</span>
+      </span>
+    </h1>
+
+    <p class="hero__lede">
+      Building a <u>creative&nbsp;OS</u> for designers experimenting w/ code + completing a master’s in interaction design
+    </p>
+    <p class="hero__lede hero__lede--sub">
+      Background in visual design, community building &amp; sustainability across roles w/ Figma + REI + Patagonia
+    </p>
+
+  </div>
+
+  <div class="hero__ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <div class="ticker__row">
+        <span>figma campus leader</span><span>✺</span>
+        <span>creative technology</span><span>❀</span>
+        <span>building unicorn</span><span>✷</span>
+        <span>claude code</span><span>❋</span>
+        <span>interaction design</span><span>✢</span>
+      </div>
+      <div class="ticker__row" aria-hidden="true">
+        <span>figma campus leader</span><span>✺</span>
+        <span>creative technology</span><span>❀</span>
+        <span>building unicorn</span><span>✷</span>
+        <span>claude code</span><span>❋</span>
+        <span>interaction design</span><span>✢</span>
+      </div>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#work" data-hover aria-label="Scroll to work">
+    <span>scroll</span>
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
+  </a>
+</header>
+
+<!-- WORK: project cards -->
+<section id="work" class="work">
+  <div class="work__head">
+    <span class="eyebrow">❀ Selected experiments · 2026</span>
+    <h2 class="section-title">
+      <span class="line" data-split>the work</span>
+      <span class="line line--alt" data-split>is the portfolio</span>
+    </h2>
+    <p class="section-lede">
+      Nothing in drawers. Every card below is a live project, a shipped skill, or a build
+      still pulsing on my machine tonight. Hover them. They breathe.
+    </p>
+  </div>
+
+  <div class="cards">
+
+    <article class="card card--01" data-tilt data-hover>
+      <div class="card__img">
+        <img src="images/orchid-01.png" alt="" loading="lazy" />
+      </div>
+      <div class="card__body">
+        <span class="card__num">01 / capstone</span>
+        <h3 class="card__title">Unicorn</h3>
+        <p class="card__desc">A creative OS for designers experimenting with code. Quests, experiments, signals, ceremony.</p>
+        <div class="card__meta">
+          <span>electron · react</span>
+          <span>2026 →</span>
+        </div>
+      </div>
+      <span class="card__edge"></span>
+    </article>
+
+    <article class="card card--02" data-tilt data-hover>
+      <div class="card__img">
+        <img src="images/portrait-stillness.png" alt="" loading="lazy" />
+      </div>
+      <div class="card__body">
+        <span class="card__num">02 / program</span>
+        <h3 class="card__title">Figma at AAU</h3>
+        <p class="card__desc">Built a campus Figma program from zero. Booked the Figma Weave GTM demo.</p>
+        <div class="card__meta">
+          <span>community · strategy</span>
+          <span>2025–26</span>
+        </div>
+      </div>
+      <span class="card__edge"></span>
+    </article>
+
+    <article class="card card--03" data-tilt data-hover>
+      <div class="card__img">
+        <img src="images/orchid-02.png" alt="" loading="lazy" />
+      </div>
+      <div class="card__body">
+        <span class="card__num">03 / skill</span>
+        <h3 class="card__title">Pinterest → Obsidian</h3>
+        <p class="card__desc">A pipeline that turns a mood board into a build-ready brief in minutes.</p>
+        <div class="card__meta">
+          <span>python · claude code</span>
+          <span>shipped</span>
+        </div>
+      </div>
+      <span class="card__edge"></span>
+    </article>
+
+    <article class="card card--04" data-tilt data-hover>
+      <div class="card__img">
+        <img src="images/orchid-01.png" alt="" loading="lazy" />
+      </div>
+      <div class="card__body">
+        <span class="card__num">04 / case story</span>
+        <h3 class="card__title">LinkedIn Banner Lab</h3>
+        <p class="card__desc">A repeatable banner workflow -- Midjourney, Figma, and a little taste.</p>
+        <div class="card__meta">
+          <span>workflow</span>
+          <span>ongoing</span>
+        </div>
+      </div>
+      <span class="card__edge"></span>
+    </article>
+
+    <article class="card card--05" data-tilt data-hover>
+      <div class="card__img">
+        <img src="images/portrait-stillness.png" alt="" loading="lazy" />
+      </div>
+      <div class="card__body">
+        <span class="card__num">05 / skill</span>
+        <h3 class="card__title">Unicorn Skill</h3>
+        <p class="card__desc">The bridge between Claude Code and Unicorn. Teaches agents to speak my language.</p>
+        <div class="card__meta">
+          <span>claude skill</span>
+          <span>live</span>
+        </div>
+      </div>
+      <span class="card__edge"></span>
+    </article>
+
+    <article class="card card--06" data-tilt data-hover>
+      <div class="card__img">
+        <img src="images/orchid-02.png" alt="" loading="lazy" />
+      </div>
+      <div class="card__body">
+        <span class="card__num">06 / writing</span>
+        <h3 class="card__title">Case Stories</h3>
+        <p class="card__desc">Not case studies. Living documents written in my voice, as the work happens.</p>
+        <div class="card__meta">
+          <span>essays</span>
+          <span>2026</span>
+        </div>
+      </div>
+      <span class="card__edge"></span>
+    </article>
+
+  </div>
+</section>
+
+<!-- MARQUEE statement -->
+<section class="statement" aria-hidden="false">
+  <div class="statement__row">
+    <span>i did not wait</span>
+    <span class="statement__flower">✺</span>
+    <span>for permission</span>
+    <span class="statement__flower">❀</span>
+    <span>i did not wait</span>
+    <span class="statement__flower">✷</span>
+    <span>for permission</span>
+    <span class="statement__flower">❋</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact" class="foot">
+  <figure class="foot__bloom">
+    <img src="images/orchid-01.png" alt="" />
+  </figure>
+  <div class="foot__content">
+    <span class="eyebrow">✢ now accepting</span>
+    <h2 class="foot__title">let’s make something<br/><em>that glows.</em></h2>
+    <a class="foot__mail" href="mailto:hi@ivygrzybowski.com" data-hover>hi@ivygrzybowski.com</a>
+    <ul class="foot__links">
+      <li><a href="#" data-hover>linkedin</a></li>
+      <li><a href="#" data-hover>figma</a></li>
+      <li><a href="#" data-hover>github</a></li>
+      <li><a href="#" data-hover>are.na</a></li>
+    </ul>
+    <p class="foot__sig">✺ built in mill valley · neon specimen 01 · apr 2026</p>
+  </div>
+</footer>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
