@@ -3,37 +3,67 @@
 
 const lerp = (a, b, t) => a + (b - a) * t;
 
-/* ── cursor ── */
-(() => {
-  if (matchMedia("(hover: none)").matches) return;
-  const cursor = document.querySelector(".cursor");
-  const dot = cursor.querySelector(".cursor__dot");
-  const ring = cursor.querySelector(".cursor__ring");
-  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-  let rx = mx, ry = my;
+/* ── BLOOM (top of file so nothing can break it) ────────────────────
+   Cursor Y over the viewport scrubs through 52 frames.
+   Top of screen = closed. Bottom = fully bloomed.
+─────────────────────────────────────────────────────────────────── */
+{
+  const FRAME_COUNT = 63;
+  const pad = (n) => String(n).padStart(3, "0");
+  const url = (i) => `images/bloom/f${pad(i)}.jpg`;
 
-  window.addEventListener("pointermove", e => {
-    mx = e.clientX; my = e.clientY;
-    if (!cursor.classList.contains("is-ready")) cursor.classList.add("is-ready");
-  });
+  const preloaded = [];
+  for (let i = 1; i <= FRAME_COUNT; i++) {
+    const im = new Image();
+    im.src = url(i);
+    preloaded.push(im);
+  }
+
+  let target = 0, current = 0, last = 0;
+
+  const isTouch = matchMedia("(hover: none)").matches;
+
+  if (isTouch) {
+    // mobile: scroll through the hero drives the bloom
+    const setFromScroll = () => {
+      const hero = document.querySelector(".hero");
+      if (!hero) return;
+      const heroH = hero.offsetHeight || 1;
+      target = Math.max(0, Math.min(1, window.scrollY / (heroH * 0.85)));
+    };
+    setFromScroll();
+    window.addEventListener("scroll", setFromScroll, { passive: true });
+    window.addEventListener("resize", setFromScroll);
+  } else {
+    // desktop: cursor Y drives the bloom
+    const onMove = (e) => {
+      const ny = e.clientY / window.innerHeight;
+      target = Math.max(0, Math.min(1, ny));
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+  }
+
   const tick = () => {
-    rx = lerp(rx, mx, 0.18);
-    ry = lerp(ry, my, 0.18);
-    dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
-    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+    const el = document.querySelector(".hero__bloom");
+    if (el) {
+      current += (target - current) * 0.18;
+      const f = Math.max(1, Math.min(FRAME_COUNT, Math.round(current * (FRAME_COUNT - 1)) + 1));
+      if (f !== last) {
+        el.src = url(f);
+        last = f;
+        document.title = `bloom ${f}/${FRAME_COUNT} ✺`;
+      }
+    }
     requestAnimationFrame(tick);
   };
   tick();
+}
 
-  document.querySelectorAll("[data-hover]").forEach(el => {
-    el.addEventListener("pointerenter", () => cursor.classList.add("is-hover"));
-    el.addEventListener("pointerleave", () => cursor.classList.remove("is-hover"));
-  });
-})();
+/* ── cursor: removed, using native ── */
 
 /* ── hero title reveal (split words into character spans) ── */
 (() => {
-  const words = document.querySelectorAll(".hero__title .word, .section-title .line");
+  const words = document.querySelectorAll(".hero__title .word:not(.word--solid), .section-title .line");
   words.forEach((w, wi) => {
     const text = w.textContent;
     w.textContent = "";
@@ -55,27 +85,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
   });
 })();
 
-/* ── parallax hero orchid to pointer ── */
-(() => {
-  const img = document.querySelector(".hero__specimen img");
-  const halo = document.querySelector(".hero__halo");
-  if (!img) return;
-  let tx = 0, ty = 0, cx = 0, cy = 0;
-  window.addEventListener("pointermove", e => {
-    const nx = (e.clientX / window.innerWidth - 0.5);
-    const ny = (e.clientY / window.innerHeight - 0.5);
-    tx = nx * 40;
-    ty = ny * 30;
-  });
-  const loop = () => {
-    cx = lerp(cx, tx, 0.06);
-    cy = lerp(cy, ty, 0.06);
-    img.style.transform = `translate3d(${cx}px, ${cy}px, 0) rotate(${cx * 0.08}deg)`;
-    if (halo) halo.style.transform = `translate3d(${cx * 0.4}px, ${cy * 0.4}px, 0)`;
-    requestAnimationFrame(loop);
-  };
-  loop();
-})();
+/* ── halo drift: removed -- static glow only ── */
 
 /* ── 3d tilt on cards ── */
 (() => {
@@ -117,21 +127,28 @@ const lerp = (a, b, t) => a + (b - a) * t;
   });
 })();
 
-/* ── ticker: CSS animation, JS just sets --row-w to one row's width ── */
+/* ── ticker: CSS animation, JS sets --row-w to ONE row's measured width ── */
 (() => {
   const track = document.querySelector(".ticker__track");
   if (!track) return;
+  const row = track.querySelector(".ticker__row");
+  if (!row) return;
 
   const set = () => {
-    const w = track.scrollWidth / 2;
+    const w = row.getBoundingClientRect().width || row.offsetWidth || (track.scrollWidth / 2);
     if (w > 10) track.style.setProperty("--row-w", w + "px");
   };
 
   set();
   window.addEventListener("resize", set);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(set);
-  setTimeout(set, 300);
-  setTimeout(set, 1200);
+  setTimeout(set, 200);
+  setTimeout(set, 600);
+  setTimeout(set, 1500);
+
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(set).observe(row);
+  }
 })();
 
 /* ── scroll reveals ── */
@@ -151,6 +168,25 @@ const lerp = (a, b, t) => a + (b - a) * t;
     el.style.transform = "translateY(40px)";
     el.style.transition = "opacity 1s ease, transform 1s cubic-bezier(.2,.8,.2,1)";
     io.observe(el);
+  });
+})();
+
+/* ── nav: mobile menu toggle ── */
+(() => {
+  const nav = document.querySelector(".nav");
+  const btn = document.querySelector(".nav__toggle");
+  if (!nav || !btn) return;
+  const close = () => { nav.classList.remove("is-open"); btn.setAttribute("aria-expanded", "false"); };
+  btn.addEventListener("click", () => {
+    const open = nav.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  nav.querySelectorAll(".nav__links a").forEach(a => a.addEventListener("click", close));
+  document.addEventListener("click", e => {
+    if (!nav.contains(e.target)) close();
+  });
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 720) close();
   });
 })();
 
