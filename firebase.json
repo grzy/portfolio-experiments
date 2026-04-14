@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "experiments/hero-nav-neon-01",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

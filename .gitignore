@@ -27,6 +27,9 @@ landing-page/
 .idea/
 *.swp
 
+# firebase deploy cache
+.firebase/
+
 # logs
 *.log
 npm-debug.log*
