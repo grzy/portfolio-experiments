@@ -654,8 +654,8 @@ img { display: block; max-width: 100%; }
   filter: saturate(1.1) contrast(1.05);
 }
 .card--02 .card__img img { object-position: 60% 40%; }
-.card--03 .card__img img { scale: -1 1; }
-.card--05 .card__img img { scale: -1 1; }
+.card--03 .card__img img { transform: scale(0.95); }
+.card--03:hover .card__img img { transform: scale(1.01); }
 .card--01 .card__meta span:last-child {
   color: #5af26a;
   font-weight: 400;
