@@ -197,6 +197,259 @@ const lerp = (a, b, t) => a + (b - a) * t;
   });
 })();
 
+/* ── reusable glitch-on-hover effect ──
+   Scrambles the target text when you pointerenter a trigger,
+   then gradually reveals the original characters left-to-right. */
+(() => {
+  const defaultGlyphs = "!@#$%^&*<>[]{}+-=/\\|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  const subtleGlyphs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const keepAsIs = (c) => /[\s·\-–—'’".!?,…]/.test(c);
+
+  const bindGlitch = (trigger, target, opts = {}) => {
+    if (!target) return;
+    const total = opts.total || 14;
+    const interval = opts.interval || 40;
+    const glyphs = opts.glyphs || defaultGlyphs;
+    // density = 1 scrambles every unrevealed char each frame (full glitch)
+    // density = 0.3 scrambles only ~30% (subtle shimmer)
+    const density = opts.density !== undefined ? opts.density : 1;
+    const pick = () => glyphs[Math.floor(Math.random() * glyphs.length)];
+
+    const original = target.textContent;
+    let timer;
+    let running = false;
+
+    const scramble = (progress) => {
+      const reveal = Math.floor(original.length * progress);
+      let out = "";
+      for (let i = 0; i < original.length; i++) {
+        const c = original[i];
+        if (keepAsIs(c) || i < reveal || Math.random() > density) {
+          out += c;
+        } else {
+          out += pick();
+        }
+      }
+      target.textContent = out;
+    };
+
+    const play = () => {
+      running = true;
+      let step = 0;
+      const tick = () => {
+        if (!running) return;
+        step++;
+        const progress = step / total;
+        if (progress >= 1) {
+          target.textContent = original;
+          running = false;
+          return;
+        }
+        scramble(progress);
+        timer = setTimeout(tick, interval);
+      };
+      tick();
+    };
+
+    const stop = () => {
+      running = false;
+      clearTimeout(timer);
+      target.textContent = original;
+    };
+
+    trigger.addEventListener("pointerenter", play);
+    trigger.addEventListener("pointerleave", stop);
+  };
+
+  // Event rows: glitch the place/date, name stays stable (default settings)
+  document.querySelectorAll(".about-events__col li").forEach(row => {
+    bindGlitch(row, row.querySelector(".ev-place"));
+  });
+
+})();
+
+/* ── github commits (show-stopper) ──
+   Builds the current-month calendar, fills it from the jogruber API,
+   populates the watermark with the month name, glitch-counts the total,
+   and staggers cell reveal when the section scrolls into view. */
+(async () => {
+  const gridEl = document.getElementById("commits-month");
+  const totalEl = document.getElementById("commits-total");
+  const monthNameEl = document.getElementById("commits-month-name");
+  const watermarkEl = document.getElementById("commits-watermark");
+  const section = document.querySelector(".about-commits");
+  if (!gridEl || !totalEl || !section) return;
+
+  const username = "grzy";
+  const apiUrl = `https://github-contributions-api.jogruber.de/v4/${username}?y=last`;
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+                      "July", "August", "September", "October", "November", "December"];
+  const monthName = monthNames[month];
+  if (monthNameEl) monthNameEl.textContent = monthName.toLowerCase();
+  if (watermarkEl) watermarkEl.textContent = monthName;
+
+  const firstOfMonth = new Date(year, month, 1);
+  const firstDayOfWeek = firstOfMonth.getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const todayDate = now.getDate();
+
+  const dateKey = (y, m, d) =>
+    `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+
+  const glitchCount = (el, target) => {
+    if (target <= 0) { el.textContent = "0"; return; }
+    const start = performance.now();
+    const duration = 1600;
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      if (t < 1) {
+        const variance = Math.max(1, Math.floor(target * 0.7 * (1 - t)) + 4);
+        const shown = Math.max(0, target + Math.floor((Math.random() - 0.5) * 2 * variance));
+        el.textContent = String(shown);
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = String(target);
+      }
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const buildGrid = (contribMap) => {
+    const frag = document.createDocumentFragment();
+    let total = 0;
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      const blank = document.createElement("span");
+      blank.className = "commit-cell commit-cell--empty";
+      frag.appendChild(blank);
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+      const key = dateKey(year, month, d);
+      const entry = contribMap.get(key);
+      const count = entry ? entry.count : 0;
+      const level = entry ? entry.level : 0;
+      total += count;
+      const cell = document.createElement("span");
+      cell.className = "commit-cell";
+      cell.dataset.level = String(level);
+      cell.title = `${key}: ${count} contribution${count === 1 ? "" : "s"}`;
+      if (d > todayDate) cell.classList.add("commit-cell--future");
+      if (d === todayDate) cell.classList.add("commit-cell--today");
+      frag.appendChild(cell);
+    }
+    gridEl.appendChild(frag);
+    return total;
+  };
+
+  let totalCommits = 0;
+  try {
+    const res = await fetch(apiUrl);
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    const contribMap = new Map((data.contributions || []).map(d => [d.date, d]));
+    totalCommits = buildGrid(contribMap);
+  } catch (err) {
+    buildGrid(new Map());
+    totalCommits = 0;
+  }
+
+  // ── Sound (Web Audio API) ──
+  // Pleasant pentatonic notes for each activity level. Off by default.
+  const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+  let audioCtx = null;
+  let soundEnabled = false;
+
+  const ensureCtx = () => {
+    if (!AudioCtxClass) return null;
+    if (!audioCtx) audioCtx = new AudioCtxClass();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  };
+
+  // A minor pentatonic, ascending by level: A C E G C↑
+  const notes = [440, 523.25, 659.25, 783.99, 1046.50];
+
+  const playNote = (level) => {
+    if (!soundEnabled) return;
+    const ctx = ensureCtx();
+    if (!ctx) return;
+    const freq = notes[Math.max(0, Math.min(4, level - 1))];
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    const t = ctx.currentTime;
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(0.12, t + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.45);
+  };
+
+  // ── Sound toggle button ──
+  const toggle = document.getElementById("sound-toggle");
+  const toggleLabel = toggle && toggle.querySelector("em");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      soundEnabled = !soundEnabled;
+      toggle.classList.toggle("is-on", soundEnabled);
+      toggle.setAttribute("aria-pressed", String(soundEnabled));
+      if (toggleLabel) toggleLabel.textContent = soundEnabled ? "on" : "off";
+      if (soundEnabled) ensureCtx();
+    });
+  }
+
+  // ── Bind sound to cells with activity (level > 0) ──
+  const cells = Array.from(gridEl.querySelectorAll(".commit-cell"));
+  cells.forEach((cell) => {
+    const level = parseInt(cell.dataset.level || "0", 10);
+    if (level > 0 && !cell.classList.contains("commit-cell--empty")) {
+      cell.addEventListener("pointerenter", () => playNote(level));
+    }
+  });
+
+  // stagger-reveal cells + trigger glitch count when section enters viewport
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        cells.forEach((cell, i) => {
+          setTimeout(() => cell.classList.add("is-in"), 200 + i * 25);
+        });
+        glitchCount(totalEl, totalCommits);
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+  io.observe(section);
+})();
+
+/* ── lede-highlight: sweep underline on cursor-over-lede ──
+   Uses window pointermove + bbox check so the lede can stay at
+   pointer-events: none (WebGL flashlight keeps tracking underneath). */
+(() => {
+  const lede = document.querySelector(".about-hero__lede");
+  const highlight = lede && lede.querySelector(".lede-highlight");
+  if (!lede || !highlight) return;
+  if (matchMedia("(hover: none)").matches) return;
+
+  const check = (e) => {
+    const r = lede.getBoundingClientRect();
+    const inside =
+      e.clientX >= r.left &&
+      e.clientX <= r.right &&
+      e.clientY >= r.top &&
+      e.clientY <= r.bottom;
+    highlight.classList.toggle("is-active", inside);
+  };
+  window.addEventListener("pointermove", check, { passive: true });
+  window.addEventListener("pointerleave", () => highlight.classList.remove("is-active"));
+})();
+
 /* ── nav: mobile menu toggle ── */
 (() => {
   const nav = document.querySelector(".nav");
