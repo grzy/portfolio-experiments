@@ -30,6 +30,9 @@ landing-page/
 # firebase deploy cache
 .firebase/
 
+# huge source images -- kept local for re-cropping, not committed
+experiments/hero-nav-neon-01/images/tui-product-shot1.png
+
 # logs
 *.log
 npm-debug.log*

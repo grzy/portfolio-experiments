@@ -655,7 +655,7 @@ img { display: block; max-width: 100%; }
 }
 .card--02 .card__img img { object-position: 60% 40%; }
 .card--03 .card__img img { scale: -1 1; }
-.card--05 .card__img img { object-position: 70% 50%; scale: -1 1; }
+.card--05 .card__img img { scale: -1 1; }
 .card--01 .card__meta span:last-child {
   color: #5af26a;
   font-weight: 400;
