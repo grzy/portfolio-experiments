@@ -300,23 +300,6 @@ const lerp = (a, b, t) => a + (b - a) * t;
   const dateKey = (y, m, d) =>
     `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 
-  const glitchCount = (el, target) => {
-    if (target <= 0) { el.textContent = "0"; return; }
-    const start = performance.now();
-    const duration = 1600;
-    const tick = (now) => {
-      const t = Math.min(1, (now - start) / duration);
-      if (t < 1) {
-        const variance = Math.max(1, Math.floor(target * 0.7 * (1 - t)) + 4);
-        const shown = Math.max(0, target + Math.floor((Math.random() - 0.5) * 2 * variance));
-        el.textContent = String(shown);
-        requestAnimationFrame(tick);
-      } else {
-        el.textContent = String(target);
-      }
-    };
-    requestAnimationFrame(tick);
-  };
 
   const buildGrid = (contribMap) => {
     const frag = document.createDocumentFragment();
@@ -355,6 +338,9 @@ const lerp = (a, b, t) => a + (b - a) * t;
     buildGrid(new Map());
     totalCommits = 0;
   }
+
+  // just set the total directly -- no scramble animation
+  totalEl.textContent = String(totalCommits);
 
   // ── Sound (Web Audio API) ──
   // Pleasant pentatonic notes for each activity level. Off by default.
@@ -413,14 +399,13 @@ const lerp = (a, b, t) => a + (b - a) * t;
     }
   });
 
-  // stagger-reveal cells + trigger glitch count when section enters viewport
+  // stagger-reveal cells when section enters viewport
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         cells.forEach((cell, i) => {
           setTimeout(() => cell.classList.add("is-in"), 200 + i * 25);
         });
-        glitchCount(totalEl, totalCommits);
         io.disconnect();
       }
     });

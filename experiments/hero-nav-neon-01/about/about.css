@@ -421,7 +421,7 @@ iframe[src*="unicornstudio"] {
   display: inline-block;
   font-family: var(--f-display);
   font-weight: 800;
-  font-size: clamp(140px, 26vw, 340px);
+  font-size: clamp(80px, 15vw, 180px);
   line-height: 0.84;
   letter-spacing: -0.055em;
   background:
