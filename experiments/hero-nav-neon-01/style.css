@@ -654,8 +654,8 @@ img { display: block; max-width: 100%; }
   filter: saturate(1.1) contrast(1.05);
 }
 .card--02 .card__img img { object-position: 60% 40%; }
-.card--03 .card__img img { transform: scale(0.95); }
-.card--03:hover .card__img img { transform: scale(1.01); }
+.card--03 .card__img img { transform: scale(1.04); }
+.card--03:hover .card__img img { transform: scale(1.1); }
 .card--01 .card__meta span:last-child {
   color: #5af26a;
   font-weight: 400;
@@ -734,9 +734,9 @@ img { display: block; max-width: 100%; }
 .card__edge {
   position: absolute;
   left: 14px; right: 14px; top: 14px;
-  height: 2px;
+  height: 1px;
   background: linear-gradient(90deg, var(--blue), var(--pink));
-  box-shadow: 0 0 10px var(--pink), 0 0 22px var(--blue);
+  box-shadow: 0 0 8px var(--pink), 0 0 18px var(--blue);
   transform-origin: left;
   transform: scaleX(0.2);
   transition: transform 0.8s var(--ease);
