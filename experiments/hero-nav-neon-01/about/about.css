@@ -55,6 +55,18 @@ iframe[src*="unicornstudio"] {
 .about-hero__content button {
   pointer-events: auto;
 }
+
+/* About meta: pushed down below the nav, aligned with content padding */
+.about-hero__content .hero__meta {
+  top: clamp(80px, 10vh, 120px);
+}
+.about-hero__content .hero__meta--tl {
+  left: clamp(24px, 5vw, 72px);
+}
+.about-hero__content .hero__meta--tr {
+  right: clamp(24px, 5vw, 72px);
+}
+
 .about-hero__intro {
   max-width: 760px;
 }
@@ -68,7 +80,7 @@ iframe[src*="unicornstudio"] {
   text-transform: none;
   text-wrap: balance;
   text-align: left;
-  margin: 0;
+  margin: clamp(24px, 4vh, 48px) 0 0;
   padding: 0;
   color: var(--text);
   text-shadow: 0 2px 22px rgba(0, 0, 0, 0.6);
@@ -101,25 +113,15 @@ iframe[src*="unicornstudio"] {
   background-size: 100% 1.5px;
 }
 
-/* scroll cue pinned to bottom of hero (outside the flex content) */
+/* scroll cue pinned to bottom of hero */
 .hero__scroll--about {
   position: absolute;
   left: 50%;
-  bottom: 42px;
+  bottom: 36px;
   transform: translateX(-50%);
   z-index: 4;
   pointer-events: auto;
-  gap: 14px;
-  font-size: 12px;
-  letter-spacing: 0.22em;
-  color: var(--text);
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
-}
-.hero__scroll--about svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 1.5;
-  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.6));
 }
 
 /* extra breathing room between TLDR and longer-version eyebrow */
@@ -320,7 +322,107 @@ iframe[src*="unicornstudio"] {
   white-space: nowrap;
 }
 
-/* ── github commits (show-stopper, left-aligned, skeuomorphic cells) ── */
+/* ── tool stack ticker in hero ── */
+.about-hero__ticker {
+  position: absolute;
+  bottom: 110px;
+  left: 0; right: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* scroll arrow: match the landing page's smaller size */
+.hero__scroll--about {
+  font-size: 10px;
+  gap: 10px;
+}
+.hero__scroll--about svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 1.2;
+  filter: none;
+}
+
+/* ── config image section ── */
+.about-config {
+  position: relative;
+  padding: clamp(40px, 6vh, 80px) clamp(24px, 5vw, 72px);
+  z-index: 1;
+}
+.about-config__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.about-config__fig {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  margin: 0;
+  box-shadow:
+    -18px 0 60px -14px oklch(0.62 0.24 264 / 0.3),
+     18px 0 60px -14px oklch(0.65 0.28 340 / 0.3);
+}
+.about-config__fig img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 1.4s cubic-bezier(.2,.8,.2,1), filter 1.2s var(--ease);
+  filter: saturate(0.85) contrast(1.08) brightness(0.88);
+  mix-blend-mode: luminosity;
+}
+/* neon wash layer -- pink/blue tinting over the grayscale base */
+.about-config__fig::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(135deg, oklch(0.55 0.25 264 / 0.35) 0%, transparent 50%),
+    linear-gradient(225deg, oklch(0.55 0.27 340 / 0.35) 0%, transparent 50%),
+    radial-gradient(circle at 30% 80%, oklch(0.65 0.28 340 / 0.2) 0%, transparent 40%);
+  mix-blend-mode: color;
+  pointer-events: none;
+  transition: opacity 1s var(--ease);
+}
+.about-config__fig:hover::before {
+  opacity: 1.3;
+}
+.about-config__fig:hover img {
+  transform: scale(1.04);
+  filter: saturate(1) contrast(1.12) brightness(0.92);
+}
+/* dark vignette bottom + pink bloom */
+.about-config__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(180deg, oklch(0.07 0.02 280 / 0.25) 0%, transparent 30%, transparent 55%, oklch(0.07 0.01 270 / 0.7) 100%),
+    radial-gradient(50% 50% at 50% 100%, oklch(0.65 0.28 340 / 0.15) 0%, transparent 60%);
+  pointer-events: none;
+  transition: background 1s var(--ease);
+}
+.about-config__fig:hover .about-config__overlay {
+  background:
+    linear-gradient(180deg, oklch(0.07 0.02 280 / 0.15) 0%, transparent 30%, transparent 55%, oklch(0.07 0.01 270 / 0.75) 100%),
+    radial-gradient(60% 60% at 50% 100%, oklch(0.65 0.28 340 / 0.25) 0%, transparent 60%);
+}
+.about-config__caption {
+  position: absolute;
+  bottom: clamp(18px, 3vh, 32px);
+  left: clamp(22px, 3vw, 36px);
+  z-index: 3;
+  cursor: default;
+}
+.about-config__caption .ev-place {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+}
+
+/* ── github commits (show-stopper, skeuomorphic cells) ── */
 
 .about-commits {
   position: relative;
@@ -655,6 +757,73 @@ iframe[src*="unicornstudio"] {
 }
 
 /* ── responsive ── */
+
+/* Laptop screens (14"-16" MacBooks, ≤1600px logical) */
+@media (max-width: 1600px) {
+  .about-hero__content {
+    padding: clamp(120px, 18vh, 180px) clamp(24px, 5vw, 72px) clamp(50px, 7vh, 90px);
+  }
+  .about-hero__title {
+    font-size: clamp(20px, 2.8vw, 40px);
+  }
+  .about-hero__lede {
+    font-size: clamp(13px, 1vw, 16px);
+    max-width: 36ch;
+    margin-top: clamp(12px, 1.8vh, 20px);
+  }
+  .section-title--sm {
+    font-size: clamp(26px, 4vw, 56px);
+  }
+  .about-events {
+    padding: clamp(64px, 9vh, 110px) clamp(24px, 5vw, 72px);
+  }
+  .about-events__inner {
+    max-width: 1100px;
+  }
+  .about-events__col li {
+    padding: 12px 0;
+    font-size: 14px;
+  }
+  .about-commits {
+    min-height: 70svh;
+    padding: clamp(72px, 10vh, 130px) clamp(24px, 5vw, 72px);
+  }
+  .commits-hero__num {
+    font-size: clamp(50px, 10vw, 120px);
+  }
+  .commits-hero {
+    margin: clamp(14px, 2.5vh, 28px) 0 clamp(28px, 4vh, 48px);
+  }
+  .commits-calendar {
+    max-width: 500px;
+  }
+  .commits-month {
+    gap: 6px;
+  }
+  .about-stack {
+    padding: clamp(64px, 9vh, 100px) clamp(24px, 5vw, 72px) clamp(80px, 12vh, 140px);
+  }
+  .about-stack__inner {
+    max-width: 1100px;
+  }
+}
+@media (max-width: 1280px) {
+  .about-hero__title {
+    font-size: clamp(20px, 2.8vw, 38px);
+  }
+  .commits-hero__num {
+    font-size: clamp(50px, 10vw, 110px);
+  }
+  .about-commits__watermark {
+    font-size: clamp(150px, 26vw, 400px);
+  }
+  .commits-calendar {
+    max-width: 480px;
+  }
+  .commits-month {
+    gap: 6px;
+  }
+}
 
 @media (max-width: 640px) {
   .about-events__col li {

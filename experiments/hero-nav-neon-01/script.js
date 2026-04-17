@@ -13,9 +13,17 @@ const lerp = (a, b, t) => a + (b - a) * t;
   const url = (i) => `images/bloom/f${pad(i)}.jpg`;
 
   const preloaded = [];
+  let loaded = 0;
+  let ready = false;
+
+  // preload all frames and wait for them to fully decode before enabling bloom
   for (let i = 1; i <= FRAME_COUNT; i++) {
     const im = new Image();
     im.src = url(i);
+    im.onload = () => {
+      loaded++;
+      if (loaded >= FRAME_COUNT) ready = true;
+    };
     preloaded.push(im);
   }
 
@@ -24,7 +32,6 @@ const lerp = (a, b, t) => a + (b - a) * t;
   const isTouch = matchMedia("(hover: none)").matches;
 
   if (isTouch) {
-    // mobile: scroll through the hero drives the bloom
     const setFromScroll = () => {
       const hero = document.querySelector(".hero");
       if (!hero) return;
@@ -35,7 +42,6 @@ const lerp = (a, b, t) => a + (b - a) * t;
     window.addEventListener("scroll", setFromScroll, { passive: true });
     window.addEventListener("resize", setFromScroll);
   } else {
-    // desktop: cursor Y drives the bloom
     const onMove = (e) => {
       const ny = e.clientY / window.innerHeight;
       target = Math.max(0, Math.min(1, ny));
@@ -45,13 +51,14 @@ const lerp = (a, b, t) => a + (b - a) * t;
 
   const tick = () => {
     const el = document.querySelector(".hero__bloom");
-    if (el) {
-      current += (target - current) * 0.18;
+    if (el && ready) {
+      // slow lerp = smooth gentle tracking, no jitter
+      current += (target - current) * 0.06;
       const f = Math.max(1, Math.min(FRAME_COUNT, Math.round(current * (FRAME_COUNT - 1)) + 1));
       if (f !== last) {
-        el.src = url(f);
+        // use the pre-decoded Image's src for instant paint
+        el.src = preloaded[f - 1].src;
         last = f;
-        document.title = `bloom ${f}/${FRAME_COUNT} ✺`;
       }
     }
     requestAnimationFrame(tick);
@@ -266,6 +273,59 @@ const lerp = (a, b, t) => a + (b - a) * t;
     bindGlitch(row, row.querySelector(".ev-place"));
   });
 
+  // Config image: glitch the caption text when hovering ANYWHERE on the figure
+  document.querySelectorAll(".about-config__fig").forEach(fig => {
+    const target = fig.querySelector(".ev-place");
+    if (target) bindGlitch(fig, target);
+  });
+
+  // Footer: glitch the email when cursor moves inside the footer content area.
+  // Uses mouseover (not pointerenter) because the footer often scroll-reveals
+  // under a stationary cursor, and pointerenter doesn't fire in that case.
+  document.querySelectorAll(".foot").forEach(foot => {
+    const mail = foot.querySelector(".foot__mail");
+    if (!mail) return;
+    const original = mail.textContent;
+    let running = false;
+    let timer;
+
+    const play = () => {
+      if (running) return;
+      running = true;
+      let step = 0;
+      const total = 14;
+      const tick = () => {
+        if (!running) return;
+        step++;
+        const progress = step / total;
+        if (progress >= 1) {
+          mail.textContent = original;
+          running = false;
+          return;
+        }
+        const reveal = Math.floor(original.length * progress);
+        let out = "";
+        for (let i = 0; i < original.length; i++) {
+          const c = original[i];
+          if (/[\s@.]/.test(c) || i < reveal) out += c;
+          else out += defaultGlyphs[Math.floor(Math.random() * defaultGlyphs.length)];
+        }
+        mail.textContent = out;
+        timer = setTimeout(tick, 40);
+      };
+      tick();
+    };
+
+    const stop = () => {
+      running = false;
+      clearTimeout(timer);
+      mail.textContent = original;
+    };
+
+    foot.addEventListener("mouseover", play);
+    foot.addEventListener("mouseleave", stop);
+  });
+
 })();
 
 /* ── github commits (show-stopper) ──
@@ -435,6 +495,23 @@ const lerp = (a, b, t) => a + (b - a) * t;
   window.addEventListener("pointerleave", () => highlight.classList.remove("is-active"));
 })();
 
+/* ── nav: measure + anchor from fixed left so contact grows rightward only ── */
+(() => {
+  const nav = document.querySelector(".nav");
+  if (!nav) return;
+  const measure = () => {
+    if (!nav.matches(":hover")) {
+      const half = nav.offsetWidth / 2;
+      nav.style.setProperty("--nav-half-w", half + "px");
+    }
+  };
+  measure();
+  window.addEventListener("resize", measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  setTimeout(measure, 300);
+  setTimeout(measure, 1000);
+})();
+
 /* ── nav: mobile menu toggle ── */
 (() => {
   const nav = document.querySelector(".nav");
@@ -460,7 +537,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
   const toTop = document.querySelector(".to-top");
   const onScroll = () => {
     const y = window.scrollY;
-    if (nav) nav.style.transform = `translateX(-50%) scale(${y > 40 ? 0.96 : 1})`;
+    if (nav) nav.style.scale = y > 40 ? "0.97" : "1";
     if (toTop) toTop.classList.toggle("is-visible", y > window.innerHeight * 0.6);
   };
   window.addEventListener("scroll", onScroll, { passive: true });

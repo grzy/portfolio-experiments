@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "ivygrzy-portfolio"
-  }
+  },
+  "targets": {
+    "ivygrzy-portfolio": {
+      "hosting": {
+        "ivygrzy-portfolio": [
+          "ivygrzy-portfolio"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
