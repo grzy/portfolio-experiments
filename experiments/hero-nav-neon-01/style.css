@@ -38,9 +38,9 @@
   --glow-seam: 0 0 14px oklch(0.62 0.24 264 / 0.65);
 
   /* type */
-  --f-display: "Syne", "Dela Gothic One", sans-serif;
-  --f-body:    "Space Grotesk", system-ui, sans-serif;
-  --f-mono:    "Space Mono", ui-monospace, monospace;
+  --f-display: "Ubuntu Sans Mono", "Space Mono", ui-monospace, monospace;
+  --f-body:    "Ubuntu Sans Mono", ui-monospace, monospace;
+  --f-mono:    "Ubuntu Sans Mono", ui-monospace, monospace;
 
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -461,8 +461,9 @@ img { display: block; max-width: 100%; }
   margin-top: -4px;
   font-size: clamp(15px, 1.15vw, 18px);
   color: var(--text-dim);
-  line-height: 1.6;
-  text-wrap: pretty;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 .hero__lede em { color: var(--pink-hex); font-style: normal; margin-right: 6px; filter: drop-shadow(0 0 14px oklch(0.65 0.28 340 / 0.6)); }
 .hero__lede--sub { margin-top: 10px; color: var(--text-mute); font-size: clamp(14px, 1vw, 16px); max-width: 48ch; }
@@ -702,10 +703,10 @@ img { display: block; max-width: 100%; }
     padding: clamp(78px, 10.5vh, 125px) clamp(20px, 4vw, 56px) clamp(36px, 5vh, 56px);
   }
   .foot__title-sm {
-    font-size: clamp(22px, 3.2vw, 46px);
+    font-size: clamp(17px, 2.2vw, 30px);
   }
   .foot__title em {
-    font-size: clamp(24px, 3.8vw, 52px);
+    font-size: clamp(21px, 3.2vw, 44px);
   }
   .foot__mail {
     font-size: clamp(13px, 1.3vw, 16px);
@@ -950,7 +951,7 @@ img { display: block; max-width: 100%; }
 }
 .foot__title-sm {
   font-weight: 500;
-  font-size: clamp(26px, 4vw, 60px);
+  font-size: clamp(20px, 2.8vw, 42px);
   color: var(--text);
   max-width: 14ch;
   text-wrap: balance;
@@ -959,7 +960,7 @@ img { display: block; max-width: 100%; }
   display: inline-block;
   font-style: italic;
   font-weight: 800;
-  font-size: clamp(28px, 4.6vw, 66px);
+  font-size: clamp(25px, 4vw, 56px);
   line-height: 1.04;
   padding: 0.04em 0.18em 0.2em 0.04em;
   margin: 0 -0.18em 0 -0.04em;

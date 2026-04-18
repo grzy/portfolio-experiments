@@ -82,8 +82,9 @@ iframe[src*="unicornstudio"] {
   text-align: left;
   margin: clamp(24px, 4vh, 48px) 0 0;
   padding: 0;
-  color: var(--text);
-  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.6);
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--text);
+  text-shadow: none;
 }
 
 .about-hero__lede {
@@ -93,9 +94,9 @@ iframe[src*="unicornstudio"] {
   font-family: var(--f-body);
   font-weight: 400;
   font-size: clamp(15px, 1.2vw, 19px);
-  line-height: 1.6;
-  letter-spacing: 0;
-  text-wrap: pretty;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 /* Subtle underline-sweep highlight on a lede phrase.
