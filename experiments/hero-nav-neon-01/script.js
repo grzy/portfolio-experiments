@@ -351,6 +351,8 @@ const lerp = (a, b, t) => a + (b - a) * t;
   const monthName = monthNames[month];
   if (monthNameEl) monthNameEl.textContent = monthName.toLowerCase();
   if (watermarkEl) watermarkEl.textContent = monthName;
+  const monthLabelEl = document.getElementById("commits-month-label");
+  if (monthLabelEl) monthLabelEl.textContent = monthName.toLowerCase();
 
   const firstOfMonth = new Date(year, month, 1);
   const firstDayOfWeek = firstOfMonth.getDay();
@@ -440,12 +442,14 @@ const lerp = (a, b, t) => a + (b - a) * t;
   // ── Sound toggle button ──
   const toggle = document.getElementById("sound-toggle");
   const toggleLabel = toggle && toggle.querySelector("em");
+  const hint = document.getElementById("commits-hint");
   if (toggle) {
     toggle.addEventListener("click", () => {
       soundEnabled = !soundEnabled;
       toggle.classList.toggle("is-on", soundEnabled);
       toggle.setAttribute("aria-pressed", String(soundEnabled));
       if (toggleLabel) toggleLabel.textContent = soundEnabled ? "on" : "off";
+      if (hint) hint.classList.toggle("is-visible", soundEnabled);
       if (soundEnabled) ensureCtx();
     });
   }
