@@ -53,7 +53,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
     const el = document.querySelector(".hero__bloom");
     if (el && ready) {
       // slow lerp = smooth gentle tracking, no jitter
-      current += (target - current) * 0.06;
+      current += (target - current) * 0.14;
       const f = Math.max(1, Math.min(FRAME_COUNT, Math.round(current * (FRAME_COUNT - 1)) + 1));
       if (f !== last) {
         // use the pre-decoded Image's src for instant paint
@@ -80,7 +80,8 @@ const lerp = (a, b, t) => a + (b - a) * t;
       s.style.display = "inline-block";
       s.style.transform = "translateY(38px) rotate(4deg)";
       s.style.opacity = "0";
-      s.style.transition = `transform .9s cubic-bezier(.2,.8,.2,1) ${wi * 0.08 + ci * 0.025}s, opacity .6s ease ${wi * 0.08 + ci * 0.025}s`;
+      const delay = wi * 0.45 + ci * 0.025;
+      s.style.transition = `transform .9s cubic-bezier(.2,.8,.2,1) ${delay}s, opacity .6s ease ${delay}s`;
       w.appendChild(s);
     });
   });

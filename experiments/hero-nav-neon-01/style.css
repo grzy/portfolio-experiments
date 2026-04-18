@@ -391,7 +391,7 @@ img { display: block; max-width: 100%; }
   pointer-events: none;
 }
 .hero__specimen img {
-  width: clamp(380px, 48vw, 620px);
+  width: clamp(300px, 36vw, 460px);
   height: auto;
   opacity: 0.95;
   mix-blend-mode: screen;
@@ -450,7 +450,7 @@ img { display: block; max-width: 100%; }
   filter: drop-shadow(0 0 12px rgba(255, 20, 147, 0.45));
   opacity: 0;
   transform: translateY(38px) rotate(2deg);
-  animation: logistRise 1.1s cubic-bezier(.2,.8,.2,1) 0.55s forwards;
+  animation: logistRise 1.1s cubic-bezier(.2,.8,.2,1) 0.88s forwards;
 }
 @keyframes logistRise {
   to { opacity: 1; transform: translateY(0) rotate(0); }
@@ -458,7 +458,7 @@ img { display: block; max-width: 100%; }
 
 .hero__lede {
   max-width: 44ch;
-  margin-top: 14px;
+  margin-top: -4px;
   font-size: clamp(15px, 1.15vw, 18px);
   color: var(--text-dim);
   line-height: 1.6;
@@ -642,7 +642,7 @@ img { display: block; max-width: 100%; }
     font-size: clamp(30px, 5vw, 72px);
   }
   .hero__specimen img {
-    width: clamp(320px, 38vw, 480px);
+    width: clamp(260px, 30vw, 380px);
   }
   .hero__lede {
     font-size: clamp(14px, 1.05vw, 17px);
