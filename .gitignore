@@ -36,6 +36,25 @@ experiments/hero-nav-neon-01/images/lost-model6.png
 experiments/hero-nav-neon-01/images/figmaclv2.png
 experiments/hero-nav-neon-01/images/config1.png
 
+# Lost & Endangered -- raw working files (stay local, don't ship)
+experiments/hero-nav-neon-01/images/lost-input/*
+!experiments/hero-nav-neon-01/images/lost-input/Huntington/
+
+# redundant / backup / uncompressed variants in /lost (compressed versions ship)
+experiments/hero-nav-neon-01/images/lost/lost-model*.png
+experiments/hero-nav-neon-01/images/lost/lost-model-video.mp4
+experiments/hero-nav-neon-01/images/lost/hero-preloader-old.mp4
+experiments/hero-nav-neon-01/images/lost/preloader.mp4
+experiments/hero-nav-neon-01/images/lost/tropical-jungle.mp4
+experiments/hero-nav-neon-01/images/lost/hero.mp4
+experiments/hero-nav-neon-01/images/lost/kauai-oo.mp4
+experiments/hero-nav-neon-01/images/lost/spotted-owl.mp4
+experiments/hero-nav-neon-01/images/lost/kauai-oo-original.m4a
+experiments/hero-nav-neon-01/images/lost/model-*.jpg
+
+# misc desktop drop
+experiments/hero-nav-neon-01/images/Ivy_Grzybowski*.pdf
+
 # logs
 *.log
 npm-debug.log*

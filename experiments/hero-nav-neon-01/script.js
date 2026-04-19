@@ -6,11 +6,13 @@ const lerp = (a, b, t) => a + (b - a) * t;
 /* ── BLOOM (top of file so nothing can break it) ────────────────────
    Cursor Y over the viewport scrubs through 52 frames.
    Top of screen = closed. Bottom = fully bloomed.
+   Only runs on pages that actually have a .hero__bloom element --
+   subpages (about, work) skip the preload + ticker entirely.
 ─────────────────────────────────────────────────────────────────── */
-{
+if (document.querySelector(".hero__bloom")) {
   const FRAME_COUNT = 63;
   const pad = (n) => String(n).padStart(3, "0");
-  const url = (i) => `images/bloom/f${pad(i)}.jpg`;
+  const url = (i) => `/images/bloom/f${pad(i)}.jpg`;
 
   const preloaded = [];
   let loaded = 0;

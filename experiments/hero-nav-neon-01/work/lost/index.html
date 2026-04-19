@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Lost &amp; Endangered ✺ Ivy Grzybowski</title>
+<meta name="description" content="A bioacoustic field guide for birds at the edge of silence. Case story by Ivy Grzybowski." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Dela+Gothic+One&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../style.css?v=18" />
+<link rel="stylesheet" href="lost.css?v=17" />
+</head>
+<body class="lost-body">
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="cursor" aria-hidden="true">
+  <span class="cursor__dot"></span>
+  <span class="cursor__ring"></span>
+</div>
+
+<!-- nav -->
+<nav class="nav" aria-label="Primary">
+  <a class="nav__mark" href="/" data-hover>
+    <span class="nav__glyph">✺</span>
+    <span class="nav__name">ivy grzybowski</span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="/#work" data-hover aria-current="page">work</a></li>
+    <li><a href="/#work" data-hover>experiments</a></li>
+    <li><a href="/about/" data-hover>about</a></li>
+    <li class="nav__contact-wrap"><a href="mailto:ivygrzybowski@gmail.com" class="nav__contact" data-hover>contact</a></li>
+  </ul>
+  <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── 1 · HERO ───────────────────────────────────────────── -->
+<header class="lost-hero" id="top">
+  <video class="lost-hero__video" src="../../images/lost/hero-preloader.mp4?v=3" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+  <div class="lost-hero__veil" aria-hidden="true"></div>
+
+  <div class="lost-hero__content">
+    <span class="lost-eyebrow">✺ case story</span>
+    <h1 class="lost-hero__title">What does<br /><em class="lost-decode" data-text="extinction">extinction</em><br />sound like?</h1>
+    <p class="lost-hero__sub">A field guide for birds at the edge of silence&nbsp;&nbsp;+&nbsp;&nbsp;a Figma prototype that almost went extinct itself.</p>
+
+    <dl class="lost-meta">
+      <div><dt>Role</dt><dd>product + narrative + UI + imagery</dd></div>
+      <div><dt>Tools</dt><dd>figma + flora ai + bioacoustic libraries</dd></div>
+      <div><dt>Scope</dt><dd>solo build</dd></div>
+    </dl>
+  </div>
+
+  <a class="lost-hero__scroll" href="#kauai" data-hover aria-label="Skip to the recording">
+    <span>press play</span>
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
+  </a>
+</header>
+
+<!-- ── 2 · THE TRAILER ────────────────────────────────────── -->
+<section class="lost-trailer" id="trailer">
+  <div class="lost-trailer__inner">
+    <p class="lost-trailer__stat">
+      <span class="lost-trailer__num" aria-label="99.9 percent">99<em>.</em>9<em>%</em></span>
+      <span class="lost-trailer__unit">of all species that have ever lived are <em>extinct</em>.</span>
+    </p>
+
+    <p class="lost-trailer__copy">
+      The conversation around it is so heavy that people check out before they connect.
+    </p>
+
+    <p class="lost-trailer__kicker">
+      Lost &amp; Endangered doesn&rsquo;t ask you to grieve.<br />
+      <em>It asks you to listen.</em>
+    </p>
+  </div>
+</section>
+
+<!-- ── 3 · THE PROBLEM ────────────────────────────────────── -->
+<section class="lost-problem" id="problem">
+  <div class="lost-problem__inner">
+    <div class="lost-problem__media">
+      <video src="../../images/lost/ecosystems.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    </div>
+    <div class="lost-problem__text">
+      <span class="lost-eyebrow">◆ the problem</span>
+      <h2 class="lost-h2">Doom framing hits a wall.</h2>
+      <p>Audience testing confirmed it: lead with tragedy and people disengage before they connect. Sadness&nbsp;+&nbsp;helplessness&nbsp;+&nbsp;fatigue&nbsp;+&nbsp;the tab closes.</p>
+      <p>Extinction needed a quieter narrative. <em>A voice going silent.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 4 · THE INSIGHT ────────────────────────────────────── -->
+<section class="lost-insight" id="insight">
+  <h2 class="lost-insight__title">
+    <span>Not doom.</span>
+    <span>Disappearance.</span>
+    <em>A voice gone quiet.</em>
+  </h2>
+  <p class="lost-insight__sub">Sound is the strongest trigger of memory. If extinction is a voice going silent, remembering becomes the act of listening.</p>
+</section>
+
+<!-- ── 5 · WHAT WAS BUILT ─────────────────────────────────── -->
+<section class="lost-built" id="built">
+  <div class="lost-built__head">
+    <span class="lost-eyebrow">◆ what was built</span>
+    <h2 class="lost-h2">Four capabilities, one listening room.</h2>
+  </div>
+
+  <ol class="lost-built__list">
+    <li class="lost-built__block">
+      <div class="lost-built__num">01</div>
+      <div class="lost-built__body">
+        <h3>The archive directory</h3>
+        <p>Enter through the lost birds. The directory is the home screen -- every species on the edge of silence catalogued in one place, sorted by what remains: original recording, AI-reconstructed song, or nothing at all.</p>
+      </div>
+      <figure class="lost-built__media">
+        <img src="../../images/lost/lost-birds.jpg" alt="Lost Birds directory screen from the Lost &amp; Endangered prototype" loading="lazy" />
+      </figure>
+    </li>
+
+    <li class="lost-built__block">
+      <div class="lost-built__num">02</div>
+      <div class="lost-built__body">
+        <h3>Bird profiles with a bioacoustic archive</h3>
+        <p>Every species gets a profile. Original recording when one exists -- AI-reconstructed song when the bird went quiet before we started listening. Flora AI handles the imagery, giving extinct birds a visible presence again.</p>
+      </div>
+      <figure class="lost-built__media">
+        <img src="../../images/lost/kauai-oo.jpg" alt="Kaua'i 'ō'ō species profile screen" loading="lazy" />
+      </figure>
+    </li>
+
+    <li class="lost-built__block">
+      <div class="lost-built__num">03</div>
+      <div class="lost-built__body">
+        <h3>Immersive ecosystems</h3>
+        <p>Choose a habitat. The UI dissolves. You sit inside the sound -- fiordland rain, rainforest canopy, the northwest coast at dusk -- the world as it was before we started counting what was missing.</p>
+      </div>
+      <figure class="lost-built__media">
+        <img src="../../images/lost/immersive-ux.jpg" alt="Immersive ecosystem screen dissolving the UI into a soundscape" loading="lazy" />
+      </figure>
+    </li>
+
+    <li class="lost-built__block">
+      <div class="lost-built__num">04</div>
+      <div class="lost-built__body">
+        <h3>Soundscape composer</h3>
+        <p>Drag and drop. Layer bird calls with weather, time of day, the silence between. Save your composition as a conservation stamp.</p>
+
+        <button class="lost-play lost-play--inline" id="composerPlay" aria-label="Preview the Kaua'i 'ō'ō + rainforest hum mix">
+          <span class="lost-play__ring" aria-hidden="true"></span>
+          <span class="lost-play__label">press play to hear a soundscape in motion</span>
+        </button>
+        <audio id="composerAudio" src="../../images/lost/kauai-oo-hum.m4a" preload="none"></audio>
+      </div>
+      <figure class="lost-built__media">
+        <video src="../../images/lost/soundscape-screen.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Soundscape composer interaction"></video>
+      </figure>
+    </li>
+  </ol>
+</section>
+
+<!-- ── 6 · DEEP DIVE: KAUA'I 'Ō'Ō ─────────────────────────── -->
+<section class="lost-kauai" id="kauai">
+  <video class="lost-kauai__bg" src="../../images/lost/fiordland.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+  <div class="lost-kauai__veil" aria-hidden="true"></div>
+
+  <div class="lost-kauai__inner">
+    <header class="lost-kauai__head">
+      <span class="lost-eyebrow">❖ kaua&rsquo;i &lsquo;ō&rsquo;ō</span>
+      <h2 class="lost-kauai__title">The bird this case story was built around.</h2>
+      <p class="lost-kauai__meta"><em>Moho braccatus</em> &nbsp;+&nbsp; last heard 1987</p>
+    </header>
+
+    <div class="lost-kauai__pair">
+      <figure class="lost-kauai__sincock">
+        <img src="../../images/lost-input/huntington/countingextinction_2.jpg" alt="Field biologist John Sincock in the forest with a tape recorder" loading="lazy" />
+        <figcaption>John Sincock in the field with his tape recorder. Courtesy of The Huntington, Scott Collection.</figcaption>
+      </figure>
+
+      <div class="lost-kauai__story">
+        <p>A Wednesday morning, May 1971. Field biologist John Sincock heard a call he&rsquo;d only ever read about&nbsp;&nbsp;+&nbsp;&nbsp;within fifteen feet of him, a pair of &lsquo;ō&rsquo;ō thought extinct for years.</p>
+        <p>He returned with his wife Renate and a heavier kit. She took the first photos of the species ever captured. Through the summers that followed, the team made extensive recordings&nbsp;&nbsp;+&nbsp;&nbsp;hoped.</p>
+      </div>
+    </div>
+
+    <blockquote class="lost-kauai__quote">
+      <p>&ldquo;Knowing the pair might well be the only ones left on the planet, he recorded every detail of their feeding, flight, and call.&rdquo;</p>
+      <cite>&mdash; Daniel Lewis, <a href="https://www.huntington.org/watch-read-listen/frontiers/counting-extinction" target="_blank" rel="noopener"><em>Counting Extinction</em>, The Huntington</a></cite>
+    </blockquote>
+
+    <p class="lost-kauai__outro">Last seen 1985. Last heard 1987. Hurricane Iniki devastated Kaua&rsquo;i in 1992. After many thousands of years, the Kaua&rsquo;i &rsquo;ō&rsquo;ō was gone.</p>
+
+    <div class="lost-kauai__player">
+      <button class="lost-play" id="kauaiPlay" aria-label="Play the Kaua'i 'ō'ō immersive experience">
+        <span class="lost-play__ring" aria-hidden="true"></span>
+        <svg class="lost-play__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+        <span class="lost-play__label">press play to enter the listening room</span>
+      </button>
+      <p class="lost-play__credit">L&amp;E immersive experience &nbsp;+&nbsp; Kaua&rsquo;i 'ō'ō song &nbsp;+&nbsp; Alaka&rsquo;i ambience.</p>
+
+      <figure class="lost-stage" id="kauaiStage" aria-hidden="true">
+        <video id="kauaiVideo" class="lost-stage__video" src="../../images/lost/kauai-immersive.mp4" playsinline preload="metadata"></video>
+        <span class="lost-stage__scan" aria-hidden="true"></span>
+        <span class="lost-stage__ghost lost-stage__ghost--neon" aria-hidden="true"></span>
+        <span class="lost-stage__ghost lost-stage__ghost--mint" aria-hidden="true"></span>
+      </figure>
+    </div>
+
+    <figure class="lost-kauai__fig">
+      <div class="lost-kauai__fig-grid">
+        <img class="lost-kauai__sketch" src="../../images/lost-input/huntington/countingextinction_1.jpg" alt="Pencil sketch of a Kaua'i 'Ō'o by H. Douglas Pratt" loading="lazy" />
+        <video class="lost-kauai__field" src="../../images/lost/kauai-immersive.mp4" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+      </div>
+      <figcaption>
+        Pencil sketch by H. Douglas Pratt (Huntington) &nbsp;+&nbsp; field footage from the L&amp;E prototype.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── 7 · PIVOT: SPOTTED OWL ─────────────────────────────── -->
+<section class="lost-owl" id="pivot">
+  <div class="lost-owl__inner">
+    <div class="lost-owl__text">
+      <span class="lost-eyebrow">❋ pivot · spotted owl</span>
+      <h2 class="lost-h2">When the audio becomes a weapon.</h2>
+      <p>Second species anchor. Weeks looking for usable audio.</p>
+      <p>What I found was hard to sit with&nbsp;&nbsp;+&nbsp;&nbsp;poachers use the owl&rsquo;s call to track them down. Recordings get weaponized.</p>
+      <p>The page stayed in the prototype. The audio stayed out.</p>
+      <p class="lost-owl__kicker"><em>Some recordings shouldn&rsquo;t be in a soundscape.</em></p>
+    </div>
+    <figure class="lost-owl__media">
+      <img src="../../images/lost/spotted-owl.jpg" alt="Spotted Owl species profile screen from the Lost & Endangered prototype" loading="lazy" />
+    </figure>
+  </div>
+</section>
+
+<!-- ── 8 · REFLECTION + META-NARRATIVE ────────────────────── -->
+<section class="lost-reflect" id="reflect">
+  <div class="lost-reflect__inner">
+    <span class="lost-eyebrow">✢ reflection</span>
+    <h2 class="lost-h2">A project that almost went <u class="lost-mark">extinct</u>.</h2>
+
+    <p>Lost &amp; Endangered finished in Figma. Weeks later, Figma Make shipped&nbsp;&nbsp;+&nbsp;&nbsp;vibe coding went baseline. Static prototypes became a kind of <u class="lost-mark">fossil</u> overnight.</p>
+
+    <p>This case story is what happens when I refuse to let a project <u class="lost-mark">go quiet</u>.</p>
+
+    <p>The research held. The thesis held. The Kaua&rsquo;i &rsquo;ō&rsquo;ō is still worth listening to. What changed was the medium.</p>
+
+    <h3 class="lost-reflect__next">What I&rsquo;d build next</h3>
+    <ul class="lost-reflect__list">
+      <li>Rive for the ecosystem dissolves&nbsp;&nbsp;+&nbsp;&nbsp;real fades, not state-swaps.</li>
+      <li>A coded listening room where the UI actually recedes.</li>
+      <li>Conservation stamps that mint as shareable SVGs.</li>
+      <li>Mobile companion for field listening&nbsp;&nbsp;+&nbsp;&nbsp;record, identify, layer.</li>
+    </ul>
+
+    <p class="lost-reflect__close">
+      The version in Figma is the one that almost went extinct.<br />
+      The version in code is the one that keeps breathing.
+    </p>
+
+    <figure class="lost-reflect__fig">
+      <img src="../../images/lost-input/huntington/countingextinction_5.jpg" alt="John Sincock and Mike Scott in the back of a pickup truck, 1978" loading="lazy" />
+      <figcaption>John Sincock and Mike Scott, 1978. Photograph by James Jacobi, courtesy of The Huntington.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── 9 · SUMMARY (minimal, hover-glitch on each label) ──── -->
+<aside class="lost-summary" aria-label="Project summary">
+  <dl class="lost-summary__dl">
+    <div class="lost-summary__row">
+      <dt class="lost-decode" data-text="role">role</dt>
+      <dd>product + narrative + UI + imagery</dd>
+    </div>
+    <div class="lost-summary__row">
+      <dt class="lost-decode" data-text="tools">tools</dt>
+      <dd>figma + flora ai + bioacoustic libraries</dd>
+    </div>
+    <div class="lost-summary__row">
+      <dt class="lost-decode" data-text="scope">scope</dt>
+      <dd>solo build</dd>
+    </div>
+    <div class="lost-summary__row">
+      <dt class="lost-decode" data-text="thesis">thesis</dt>
+      <dd>extinction, reframed as a voice going quiet</dd>
+    </div>
+    <div class="lost-summary__row">
+      <dt class="lost-decode" data-text="next">next</dt>
+      <dd>build it in code from day one</dd>
+    </div>
+  </dl>
+</aside>
+
+<!-- ── FOOTER (lost variant — bird card centered behind text) ── -->
+<footer id="contact" class="foot lost-foot">
+  <figure class="foot__bloom lost-foot__card" id="lostFootCard">
+    <img src="../../images/lost/kauai-oo-card.png" alt="Kaua'i 'ō'ō species card" />
+  </figure>
+  <div class="foot__content">
+    <span class="eyebrow">✢ inbox open</span>
+    <div class="foot__middle">
+      <h2 class="foot__title">
+        <span class="foot__title-sm">let&rsquo;s build something</span>
+        <em>with&nbsp;soul</em>
+      </h2>
+      <a class="foot__mail lost-foot__mail" href="mailto:ivygrzybowski@gmail.com" data-hover data-text="ivygrzybowski@gmail.com">ivygrzybowski@gmail.com</a>
+    </div>
+    <div class="foot__bottom">
+      <ul class="foot__links">
+        <li><a href="https://www.linkedin.com/in/ivygrzy/" target="_blank" rel="noopener" data-hover>linkedin</a></li>
+        <li><a href="#" data-hover>twitter</a></li>
+        <li><a href="https://github.com/grzy" target="_blank" rel="noopener" data-hover>github</a></li>
+      </ul>
+      <p class="foot__sig">✺ built in the terminal with claude code • 2026</p>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" aria-label="Scroll to top" data-hover>
+  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20V4M6 10l6-6 6 6"/></svg>
+</button>
+
+<script type="module" src="../../script.js?v=38"></script>
+<script type="module" src="lost.js?v=6"></script>
+</body>
+</html>
