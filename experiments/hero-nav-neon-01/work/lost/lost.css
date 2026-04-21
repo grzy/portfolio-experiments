@@ -191,24 +191,42 @@
 }
 .lost-hero__sub {
   font-family: var(--f-mono);
-  font-size: clamp(14px, 1.2vw, 18px);
+  font-size: clamp(13px, 1.1vw, 16px);
   color: var(--text-dim);
-  max-width: 58ch;
   line-height: 1.55;
   margin: 0;
+  padding-right: clamp(16px, 4vw, 64px);
+  display: grid;
+  gap: 4px;
+}
+.lost-hero__sub-line {
+  display: block;
+  white-space: nowrap;
+}
+@media (max-width: 1100px) {
+  .lost-hero__sub-line { white-space: normal; }
 }
 
 .lost-meta {
   margin-top: clamp(20px, 3vh, 40px);
   display: grid;
-  grid-template-columns: minmax(200px, auto) minmax(220px, auto) minmax(130px, auto);
+  grid-template-columns: minmax(200px, auto) minmax(220px, auto) minmax(130px, auto) 1fr;
   gap: clamp(16px, 3vw, 48px);
   border-top: 1px solid var(--lost-rule);
   padding-top: clamp(18px, 2.5vh, 26px);
-  max-width: 880px;
+  max-width: 100%;
+  align-items: baseline;
+}
+.lost-meta__cue {
+  justify-self: end;
+  align-self: end;
+  display: flex;
+  align-items: center;
+  padding-top: 18px;
 }
 @media (max-width: 820px) {
-  .lost-meta { grid-template-columns: 1fr; gap: 12px; max-width: 100%; }
+  .lost-meta { grid-template-columns: 1fr; gap: 12px; }
+  .lost-meta__cue { justify-self: start; }
 }
 .lost-meta > div {
   display: grid;
@@ -229,22 +247,18 @@
 }
 
 .lost-hero__scroll {
-  position: absolute;
-  bottom: clamp(28px, 5vh, 48px);
-  right: clamp(24px, 5vw, 72px);
   display: inline-flex;
   align-items: center;
   gap: 10px;
   font-family: var(--f-mono);
-  font-size: 12px;
+  font-size: clamp(11px, 0.95vw, 13px);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--text-mute);
+  color: var(--text-dim);
   text-decoration: none;
   transition: color 0.4s var(--ease);
 }
-.lost-hero__scroll { color: var(--text-dim); }
-.lost-hero__scroll:hover { color: var(--text); }
+.lost-hero__scroll:hover { color: var(--neon); }
 .lost-hero__scroll svg { animation: scroll-pulse 2.2s var(--ease) infinite; }
 @keyframes scroll-pulse {
   0%, 100% { transform: translateY(0); opacity: 0.6; }
@@ -288,12 +302,15 @@
 .lost-trailer__num {
   font-family: var(--f-display);
   font-weight: 700;
-  font-size: clamp(84px, 14vw, 220px);
-  line-height: 0.85;
-  letter-spacing: -0.06em;
+  font-size: clamp(56px, 9vw, 128px);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
   color: var(--text);
   display: inline-block;
   font-variant-numeric: tabular-nums;
+  padding-right: 0.45em;
+  padding-bottom: 0.08em;
+  margin-right: 0.1em;
 }
 .lost-trailer__num em {
   font-style: normal;
@@ -333,17 +350,20 @@
   font-size: clamp(22px, 2.6vw, 36px);
   line-height: 1.3;
   color: var(--text);
-  max-width: 30ch;
   margin: 0;
-  text-wrap: balance;
+  display: grid;
+  gap: 0.05em;
 }
-.lost-trailer__kicker em {
+.lost-trailer__kicker span { display: block; }
+.lost-trailer__listen { color: var(--text); }
+.lost-trailer__listen em {
   font-style: italic;
-  background: linear-gradient(92deg, var(--text) 0%, var(--neon) 100%);
+  background: linear-gradient(92deg, var(--neon) 0%, var(--mint) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: 500;
+  font-weight: 600;
+  text-shadow: 0 0 32px rgb(184 235 96 / 0.4);
 }
 
 /* ── 3 · THE PROBLEM ──────────────────────────────────────── */
@@ -363,14 +383,60 @@
   .lost-problem__inner { grid-template-columns: 1fr; }
 }
 .lost-problem__media {
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  filter: drop-shadow(0 20px 60px oklch(0 0 0 / 0.45));
+  overflow: visible;
 }
 .lost-problem__media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* taxidermy vs AI-enhanced specimen plates -- museum catalog framing */
+.lost-specimens {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(10px, 1.4vw, 18px);
+}
+.lost-specimen {
+  margin: 0;
+  position: relative;
+  display: grid;
+  gap: 10px;
+}
+.lost-specimen img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: contain;
+  /* transparent card — let the void carry the bird
+     (works whether the PNG bg is transparent or still white) */
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: 0 30px 80px oklch(0 0 0 / 0.5);
+  /* if the PNG still has a white bg, multiply it down into the void
+     so the bird reads as a specimen floating in archive space */
+  mix-blend-mode: screen;
+  filter: saturate(0.9) contrast(1.05);
+}
+.lost-specimen figcaption {
+  display: grid;
+  gap: 2px;
+  padding-left: 2px;
+}
+.lost-specimen__tag {
+  font-family: var(--f-mono);
+  font-size: clamp(9px, 0.75vw, 11px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--neon);
+}
+.lost-specimen__line {
+  font-family: var(--f-mono);
+  font-size: clamp(10px, 0.85vw, 12px);
+  letter-spacing: 0.04em;
+  color: var(--text-mute);
+  line-height: 1.5;
 }
 .lost-problem__text {
   display: grid;
@@ -403,6 +469,29 @@
   inset: 0;
   z-index: -1;
   background: radial-gradient(60% 50% at 50% 50%, rgb(124 193 172 / 0.06), transparent 70%);
+}
+
+/* flatline waveform — a voice going quiet, drawn as a single EKG pulse
+   that dies into a flat horizontal line. subtle, lime, drifts slowly. */
+.lost-insight__wave {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  width: min(82vw, 1040px);
+  height: clamp(48px, 7vh, 96px);
+  color: var(--neon);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 0 10px rgb(184 235 96 / 0.35));
+}
+.lost-insight {
+  padding-top: clamp(160px, 22vh, 280px);
+}
+.lost-insight__wave path { transition: d 0.18s linear; }
+@media (prefers-reduced-motion: reduce) {
+  .lost-insight__wave path { transition: none; }
 }
 .lost-insight__title {
   font-family: var(--f-display);
@@ -530,22 +619,7 @@
 .lost-kauai.is-listening {
   background: oklch(0.04 0.01 270);
 }
-.lost-kauai__bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  z-index: -2;
-  filter: saturate(0.55) brightness(0.42) contrast(1.08);
-  transition: filter 1.6s var(--ease), opacity 1.6s var(--ease);
-  opacity: 0.65;
-}
-.lost-kauai.is-listening .lost-kauai__bg {
-  filter: saturate(0.15) brightness(0.18) contrast(1.2);
-  opacity: 0.5;
-}
+/* lost-kauai__bg video removed -- dark page, no background distraction */
 .lost-kauai__veil {
   position: absolute;
   inset: 0;
@@ -646,21 +720,35 @@
 }
 
 .lost-kauai__quote {
-  margin: clamp(16px, 2vh, 28px) 0;
-  padding: clamp(20px, 3vh, 32px) clamp(20px, 3vw, 36px);
-  border-left: 2px solid var(--neon);
-  background: rgb(27 59 81 / 0.35);
-  backdrop-filter: blur(4px);
-  border-radius: 2px;
+  position: relative;
+  margin: clamp(48px, 7vh, 88px) 0;
+  padding: clamp(20px, 3vh, 32px) 0 0 clamp(56px, 7vw, 112px);
+  background: none;
+  backdrop-filter: none;
+  border: none;
+  max-width: 60ch;
+}
+.lost-kauai__quote::before {
+  content: '\201C';
+  position: absolute;
+  left: -0.06em;
+  top: -0.38em;
+  font-family: var(--f-display);
+  font-size: clamp(88px, 10vw, 180px);
+  line-height: 1;
+  color: var(--neon);
+  opacity: 0.7;
+  pointer-events: none;
 }
 .lost-kauai__quote p {
   font-family: var(--f-display);
   font-weight: 400;
-  font-size: clamp(17px, 1.6vw, 22px);
-  line-height: 1.45;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.32;
   color: var(--text);
-  margin: 0 0 14px;
+  margin: 0 0 18px;
   font-style: italic;
+  letter-spacing: -0.005em;
 }
 .lost-kauai__quote cite {
   font-family: var(--f-mono);
@@ -762,6 +850,7 @@
   color: var(--text);
   font-style: italic;
   position: relative;
+  text-transform: none;
 }
 .lost-play:hover .lost-play__label {
   text-shadow:
@@ -802,8 +891,8 @@
   font-size: clamp(13px, 1.05vw, 15px);
   font-style: normal;
   font-family: var(--f-mono);
-  letter-spacing: 0.06em;
-  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  text-transform: none;
 }
 
 .lost-play__credit {
@@ -927,20 +1016,23 @@
   display: grid;
   gap: 14px;
   max-width: 920px;
+  justify-self: start;
+  justify-items: start;
 }
 .lost-kauai__fig-grid {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-columns: 1fr 1fr;
   gap: clamp(16px, 2.5vw, 32px);
-  align-items: end;
+  align-items: stretch;
 }
 @media (max-width: 720px) {
   .lost-kauai__fig-grid { grid-template-columns: 1fr; }
 }
 .lost-kauai__sketch {
   width: 100%;
-  height: auto;
-  padding: clamp(12px, 2vw, 22px);
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
   /* chalk-on-void: invert so the sketch becomes light lines */
   filter: invert(1) contrast(0.82) hue-rotate(180deg);
   mix-blend-mode: screen;
@@ -949,8 +1041,8 @@
 }
 .lost-kauai__field {
   width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 10;
+  height: 100%;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: 3px;
   box-shadow: 0 20px 60px oklch(0 0 0 / 0.55);
@@ -984,12 +1076,16 @@
 .lost-owl__text {
   display: grid;
   gap: 18px;
-  max-width: 54ch;
+  max-width: 52ch;
+}
+.lost-owl__h2 {
+  max-width: 18ch;
 }
 .lost-owl__text p {
   font-size: clamp(15px, 1.15vw, 18px);
   line-height: 1.6;
   color: var(--text-dim);
+  text-wrap: pretty;
 }
 .lost-owl__kicker em {
   font-family: var(--f-display);
@@ -1065,10 +1161,47 @@
   border-top: 1px solid var(--lost-rule);
   font-family: var(--f-display);
   font-weight: 400;
-  font-size: clamp(18px, 1.8vw, 24px);
-  line-height: 1.5;
+  font-size: clamp(18px, 1.9vw, 28px);
+  line-height: 1.4;
   color: var(--text);
   font-style: italic;
+}
+.lost-reflect__close {
+  display: grid;
+  gap: 0.2em;
+}
+
+/* neon sweep: a bright highlighter-line glides under each line on load,
+   and on hover the text briefly brightens to full neon.
+   no layout shift, no decode reshuffle -- just light moving through. */
+/* first line: "almost went extinct" -- reads as fading, lower contrast
+   second line: "keeps breathing" -- literally breathes (scale pulse) + mint gradient
+   no more identical sweep on both lines */
+.lost-sweep {
+  position: relative;
+  display: inline-block;
+  color: var(--text-dim);
+  transition: color 0.6s var(--ease);
+  cursor: default;
+}
+.lost-sweep--alt {
+  color: var(--text);
+  background: linear-gradient(92deg, var(--neon), var(--mint));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transform-origin: left center;
+  animation: lost-breathe 4.2s ease-in-out infinite;
+}
+@keyframes lost-breathe {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgb(184 235 96 / 0.15)); }
+  50%      { transform: scale(1.012); filter: drop-shadow(0 0 22px rgb(184 235 96 / 0.35)); }
+}
+.lost-sweep:hover {
+  color: var(--text);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lost-sweep--alt { animation: none; }
 }
 
 /* neon underline for highlighted words in the reflection */
@@ -1093,11 +1226,13 @@
   display: grid;
   gap: 12px;
 }
-.lost-reflect__fig img {
+.lost-reflect__fig img,
+.lost-reflect__fig video {
   width: 100%;
   height: auto;
   border-radius: 3px;
   box-shadow: 0 30px 70px oklch(0 0 0 / 0.55);
+  display: block;
 }
 .lost-reflect__fig figcaption {
   font-family: var(--f-mono);
@@ -1143,6 +1278,8 @@
   text-transform: uppercase;
   color: var(--text-mute);
   transition: color 0.4s var(--ease);
+  /* keep the decoded characters readable even mid-scramble */
+  font-variant-numeric: tabular-nums;
 }
 .lost-summary__row:hover dt {
   color: var(--text);
@@ -1167,7 +1304,13 @@
    both the card (lime/mint glow) and the email button (glitch). */
 .lost-body .foot {
   position: relative;
-  min-height: clamp(560px, 72vh, 820px);
+  min-height: clamp(640px, 92vh, 860px);
+  padding-bottom: clamp(60px, 8vh, 96px);
+}
+/* kill the shared pink orb that was bleeding behind the card */
+.lost-body .backdrop,
+.lost-body .orb--pink {
+  display: none !important;
 }
 .lost-body .foot__content {
   position: relative;
@@ -1176,10 +1319,11 @@
 .lost-body .lost-foot__card {
   /* override the shared orchid bloom — we replace its role entirely */
   position: absolute;
-  top: 50%;
+  top: 44%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(88vw, 520px);
+  width: min(72vw, 420px);
+  max-height: 78%;
   height: auto;
   filter: none;
   animation: none;
@@ -1193,55 +1337,106 @@
   height: auto;
   display: block;
   border-radius: 32px;
-  transition: transform 0.5s var(--ease), filter 0.5s var(--ease);
+  /* kill the shared orchid styles + pink pulse keyframe */
+  mix-blend-mode: normal;
+  opacity: 1;
+  animation: lost-card-breathe 8s ease-in-out infinite alternate;
   filter:
     drop-shadow(0 40px 90px oklch(0 0 0 / 0.6))
-    drop-shadow(0 0 60px rgb(184 235 96 / 0.25));
+    drop-shadow(0 0 60px rgb(184 235 96 / 0.3));
+  transition: transform 0.5s var(--ease);
+}
+@keyframes lost-card-breathe {
+  0%   { filter:
+    drop-shadow(0 40px 90px oklch(0 0 0 / 0.55))
+    drop-shadow(0 0 50px rgb(184 235 96 / 0.22))
+    drop-shadow(0 0 100px rgb(124 193 172 / 0.12));
+  }
+  100% { filter:
+    drop-shadow(0 40px 90px oklch(0 0 0 / 0.6))
+    drop-shadow(0 0 90px rgb(184 235 96 / 0.4))
+    drop-shadow(0 0 140px rgb(124 193 172 / 0.28));
+  }
 }
 .lost-body .lost-foot__card:hover img {
+  transform: scale(1.012);
+  animation-play-state: paused;
   filter:
     drop-shadow(0 50px 110px oklch(0 0 0 / 0.7))
-    drop-shadow(0 0 90px rgb(184 235 96 / 0.55))
-    drop-shadow(0 0 120px rgb(124 193 172 / 0.4));
-  transform: scale(1.012);
+    drop-shadow(0 0 100px rgb(184 235 96 / 0.55))
+    drop-shadow(0 0 140px rgb(124 193 172 / 0.4));
+}
+@media (prefers-reduced-motion: reduce) {
+  .lost-body .lost-foot__card img { animation: none; }
 }
 
-/* when hovering the card, the email button gets a glitch shudder */
-.lost-foot__mail {
+/* email button — brand green border + glow on hover.
+   Glitch chromatic ghosts ONLY fire when hovering the bird card;
+   hovering the email button itself just lights up the neon outline. */
+.lost-body .foot__mail,
+.lost-body .lost-foot__mail {
+  white-space: nowrap;
   position: relative;
-  display: inline-block;
+}
+.lost-body .foot__mail:hover,
+.lost-body .lost-foot__mail:hover {
+  border-color: var(--neon);
+  box-shadow:
+    0 0 22px -2px rgb(184 235 96 / 0.55),
+    0 0 52px -8px rgb(124 193 172 / 0.3);
+  color: var(--neon);
 }
 .lost-foot__mail::before,
 .lost-foot__mail::after {
   content: attr(data-text);
   position: absolute;
-  inset: 0;
-  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  padding: inherit;
   pointer-events: none;
   mix-blend-mode: screen;
-  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  opacity: 0;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  transition: opacity 0.3s var(--ease);
+  white-space: nowrap;
 }
-.lost-foot__mail::before { color: var(--neon); transform: translateX(0); }
-.lost-foot__mail::after { color: var(--mint); transform: translateX(0); }
-.lost-body .lost-foot__card:hover ~ .foot__content .lost-foot__mail::before,
-.lost-foot__mail:hover::before {
-  opacity: 1;
-  transform: translateX(-2px);
-  animation: lost-mail-glitch-a 0.6s steps(4, end) infinite;
+.lost-foot__mail::before { color: var(--neon); }
+.lost-foot__mail::after { color: var(--mint); }
+
+/* ghosts active ONLY when the bird card is hovered */
+.lost-body .lost-foot__card:hover ~ .foot__content .lost-foot__mail::before {
+  opacity: 0.9;
+  animation: lost-mail-glitch-a 0.55s steps(4, end) infinite;
 }
-.lost-body .lost-foot__card:hover ~ .foot__content .lost-foot__mail::after,
+.lost-body .lost-foot__card:hover ~ .foot__content .lost-foot__mail::after {
+  opacity: 0.9;
+  animation: lost-mail-glitch-b 0.55s steps(4, end) infinite;
+}
+/* when the email itself is hovered, kill any lingering ghost */
+.lost-foot__mail:hover::before,
 .lost-foot__mail:hover::after {
-  opacity: 1;
-  transform: translateX(2px);
-  animation: lost-mail-glitch-b 0.6s steps(4, end) infinite;
+  opacity: 0;
+  animation: none;
 }
 @keyframes lost-mail-glitch-a {
-  0%,100% { transform: translate(-2px, 0); clip-path: inset(0 0 60% 0); }
-  50%     { transform: translate(-4px, 1px); clip-path: inset(50% 0 20% 0); }
+  0%,100% { transform: translate(calc(-50% - 2px), -50%); clip-path: inset(0 0 60% 0); }
+  50%     { transform: translate(calc(-50% - 4px), calc(-50% + 1px)); clip-path: inset(50% 0 15% 0); }
 }
 @keyframes lost-mail-glitch-b {
-  0%,100% { transform: translate(2px, 0); clip-path: inset(55% 0 10% 0); }
-  50%     { transform: translate(4px, -1px); clip-path: inset(15% 0 55% 0); }
+  0%,100% { transform: translate(calc(-50% + 2px), -50%); clip-path: inset(55% 0 10% 0); }
+  50%     { transform: translate(calc(-50% + 4px), calc(-50% - 1px)); clip-path: inset(15% 0 55% 0); }
+}
+
+/* back-to-top button — lime outline + mint glow on L&E page */
+.lost-body .to-top:hover {
+  border-color: var(--neon);
+  box-shadow:
+    -18px 0 60px -10px rgb(184 235 96 / 0.45),
+     18px 0 60px -10px rgb(124 193 172 / 0.45);
 }
 
 /* brand the "with soul" accent lime -> mint on this page only */

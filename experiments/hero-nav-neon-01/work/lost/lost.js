@@ -38,6 +38,70 @@
   });
 }
 
+/* ── interactive EKG waveform: the spike drifts with scroll position
+   and jitters subtly as the user moves through the insight section.
+   scroll position inside the section controls the spike's x-anchor
+   and a tiny randomized stutter on the crest amplitudes. */
+{
+  const wave = document.getElementById('insightWave');
+  const path = document.getElementById('insightWavePath');
+  const section = document.getElementById('insight');
+  if (wave && path && section) {
+    let ticking = false;
+    const buildPath = (anchor, jitter = 0) => {
+      // baseline flat, then a cluster of spikes around `anchor`, then flat again
+      const spikes = [
+        [anchor - 60, 40],
+        [anchor - 40, 10 + jitter * 8],
+        [anchor - 20, 68 - jitter * 6],
+        [anchor,      22 + jitter * 10],
+        [anchor + 20, 54 - jitter * 4],
+        [anchor + 40, 36 + jitter * 6],
+        [anchor + 60, 44 - jitter * 5],
+        [anchor + 80, 40]
+      ];
+      let d = `M0 40 L ${anchor - 80} 40`;
+      for (const [x, y] of spikes) d += ` L ${x.toFixed(1)} ${y.toFixed(1)}`;
+      d += ` L 1200 40`;
+      return d;
+    };
+
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight || 900;
+      // 0 = section just entered bottom of viewport, 1 = section just left top
+      const p = 1 - Math.max(0, Math.min(1, (rect.top + rect.height * 0.5) / vh));
+      // anchor x: drifts from 200 to 1000 across the scroll range
+      const anchor = 200 + p * 800;
+      // small stochastic jitter when user is actively scrolling
+      const jitter = (Math.random() - 0.5);
+      path.setAttribute('d', buildPath(anchor, jitter));
+      ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+
+    // also nudge the jitter a few times per second while visible for life
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        wave.dataset.inview = e.isIntersecting ? '1' : '0';
+      }
+    }, { threshold: 0.15 });
+    io.observe(section);
+
+    setInterval(() => {
+      if (wave.dataset.inview === '1') update();
+    }, 180);
+
+    update();
+  }
+}
+
 /* ── decode effect: scramble → resolve per character
    wraps each letter in a span, cycles through random latin chars
    for a short window, lands at a staggered time. used on
@@ -112,6 +176,9 @@ function decodeWord(el, { stagger = 45, cycles = 8, cycleMs = 38 } = {}) {
   });
 }
 
+/* reflection close lines: nothing JS-driven now -- the --alt line
+   has a CSS breathe animation; the base line just reads quiet */
+
 /* ── soundscape composer preview: short audio loop on click ── */
 {
   const cBtn = document.getElementById('composerPlay');
@@ -121,7 +188,7 @@ function decodeWord(el, { stagger = 45, cycles = 8, cycleMs = 38 } = {}) {
     const set = (p) => {
       cBtn.classList.toggle('is-playing', p);
       cBtn.setAttribute('aria-pressed', String(p));
-      cLabel.textContent = p ? 'listening...' : 'press play to hear a soundscape in motion';
+      cLabel.textContent = p ? 'Listening...' : 'Press play to hear a soundscape in motion';
     };
     cBtn.addEventListener('click', () => {
       if (cAudio.paused) {
@@ -153,30 +220,31 @@ if (playBtn && video && label && stage && section) {
     playBtn.setAttribute('aria-pressed', String(playing));
     section.classList.toggle('is-listening', playing);
     label.textContent = playing
-      ? 'listening...'
-      : (stage.classList.contains('is-armed')
-          ? 'press play to listen again'
-          : 'press play to enter the listening room');
+      ? 'Listening...'
+      : 'Press play to enter the listening room';
   };
 
   playBtn.addEventListener('click', () => {
-    // first click reveals the stage permanently
-    if (!stage.classList.contains('is-armed')) stage.classList.add('is-armed');
+    // each click arms the stage, plays, and stage disappears again when done
+    stage.classList.add('is-armed');
 
     if (video.paused) {
       video.currentTime = 0;
       video.muted = false;
       video.play().then(() => setPlaying(true)).catch(() => {
-        // autoplay w/ audio may be blocked -- retry muted so the visual still lands
         video.muted = true;
         video.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
       });
     } else {
       video.pause();
       setPlaying(false);
+      stage.classList.remove('is-armed');
     }
   });
 
-  video.addEventListener('ended', () => setPlaying(false));
+  video.addEventListener('ended', () => {
+    setPlaying(false);
+    stage.classList.remove('is-armed');
+  });
   video.addEventListener('pause', () => setPlaying(false));
 }
