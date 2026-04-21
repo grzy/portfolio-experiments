@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Dela+Gothic+One&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=18" />
-<link rel="stylesheet" href="lost.css?v=30" />
+<link rel="stylesheet" href="lost.css?v=31" />
 </head>
 <body class="lost-body">
 
@@ -40,29 +40,33 @@
 
 <!-- ── 1 · HERO ───────────────────────────────────────────── -->
 <header class="lost-hero" id="top">
-  <video class="lost-hero__video" src="../../images/lost/hero-preloader.mp4?v=3" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
   <div class="lost-hero__veil" aria-hidden="true"></div>
 
-  <div class="lost-hero__content">
-    <span class="lost-eyebrow">✺ case story</span>
-    <h1 class="lost-hero__title">What does<br /><em class="lost-decode" data-text="extinction">extinction</em><br />sound like?</h1>
-    <p class="lost-hero__sub">
-      <span class="lost-hero__sub-line">A field guide for birds at the edge of silence&nbsp;+</span>
-      <span class="lost-hero__sub-line">A Figma prototype that almost went extinct itself.</span>
-    </p>
-
-    <dl class="lost-meta">
-      <div><dt>Role</dt><dd>Product + narrative + UI + imagery</dd></div>
-      <div><dt>Tools</dt><dd>Figma + Flora AI + bioacoustic libraries</dd></div>
-      <div><dt>Scope</dt><dd>Solo build</dd></div>
-      <div class="lost-meta__cue">
-        <a class="lost-hero__scroll" href="#built" data-hover aria-label="Jump to the listening room">
-          <span>listening room</span>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
-        </a>
-      </div>
-    </dl>
+  <div class="lost-hero__grid">
+    <div class="lost-hero__text">
+      <span class="lost-eyebrow">✺ case story</span>
+      <h1 class="lost-hero__title">What does<br /><em class="lost-decode" data-text="extinction">extinction</em><br />sound like?</h1>
+      <p class="lost-hero__sub">
+        <span class="lost-hero__sub-line">A field guide for birds at the edge of silence&nbsp;+</span>
+        <span class="lost-hero__sub-line">A Figma prototype that almost went extinct itself.</span>
+      </p>
+    </div>
+    <div class="lost-hero__media">
+      <video class="lost-hero__video" src="../../images/lost/hero-preloader.mp4?v=3" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+    </div>
   </div>
+
+  <dl class="lost-meta">
+    <div><dt>Role</dt><dd>Product + narrative + UI + imagery</dd></div>
+    <div><dt>Tools</dt><dd>Figma + Flora AI + bioacoustic libraries</dd></div>
+    <div><dt>Scope</dt><dd>Solo build</dd></div>
+    <div class="lost-meta__cue">
+      <a class="lost-hero__scroll" href="#built" data-hover aria-label="Jump to the listening room">
+        <span>listening room</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
+      </a>
+    </div>
+  </dl>
 </header>
 
 <!-- ── 2 · THE TRAILER ────────────────────────────────────── -->

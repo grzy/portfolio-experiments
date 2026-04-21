@@ -123,44 +123,53 @@
 .lost-hero {
   position: relative;
   min-height: 92svh;
-  display: flex;
-  align-items: flex-end;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: clamp(24px, 3vh, 48px);
   overflow: hidden;
   isolation: isolate;
-  padding: clamp(140px, 18vh, 220px) clamp(24px, 5vw, 72px) clamp(60px, 8vh, 120px);
+  padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 72px) clamp(40px, 5vh, 80px);
+}
+/* two-column layout: title text + preloader video, bounded to content width */
+.lost-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(400px, 1.25fr);
+  gap: clamp(24px, 3vw, 72px);
+  align-items: center;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+.lost-hero__text {
+  display: grid;
+  gap: clamp(16px, 2.5vw, 28px);
+  align-content: center;
+}
+.lost-hero__media {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 .lost-hero__video {
-  position: absolute;
-  top: 50%;
-  right: clamp(20px, 2.5vw, 44px);
-  transform: translateY(-50%);
-  width: min(66vw, 1500px);
+  width: 100%;
+  max-width: 900px;
   height: auto;
-  max-height: 88vh;
+  max-height: 68vh;
   object-fit: contain;
-  z-index: -2;
   filter: saturate(1) brightness(1) contrast(1.02);
   border-radius: 4px;
 }
 @media (max-width: 900px) {
-  .lost-hero__video {
-    position: absolute;
-    top: auto;
-    bottom: 0;
-    right: 0;
-    transform: none;
-    width: 100%;
-    max-height: 45vh;
-    opacity: 0.5;
-  }
+  .lost-hero__grid { grid-template-columns: 1fr; gap: clamp(20px, 4vh, 40px); }
+  .lost-hero__media { justify-content: center; }
+  .lost-hero__video { max-height: 40vh; opacity: 0.7; }
 }
 .lost-hero__veil {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    linear-gradient(90deg, var(--void) 0%, oklch(0.07 0.02 270 / 0.7) 30%, transparent 55%),
-    linear-gradient(180deg, transparent 0%, oklch(0.07 0.02 270 / 0.35) 90%, var(--void) 100%);
+  background: linear-gradient(180deg, transparent 0%, oklch(0.07 0.02 270 / 0.35) 90%, var(--void) 100%);
+  pointer-events: none;
 }
 
 .lost-hero__content {
@@ -170,6 +179,8 @@
   display: grid;
   gap: clamp(16px, 2.5vw, 28px);
 }
+/* meta strip spans full hero width, sits below the grid */
+.lost-meta { max-width: 1600px; margin: 0 auto; width: 100%; }
 .lost-hero__title {
   font-family: var(--f-display);
   font-weight: 700;
