@@ -318,6 +318,10 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* % glyph ink extends past its own advance width;
+     pad so background-clip: text doesn't chop the right slash */
+  padding-right: 0.18em;
+  margin-right: 0.05em;
 }
 .lost-trailer__unit {
   font-family: var(--f-display);
