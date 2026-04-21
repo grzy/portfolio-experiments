@@ -132,11 +132,11 @@
 .lost-hero__video {
   position: absolute;
   top: 50%;
-  right: clamp(24px, 3vw, 48px);
+  right: clamp(20px, 2.5vw, 44px);
   transform: translateY(-50%);
-  width: min(62vw, 1100px);
+  width: min(66vw, 1500px);
   height: auto;
-  max-height: 82vh;
+  max-height: 88vh;
   object-fit: contain;
   z-index: -2;
   filter: saturate(1) brightness(1) contrast(1.02);
