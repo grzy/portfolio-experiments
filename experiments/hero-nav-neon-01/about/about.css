@@ -56,19 +56,24 @@ iframe[src*="unicornstudio"] {
   pointer-events: auto;
 }
 
-/* About meta: pushed down below the nav, aligned with content padding */
+/* About meta: pushed down below the nav, anchored to the same
+   1100px content bounds as the in-person events section below so
+   the left gutter lines up on every viewport. */
 .about-hero__content .hero__meta {
   top: clamp(80px, 10vh, 120px);
 }
 .about-hero__content .hero__meta--tl {
-  left: clamp(24px, 5vw, 72px);
+  left: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
 }
 .about-hero__content .hero__meta--tr {
-  right: clamp(24px, 5vw, 72px);
+  right: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
 }
 
 .about-hero__intro {
   max-width: 760px;
+  /* anchor intro to the same 1100px content column as the events
+     section below so "Hi I'm Ivy" left-aligns with "in-person events" */
+  margin-left: max(0px, calc((100vw - 1100px) / 2 - clamp(24px, 5vw, 72px)));
 }
 
 .about-hero__title {
@@ -492,8 +497,8 @@ iframe[src*="unicornstudio"] {
 
 .about-commits {
   position: relative;
-  min-height: 100svh;
-  padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 72px);
+  min-height: auto;
+  padding: clamp(72px, 10vh, 130px) clamp(24px, 5vw, 72px);
   overflow: hidden;
   isolation: isolate;
   display: flex;
@@ -794,8 +799,8 @@ iframe[src*="unicornstudio"] {
     font-size: 14px;
   }
   .about-commits {
-    min-height: 70svh;
-    padding: clamp(72px, 10vh, 130px) clamp(24px, 5vw, 72px);
+    min-height: auto;
+    padding: clamp(64px, 8vh, 110px) clamp(24px, 5vw, 72px);
   }
   .commits-head__title {
     font-size: clamp(28px, 4vw, 52px);

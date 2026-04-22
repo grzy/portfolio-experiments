@@ -102,6 +102,30 @@
   }
 }
 
+/* ── eyebrow letter flip: "case story" <-> "case study" every 5s ── */
+{
+  const flips = document.querySelectorAll('.lost-eyebrow--story .lost-flip');
+  if (flips.length) {
+    const flip = () => {
+      flips.forEach(el => {
+        el.classList.add('is-flipped');
+        el.textContent = el.dataset.to;
+      });
+      setTimeout(() => {
+        flips.forEach(el => {
+          el.classList.remove('is-flipped');
+          el.textContent = el.dataset.from;
+        });
+      }, 420);
+    };
+    // first flip after ~7s, then every 6s after
+    setTimeout(() => {
+      flip();
+      setInterval(flip, 6000);
+    }, 7000);
+  }
+}
+
 /* ── decode effect: scramble → resolve per character
    wraps each letter in a span, cycles through random latin chars
    for a short window, lands at a staggered time. used on
