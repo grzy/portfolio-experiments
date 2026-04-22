@@ -181,8 +181,7 @@
   display: grid;
   gap: clamp(16px, 2.5vw, 28px);
 }
-/* meta strip: shares the same content bounds as the hero grid */
-.lost-meta { max-width: 1400px; margin: 0 auto; width: 100%; }
+/* meta strip bounds live inside the main .lost-meta block below */
 .lost-hero__title {
   font-family: var(--f-display);
   font-weight: 700;
@@ -221,13 +220,14 @@
 }
 
 .lost-meta {
-  margin-top: clamp(20px, 3vh, 40px);
+  margin: clamp(20px, 3vh, 40px) auto 0;
   display: grid;
   grid-template-columns: minmax(200px, auto) minmax(220px, auto) minmax(130px, auto) 1fr;
   gap: clamp(16px, 3vw, 48px);
   border-top: 1px solid var(--lost-rule);
   padding-top: clamp(18px, 2.5vh, 26px);
-  max-width: 100%;
+  width: 100%;
+  max-width: 1400px;
   align-items: baseline;
 }
 .lost-meta__cue {
