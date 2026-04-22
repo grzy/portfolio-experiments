@@ -68,13 +68,13 @@ iframe[src*="unicornstudio"] {
   top: clamp(80px, 10vh, 120px);
 }
 .about-hero__content .hero__meta--tl {
-  /* abs positions are relative to the padding edge of the content, so
-     left: 0 puts the meta exactly where the padding (the 1100px column
-     margin) ends and content begins. */
-  left: 0;
+  /* for abs positioning, left is measured from the parent's border edge
+     (NOT the padding edge), so we match the parent's padding-left value
+     to land at the content-start (the 1100px column's left edge). */
+  left: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
 }
 .about-hero__content .hero__meta--tr {
-  right: 0;
+  right: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
 }
 
 .about-hero__intro {
