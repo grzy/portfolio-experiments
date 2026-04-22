@@ -38,50 +38,37 @@ iframe[src*="unicornstudio"] {
   pointer-events: none !important;
 }
 
-/* text layer lets cursor pass through so the flashlight effect works.
-   no max-width cap -- horizontal padding does the alignment so meta
-   corners + intro anchor to the same 1100px column as the events section. */
+/* text layer lets cursor pass through so the flashlight effect works */
 .about-hero__content {
   position: relative;
   z-index: 3;
   pointer-events: none;
   min-height: 100svh;
-  padding-top: clamp(160px, 24vh, 260px);
-  padding-bottom: clamp(60px, 8vh, 120px);
-  padding-left: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
-  padding-right: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
+  padding: clamp(160px, 24vh, 260px) clamp(24px, 5vw, 72px) clamp(60px, 8vh, 120px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  max-width: none;
-  margin: 0;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .about-hero__content a,
 .about-hero__content button {
   pointer-events: auto;
 }
 
-/* About meta: pushed down below the nav, anchored to the same
-   1100px content bounds as the in-person events section below so
-   the left gutter lines up on every viewport. */
+/* About meta: pushed down below the nav, aligned with content padding */
 .about-hero__content .hero__meta {
   top: clamp(80px, 10vh, 120px);
 }
 .about-hero__content .hero__meta--tl {
-  /* for abs positioning, left is measured from the parent's border edge
-     (NOT the padding edge), so we match the parent's padding-left value
-     to land at the content-start (the 1100px column's left edge). */
-  left: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
+  left: clamp(24px, 5vw, 72px);
 }
 .about-hero__content .hero__meta--tr {
-  right: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
+  right: clamp(24px, 5vw, 72px);
 }
 
 .about-hero__intro {
   max-width: 760px;
-  /* content already aligns via parent padding; intro is simply at the
-     left edge of the 1100px column */
-  margin-left: 0;
 }
 
 .about-hero__title {
@@ -783,8 +770,7 @@ iframe[src*="unicornstudio"] {
 /* Laptop screens (14"-16" MacBooks, ≤1600px logical) */
 @media (max-width: 1600px) {
   .about-hero__content {
-    padding-top: clamp(120px, 18vh, 180px);
-    padding-bottom: clamp(50px, 7vh, 90px);
+    padding: clamp(120px, 18vh, 180px) clamp(24px, 5vw, 72px) clamp(50px, 7vh, 90px);
   }
   .about-hero__title {
     font-size: clamp(20px, 2.8vw, 40px);
