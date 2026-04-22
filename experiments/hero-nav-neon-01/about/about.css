@@ -38,18 +38,23 @@ iframe[src*="unicornstudio"] {
   pointer-events: none !important;
 }
 
-/* text layer lets cursor pass through so the flashlight effect works */
+/* text layer lets cursor pass through so the flashlight effect works.
+   no max-width cap -- horizontal padding does the alignment so meta
+   corners + intro anchor to the same 1100px column as the events section. */
 .about-hero__content {
   position: relative;
   z-index: 3;
   pointer-events: none;
   min-height: 100svh;
-  padding: clamp(160px, 24vh, 260px) clamp(24px, 5vw, 72px) clamp(60px, 8vh, 120px);
+  padding-top: clamp(160px, 24vh, 260px);
+  padding-bottom: clamp(60px, 8vh, 120px);
+  padding-left: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
+  padding-right: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  max-width: 1400px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
 }
 .about-hero__content a,
 .about-hero__content button {
@@ -63,17 +68,20 @@ iframe[src*="unicornstudio"] {
   top: clamp(80px, 10vh, 120px);
 }
 .about-hero__content .hero__meta--tl {
-  left: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
+  /* abs positions are relative to the padding edge of the content, so
+     left: 0 puts the meta exactly where the padding (the 1100px column
+     margin) ends and content begins. */
+  left: 0;
 }
 .about-hero__content .hero__meta--tr {
-  right: max(clamp(24px, 5vw, 72px), calc((100vw - 1100px) / 2));
+  right: 0;
 }
 
 .about-hero__intro {
   max-width: 760px;
-  /* anchor intro to the same 1100px content column as the events
-     section below so "Hi I'm Ivy" left-aligns with "in-person events" */
-  margin-left: max(0px, calc((100vw - 1100px) / 2 - clamp(24px, 5vw, 72px)));
+  /* content already aligns via parent padding; intro is simply at the
+     left edge of the 1100px column */
+  margin-left: 0;
 }
 
 .about-hero__title {
@@ -775,7 +783,8 @@ iframe[src*="unicornstudio"] {
 /* Laptop screens (14"-16" MacBooks, ≤1600px logical) */
 @media (max-width: 1600px) {
   .about-hero__content {
-    padding: clamp(120px, 18vh, 180px) clamp(24px, 5vw, 72px) clamp(50px, 7vh, 90px);
+    padding-top: clamp(120px, 18vh, 180px);
+    padding-bottom: clamp(50px, 7vh, 90px);
   }
   .about-hero__title {
     font-size: clamp(20px, 2.8vw, 40px);

@@ -102,23 +102,20 @@
   }
 }
 
-/* ── eyebrow letter flip: "case story" <-> "case study" every 5s ── */
+/* ── eyebrow word flip: "story" <-> "study" every ~6s ── */
 {
-  const flips = document.querySelectorAll('.lost-eyebrow--story .lost-flip');
-  if (flips.length) {
+  const word = document.querySelector('.lost-eyebrow--story .lost-flip-word');
+  if (word) {
+    const original = word.textContent.trim();
+    const alt = word.dataset.alt || original;
     const flip = () => {
-      flips.forEach(el => {
-        el.classList.add('is-flipped');
-        el.textContent = el.dataset.to;
-      });
+      word.classList.add('is-flipped');
+      word.textContent = alt;
       setTimeout(() => {
-        flips.forEach(el => {
-          el.classList.remove('is-flipped');
-          el.textContent = el.dataset.from;
-        });
-      }, 420);
+        word.classList.remove('is-flipped');
+        word.textContent = original;
+      }, 480);
     };
-    // first flip after ~7s, then every 6s after
     setTimeout(() => {
       flip();
       setInterval(flip, 6000);

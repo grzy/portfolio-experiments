@@ -68,19 +68,30 @@
   color: var(--text-mute);
 }
 
-/* eyebrow letter flip: "case story" <-> "case study" every few seconds
-   JS toggles .is-flipped; CSS swaps the two letters with a glitch shudder */
-.lost-flip {
+/* eyebrow word flip: entire "story" swaps to "study" with a brief
+   chromatic shudder, then snaps back. runs every ~6s via JS. */
+.lost-flip-word {
   position: relative;
   display: inline-block;
-  font-style: normal;
   font-family: inherit;
-  transition: color 0.12s steps(2, end), transform 0.12s steps(2, end);
+  transition: color 0.14s steps(2, end);
 }
-.lost-flip.is-flipped {
+.lost-flip-word.is-flipped {
   color: var(--neon);
-  transform: translateY(-1px);
-  text-shadow: 0 0 8px rgb(184 235 96 / 0.6);
+  text-shadow:
+    -1px 0 rgb(124 193 172 / 0.7),
+     1px 0 rgb(184 235 96 / 0.7),
+     0 0 12px rgb(184 235 96 / 0.6);
+  animation: lost-flip-shudder 0.42s steps(4, end);
+}
+@keyframes lost-flip-shudder {
+  0%, 100% { transform: translate(0, 0); }
+  25%      { transform: translate(-1px, 0); }
+  50%      { transform: translate(1px, 0); }
+  75%      { transform: translate(-1px, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lost-flip-word.is-flipped { animation: none; }
 }
 
 /* ── scroll-reveal machinery ──────────────────────────────── */
@@ -352,10 +363,12 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* % glyph ink extends past its own advance width;
-     pad so background-clip: text doesn't chop the right slash */
-  padding-right: 0.18em;
-  margin-right: 0.05em;
+}
+/* only the % glyph needs ink-overflow padding (italic % extends
+   past its advance width and background-clip: text chops the slash);
+   the decimal gets no horizontal padding so "99.9" stays tight. */
+.lost-trailer__pct {
+  padding-right: 0.14em;
 }
 .lost-trailer__unit {
   font-family: var(--f-display);
@@ -446,16 +459,18 @@
   height: auto;
   aspect-ratio: 4 / 5;
   object-fit: contain;
-  /* transparent card — let the void carry the bird
-     (works whether the PNG bg is transparent or still white) */
   background: transparent;
   padding: 0;
   border-radius: 0;
   box-shadow: 0 30px 80px oklch(0 0 0 / 0.5);
-  /* if the PNG still has a white bg, multiply it down into the void
-     so the bird reads as a specimen floating in archive space */
   mix-blend-mode: screen;
   filter: saturate(0.9) contrast(1.05);
+}
+/* Kaua'i AI-enhanced reconstruction is tighter in its original frame --
+   shrink it a hair so it reads the same size as the taxidermy next to it. */
+.lost-specimen:last-child img {
+  transform: scale(0.82);
+  transform-origin: center bottom;
 }
 .lost-specimen figcaption {
   display: grid;
@@ -1049,23 +1064,22 @@
   .lost-kauai.is-listening .lost-stage { animation: none; }
 }
 
-.lost-kauai__fig {
-  margin: 0 auto;
-  display: grid;
-  gap: 14px;
-  max-width: 920px;
-  justify-self: center;
-  justify-items: center;
-  text-align: center;
-}
 .lost-kauai__fig-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(16px, 2.5vw, 32px);
-  align-items: stretch;
+  align-items: start;
+  max-width: 920px;
+  margin: 0 auto;
 }
 @media (max-width: 720px) {
   .lost-kauai__fig-grid { grid-template-columns: 1fr; }
+}
+.lost-kauai__cell {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  text-align: left;
 }
 .lost-kauai__sketch {
   width: 100%;
@@ -1087,13 +1101,13 @@
   box-shadow: 0 20px 60px oklch(0 0 0 / 0.55);
   background: var(--void-2);
 }
-.lost-kauai__fig figcaption {
+.lost-kauai__cell figcaption {
   font-family: var(--f-mono);
   font-size: clamp(10px, 0.88vw, 12px);
   letter-spacing: 0.08em;
   color: var(--text-mute);
   line-height: 1.6;
-  max-width: 46ch;
+  text-align: left;
 }
 
 /* ── 7 · PIVOT: SPOTTED OWL ───────────────────────────────── */

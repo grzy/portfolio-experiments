@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Dela+Gothic+One&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=18" />
-<link rel="stylesheet" href="lost.css?v=34" />
+<link rel="stylesheet" href="lost.css?v=35" />
 </head>
 <body class="lost-body">
 
@@ -44,7 +44,7 @@
 
   <div class="lost-hero__grid">
     <div class="lost-hero__text">
-      <span class="lost-eyebrow lost-eyebrow--story">✺ case st<em class="lost-flip" data-from="o" data-to="u">o</em><em class="lost-flip" data-from="r" data-to="d">r</em>y</span>
+      <span class="lost-eyebrow lost-eyebrow--story">✺ case <span class="lost-flip-word" data-alt="study">story</span></span>
       <h1 class="lost-hero__title">What does<br /><em class="lost-decode" data-text="extinction">extinction</em><br />sound like?</h1>
       <p class="lost-hero__sub">
         <span class="lost-hero__sub-line">A field guide for birds at the edge of silence&nbsp;+</span>
@@ -59,7 +59,7 @@
   <dl class="lost-meta">
     <div><dt>Role</dt><dd>Product + narrative + UI + imagery</dd></div>
     <div><dt>Tools</dt><dd>Figma + Flora AI + bioacoustic libraries</dd></div>
-    <div><dt>Scope</dt><dd>Solo build</dd></div>
+    <div><dt>Scope</dt><dd>Design team of one</dd></div>
     <div class="lost-meta__cue">
       <a class="lost-hero__scroll" href="#built" data-hover aria-label="Jump to the listening room">
         <span>listening room</span>
@@ -75,7 +75,7 @@
     <span class="lost-eyebrow">❋ all species, all time</span>
 
     <p class="lost-trailer__stat">
-      <span class="lost-trailer__num" aria-label="99.9 percent">99<em>.</em>9<em>%</em>&nbsp;</span>
+      <span class="lost-trailer__num" aria-label="99.9 percent">99<em class="lost-trailer__dec">.</em>9<em class="lost-trailer__pct">%</em></span>&nbsp;
       <span class="lost-trailer__unit">of all species that have ever lived are <em>extinct</em>.</span>
     </p>
 
@@ -233,16 +233,16 @@
       </figure>
     </div>
 
-    <figure class="lost-kauai__fig">
-      <div class="lost-kauai__fig-grid">
+    <div class="lost-kauai__fig-grid">
+      <figure class="lost-kauai__cell">
         <img class="lost-kauai__sketch" src="../../images/lost-input/huntington/countingextinction_1.jpg" alt="Pencil sketch of a Kaua'i 'Ō'o by H. Douglas Pratt" loading="lazy" />
+        <figcaption>Pencil sketch by H. Douglas Pratt, The Huntington.</figcaption>
+      </figure>
+      <figure class="lost-kauai__cell">
         <video class="lost-kauai__field" src="../../images/lost/kauai-immersive.mp4" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-      </div>
-      <figcaption>
-        Pencil sketch by H. Douglas Pratt, The Huntington.<br />
-        Field footage from the L&amp;E prototype.
-      </figcaption>
-    </figure>
+        <figcaption>Field footage from the L&amp;E prototype.</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -348,6 +348,6 @@
 </button>
 
 <script type="module" src="../../script.js?v=38"></script>
-<script type="module" src="lost.js?v=11"></script>
+<script type="module" src="lost.js?v=12"></script>
 </body>
 </html>
