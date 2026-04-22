@@ -130,13 +130,15 @@
   isolation: isolate;
   padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 72px) clamp(40px, 5vh, 80px);
 }
-/* two-column layout: title text + preloader video, bounded to content width */
+/* two-column layout: title text + preloader video, bounded to 1400px
+   to match the landing + about hero content bounds -- left gutters
+   line up across all three pages on every viewport. */
 .lost-hero__grid {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(400px, 1.25fr);
+  grid-template-columns: minmax(280px, 1fr) minmax(360px, 1.2fr);
   gap: clamp(24px, 3vw, 72px);
   align-items: center;
-  max-width: 1600px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
@@ -152,7 +154,7 @@
 }
 .lost-hero__video {
   width: 100%;
-  max-width: 900px;
+  max-width: 760px;
   height: auto;
   max-height: 68vh;
   object-fit: contain;
@@ -179,8 +181,8 @@
   display: grid;
   gap: clamp(16px, 2.5vw, 28px);
 }
-/* meta strip spans full hero width, sits below the grid */
-.lost-meta { max-width: 1600px; margin: 0 auto; width: 100%; }
+/* meta strip: shares the same content bounds as the hero grid */
+.lost-meta { max-width: 1400px; margin: 0 auto; width: 100%; }
 .lost-hero__title {
   font-family: var(--f-display);
   font-weight: 700;
