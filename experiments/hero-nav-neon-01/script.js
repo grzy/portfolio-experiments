@@ -70,25 +70,36 @@ if (document.querySelector(".hero__bloom")) {
 
 /* ── cursor: removed, using native ── */
 
-/* ── hero title reveal (split words into character spans) ── */
+/* ── hero title reveal (split words into character spans)
+   runs on each hero title group independently so each page can
+   cascade its own 3-beat drop without the word index carrying over. */
 (() => {
-  const words = document.querySelectorAll(".hero__title .word:not(.word--solid), .section-title .line");
-  words.forEach((w, wi) => {
-    const text = w.textContent;
-    w.textContent = "";
-    [...text].forEach((ch, ci) => {
-      const s = document.createElement("span");
-      s.textContent = ch === " " ? "\u00A0" : ch;
-      s.style.display = "inline-block";
-      s.style.transform = "translateY(38px) rotate(4deg)";
-      s.style.opacity = "0";
-      const delay = wi * 0.45 + ci * 0.025;
-      s.style.transition = `transform .9s cubic-bezier(.2,.8,.2,1) ${delay}s, opacity .6s ease ${delay}s`;
-      w.appendChild(s);
+  const animateGroup = (selector) => {
+    const words = document.querySelectorAll(selector);
+    words.forEach((w, wi) => {
+      const text = w.textContent.trim();
+      w.textContent = "";
+      [...text].forEach((ch, ci) => {
+        const s = document.createElement("span");
+        s.textContent = ch === " " ? "\u00A0" : ch;
+        s.style.display = "inline-block";
+        s.style.transform = "translateY(38px) rotate(4deg)";
+        s.style.opacity = "0";
+        const delay = wi * 0.45 + ci * 0.025;
+        s.style.transition = `transform .9s cubic-bezier(.2,.8,.2,1) ${delay}s, opacity .6s ease ${delay}s`;
+        w.appendChild(s);
+      });
     });
-  });
+  };
+
+  animateGroup(".hero__title .word:not(.word--solid)");
+  animateGroup(".section-title .line");
+  animateGroup(".about-hero__title .word");
+
   requestAnimationFrame(() => {
-    document.querySelectorAll(".hero__title .word span, .section-title .line span").forEach(s => {
+    document.querySelectorAll(
+      ".hero__title .word span, .section-title .line span, .about-hero__title .word span"
+    ).forEach(s => {
       s.style.transform = "translateY(0) rotate(0)";
       s.style.opacity = "1";
     });

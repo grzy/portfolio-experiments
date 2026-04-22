@@ -80,11 +80,21 @@ iframe[src*="unicornstudio"] {
   text-transform: none;
   text-wrap: balance;
   text-align: left;
-  margin: clamp(24px, 4vh, 48px) 0 0;
+  margin: 0;
   padding: 0;
   color: transparent;
   -webkit-text-stroke: 1.2px var(--text);
   text-shadow: none;
+  overflow: visible;
+}
+.about-hero__title .word {
+  display: inline-block;
+  will-change: transform;
+  /* a small gap between words for a clean 3-beat rhythm */
+  margin-right: 0.25em;
+}
+.about-hero__title .word:last-child {
+  margin-right: 0;
 }
 
 .about-hero__lede {
