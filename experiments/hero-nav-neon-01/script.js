@@ -106,6 +106,66 @@ if (document.querySelector(".hero__bloom")) {
   });
 })();
 
+/* ── about lede: word-by-word reveal at reading pace
+   each clause (.lede-part) gets its text split into word tokens;
+   tokens fade/rise in sequence at ~100ms per word with ~320ms pauses
+   between clauses so the three concepts read as three breaths.
+   .lede-highlight stays as a single bonded token since "Creative
+   Technologist" is one title, not two separate reveals. */
+(() => {
+  const parts = document.querySelectorAll('.about-hero__lede .lede-part');
+  if (!parts.length) return;
+
+  const wordMs = 100;
+  const clausePauseMs = 320;
+  let cumulative = 900; // start after the h1 has settled in
+
+  const wordify = (part) => {
+    const children = [...part.childNodes];
+    part.innerHTML = '';
+    const tokens = [];
+    for (const node of children) {
+      if (node.nodeType === 3) {
+        const chunks = node.textContent.split(/(\s+)/);
+        for (const c of chunks) {
+          if (c === '') continue;
+          if (/^\s+$/.test(c)) {
+            part.appendChild(document.createTextNode(c));
+          } else {
+            const s = document.createElement('span');
+            s.className = 'lede-word';
+            s.textContent = c;
+            part.appendChild(s);
+            tokens.push(s);
+          }
+        }
+      } else if (node.nodeType === 1) {
+        const s = document.createElement('span');
+        s.className = 'lede-word';
+        s.appendChild(node);
+        part.appendChild(s);
+        tokens.push(s);
+      }
+    }
+    return tokens;
+  };
+
+  const allWords = [];
+  parts.forEach((part) => {
+    const tokens = wordify(part);
+    tokens.forEach((t) => {
+      t.style.transition = `opacity .45s ease ${cumulative}ms, transform .55s cubic-bezier(.2,.8,.2,1) ${cumulative}ms`;
+      allWords.push(t);
+      cumulative += wordMs;
+    });
+    cumulative += clausePauseMs;
+  });
+
+  requestAnimationFrame(() => {
+    allWords.forEach((w) => w.classList.add('is-read'));
+  });
+})();
+
 /* ── halo drift: removed -- static glow only ── */
 
 /* ── 3d tilt on cards ── */
