@@ -111,10 +111,15 @@ iframe[src*="unicornstudio"] {
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 /* each clause on its own line; JS splits the text into per-word tokens
-   and reveals them at reading pace so the lede feels read, not shown. */
+   and reveals them at reading pace so the lede feels read, not shown.
+   small margin-bottom adds breathing between the three clauses. */
 .about-hero__lede .lede-part {
   display: block;
   white-space: nowrap;
+  margin-bottom: 0.45em;
+}
+.about-hero__lede .lede-part:last-child {
+  margin-bottom: 0;
 }
 @media (max-width: 640px) {
   .about-hero__lede .lede-part { white-space: normal; }
