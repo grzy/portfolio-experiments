@@ -137,16 +137,18 @@ iframe[src*="unicornstudio"] {
 @media (prefers-reduced-motion: reduce) {
   .lede-word { opacity: 1; transform: none; transition: none; }
 }
-/* Subtle underline-sweep highlight on a lede phrase.
-   Uses background-image + background-size so it wraps gracefully across lines
-   and the lede can stay at pointer-events: none (WebGL flashlight underneath). */
-.lede-highlight {
-  background-image: linear-gradient(90deg, #c8a2ff 0%, #dca0d8 100%);
-  background-size: 0% 1.5px;
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  padding-bottom: 3px;
-  transition: background-size 0.7s cubic-bezier(.2,.8,.2,1);
+/* Lava-red -> hot-pink accent on key phrases in the lede.
+   Matches the warm palette of the cloud WebGL backdrop so the accent
+   reads like the sky bleeding into the words. */
+.lede-accent {
+  background: linear-gradient(92deg, #FF2020 0%, #FF4F93 55%, #FF1493 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: 600;
+  filter: drop-shadow(0 0 14px rgba(255, 32, 32, 0.35))
+          drop-shadow(0 0 28px rgba(255, 20, 147, 0.22));
 }
 .lede-highlight.is-active {
   background-size: 100% 1.5px;
