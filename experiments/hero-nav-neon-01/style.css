@@ -803,8 +803,7 @@ img { display: block; max-width: 100%; }
   display: inline-block;
   font-family: var(--f-mono);
   font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   color: var(--bio-hex);
   margin-bottom: 10px;
 }
@@ -819,7 +818,6 @@ img { display: block; max-width: 100%; }
   font-size: clamp(20px, 2vw, 32px);
   line-height: 0.98;
   letter-spacing: -0.02em;
-  text-transform: lowercase;
   text-shadow: 0 0 20px oklch(0.62 0.24 264 / 0.25);
   text-wrap: balance;
   overflow-wrap: break-word;
@@ -838,8 +836,7 @@ img { display: block; max-width: 100%; }
   margin-top: 16px;
   font-family: var(--f-mono);
   font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   color: var(--text-mute);
   border-top: 1px solid var(--rule);
   padding-top: 12px;
