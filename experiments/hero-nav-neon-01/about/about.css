@@ -98,22 +98,28 @@ iframe[src*="unicornstudio"] {
 
 .about-hero__lede {
   margin: clamp(18px, 2.4vh, 28px) 0 0;
-  max-width: 50ch;
+  max-width: none;
   color: var(--text);
   font-family: var(--f-body);
   font-weight: 400;
   font-size: clamp(15px, 1.2vw, 19px);
   line-height: 1.55;
   letter-spacing: -0.01em;
-  text-wrap: pretty;
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
-/* 2nd-4th beats: each clause on its own line, dropping in sequence */
+/* 2nd-4th beats: each clause on its own line, dropping in sequence.
+   white-space: nowrap so each line stays one line on desktop;
+   on narrow mobile we let them wrap (there's not enough room to hold
+   the longest clause -- "Creative Technologist building in the terminal +"). */
 .about-hero__lede .lede-part {
   display: block;
+  white-space: nowrap;
   opacity: 0;
   transform: translateY(16px);
   animation: aboutLedeRise 0.95s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@media (max-width: 640px) {
+  .about-hero__lede .lede-part { white-space: normal; }
 }
 .about-hero__lede .lede-part:nth-child(1) { animation-delay: 0.6s; }
 .about-hero__lede .lede-part:nth-child(2) { animation-delay: 1.0s; }
@@ -806,7 +812,7 @@ iframe[src*="unicornstudio"] {
   }
   .about-hero__lede {
     font-size: clamp(13px, 1vw, 16px);
-    max-width: 44ch;
+    max-width: none;
     margin-top: clamp(12px, 1.8vh, 20px);
   }
   .section-title--sm {
