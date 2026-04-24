@@ -188,9 +188,9 @@ function decodeWord(el, { stagger = 45, cycles = 8, cycleMs = 38 } = {}) {
   }
 }
 
-/* summary labels — decode each on hover */
+/* hero meta labels — decode each on hover (scope glitches Role/Tools/Scope) */
 {
-  document.querySelectorAll('.lost-summary__row').forEach(row => {
+  document.querySelectorAll('.lost-meta > div').forEach(row => {
     const label = row.querySelector('.lost-decode');
     if (!label) return;
     row.addEventListener('pointerenter', () => decodeWord(label, { stagger: 30, cycles: 6, cycleMs: 34 }));

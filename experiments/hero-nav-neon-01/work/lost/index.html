@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Dela+Gothic+One&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=18" />
-<link rel="stylesheet" href="lost.css?v=35" />
+<link rel="stylesheet" href="lost.css?v=36" />
 </head>
 <body class="lost-body">
 
@@ -72,18 +72,32 @@
 <!-- ── 2 · THE TRAILER ────────────────────────────────────── -->
 <section class="lost-trailer" id="trailer">
   <div class="lost-trailer__inner">
-    <span class="lost-eyebrow">❋ all species, all time</span>
+    <div class="lost-trailer__text">
+      <span class="lost-eyebrow">❋ all species, all time</span>
 
-    <p class="lost-trailer__stat">
-      <span class="lost-trailer__num" aria-label="99.9 percent">99<em class="lost-trailer__dec">.</em>9<em class="lost-trailer__pct">%</em></span>&nbsp;
-      <span class="lost-trailer__unit">of all species that have ever lived are <em>extinct</em>.</span>
-    </p>
+      <p class="lost-trailer__stat">
+        <span class="lost-trailer__num" aria-label="99.9 percent">99<em class="lost-trailer__dec">.</em>9<em class="lost-trailer__pct">%</em></span>&nbsp;
+        <span class="lost-trailer__unit">of all species that have ever lived are <em>extinct</em>.</span>
+      </p>
 
-    <p class="lost-trailer__kicker">
-      <span>Lost &amp; Endangered</span>
-      <span>doesn&rsquo;t ask you to grieve.</span>
-      <span class="lost-trailer__listen">It asks you to <em>listen.</em></span>
-    </p>
+      <p class="lost-trailer__kicker">
+        <span>Lost &amp; Endangered</span>
+        <span>doesn&rsquo;t ask you to grieve.</span>
+        <span class="lost-trailer__listen">It asks you to <em>listen.</em></span>
+      </p>
+    </div>
+
+    <!-- PLACEHOLDER: drop an image or video here -- a walkthrough of one of the
+         main L&E flows (archive -> species profile -> listening room?) would tie
+         perfectly to the "doesn't ask you to grieve, asks you to listen" beat.
+         Swap the figure content with: <video src="..." autoplay muted loop playsinline>
+         or <img src="..." alt="..."> and it'll snap into the slot. -->
+    <figure class="lost-trailer__media" aria-hidden="true">
+      <div class="lost-trailer__placeholder">
+        <span>▲ placeholder</span>
+        <span>drop in a walkthrough video<br />or flow image here</span>
+      </div>
+    </figure>
   </div>
 </section>
 
@@ -109,9 +123,9 @@
     <div class="lost-problem__text">
       <span class="lost-eyebrow">◆ the problem</span>
       <h2 class="lost-h2">No listening room exists.</h2>
-      <p>Audience testing confirmed it: lead with tragedy and people disengage before they connect.</p>
-      <p>Museums store the bodies; taxidermy behind glass, specimens in drawers. No publicly accessible archive exists for the voices. No way to hear what was lost.</p>
-      <p><em>A voice going silent.</em></p>
+      <p>Audience testing confirmed it: lead with tragedy, people disengage.</p>
+      <p>Museums store the bodies. No publicly accessible archive exists for the voices.</p>
+      <p class="lost-problem__kicker"><em>No way to hear what was lost.</em></p>
     </div>
   </div>
 </section>
@@ -122,10 +136,10 @@
     <path id="insightWavePath" d="M0 40 L 420 40 L 440 10 L 460 68 L 480 22 L 500 54 L 520 36 L 540 44 L 560 40 L 1200 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
   <h2 class="lost-insight__title">
-    <span>Not tragedy.</span>
-    <em>A voice gone quiet.</em>
+    <span>If extinction is silence,</span>
+    <em>build the listening room.</em>
   </h2>
-  <p class="lost-insight__sub">If extinction is silence,<br />remembering becomes listening.</p>
+  <p class="lost-insight__sub">Since no one else had.</p>
 </section>
 
 <!-- ── 5 · WHAT WAS BUILT ─────────────────────────────────── -->
@@ -140,7 +154,7 @@
       <div class="lost-built__num">01</div>
       <div class="lost-built__body">
         <h3>The archive directory</h3>
-        <p>The main screen opens into four entry points: lost birds, endangered birds, featured ecosystems, and bioacoustics &amp; conservation impact. Each one opens its own scrolling archive.</p>
+        <p>Four entry points: <u class="lost-mark">lost birds</u>, <u class="lost-mark">endangered birds</u>, featured ecosystems, bioacoustics &amp; conservation. Each opens its own scroll.</p>
       </div>
       <figure class="lost-built__media">
         <img src="../../images/lost/lost-birds.jpg" alt="Lost Birds directory screen from the Lost &amp; Endangered prototype" loading="lazy" />
@@ -151,7 +165,7 @@
       <div class="lost-built__num">02</div>
       <div class="lost-built__body">
         <h3>Bird profiles with a bioacoustic archive</h3>
-        <p>Every species gets a profile. AI cleans up the recordings that survived&nbsp;&nbsp;+&nbsp;&nbsp;silence honors the ones that didn&rsquo;t. Flora AI carries the imagery either way.</p>
+        <p>A profile per species. <u class="lost-mark">AI cleans up</u> what survived on tape. <u class="lost-mark">Silence</u> honors what didn&rsquo;t. Flora AI carries the imagery.</p>
       </div>
       <figure class="lost-built__media">
         <img src="../../images/lost/kauai-oo.jpg" alt="Kaua'i 'ō'ō species profile screen" loading="lazy" />
@@ -162,7 +176,7 @@
       <div class="lost-built__num">03</div>
       <div class="lost-built__body">
         <h3>Immersive ecosystems</h3>
-        <p>Choose a habitat. The UI dissolves. You sit inside the sound. Fiordland rain, rainforest canopy, the northwest coast at dusk. <em>A place, not a page.</em></p>
+        <p>Choose a habitat. <u class="lost-mark">The UI dissolves.</u> Fiordland rain, rainforest canopy, northwest coast at dusk. <em>A place, not a page.</em></p>
       </div>
       <figure class="lost-built__media">
         <img src="../../images/lost/immersive-ux.jpg" alt="Immersive ecosystem screen dissolving the UI into a soundscape" loading="lazy" />
@@ -173,7 +187,7 @@
       <div class="lost-built__num">04</div>
       <div class="lost-built__body">
         <h3>Soundscape composer</h3>
-        <p>Drag and drop. Layer bird calls with weather, dawn and dusk ambience, and the silence between. Save your composition as a conservation stamp.</p>
+        <p>Drag and drop. <u class="lost-mark">Layer calls, weather, ambience, silence.</u> Save it as a conservation stamp.</p>
 
         <button class="lost-play lost-play--inline" id="composerPlay" aria-label="Preview the Kaua'i 'ō'ō + rainforest hum mix">
           <span class="lost-play__ring" aria-hidden="true"></span>
@@ -206,8 +220,8 @@
       </figure>
 
       <div class="lost-kauai__story">
-        <p>A Wednesday morning, May 1971. Field biologist <u class="lost-mark">John Sincock heard a call</u> he&rsquo;d only ever read about. Within fifteen feet of him, a pair of &lsquo;ō&rsquo;ō <u class="lost-mark">thought extinct for years</u>.</p>
-        <p>He returned with his wife Renate and a heavier kit. She took the first photos of the species ever captured. Through the summers that followed, Sincock&rsquo;s team made extensive recordings&nbsp;&nbsp;+&nbsp;&nbsp;hoped.</p>
+        <p>A Wednesday morning, May 1971. <u class="lost-mark">Sincock heard a call</u> he&rsquo;d only read about. Fifteen feet away: a pair of &lsquo;ō&rsquo;ō, <u class="lost-mark">thought extinct for years</u>.</p>
+        <p>He came back with his wife Renate and a heavier kit. She took the first photos. Through the summers that followed, Sincock&rsquo;s team recorded&nbsp;+&nbsp;hoped.</p>
       </div>
     </div>
 
@@ -252,9 +266,9 @@
     <div class="lost-owl__text">
       <span class="lost-eyebrow">❋ pivot · spotted owl</span>
       <h2 class="lost-h2 lost-owl__h2">When the recording<br />puts a bird<br />at risk.</h2>
-      <p>The Spotted Owl was supposed to anchor the endangered species side of the archive. Finding usable audio took much longer than it did for the Kaua&rsquo;i &rsquo;ō&rsquo;ō.</p>
-      <p>What I found was hard to hold. Poachers use the owl&rsquo;s call to locate the remaining birds. A clean recording becomes a way to find them.</p>
-      <p>The page stayed in the prototype. The audio stayed out.</p>
+      <p>Anchor for the endangered side of the archive. Usable audio was <u class="lost-mark">hard to source</u>.</p>
+      <p>Poachers use the owl&rsquo;s call to <u class="lost-mark">locate the birds</u>. A clean recording becomes a trail.</p>
+      <p>The page stayed in the prototype. The audio didn&rsquo;t.</p>
       <p class="lost-owl__kicker"><em>Some recordings shouldn&rsquo;t be in a soundscape.</em></p>
     </div>
     <figure class="lost-owl__media">
@@ -269,19 +283,18 @@
     <span class="lost-eyebrow">✢ reflection</span>
     <h2 class="lost-h2">A project that almost went <u class="lost-mark">extinct</u>.</h2>
 
-    <p>Lost &amp; Endangered finished in Figma. One week later, Figma Make was announced, and vibe coding went baseline. Static prototypes became a kind of <u class="lost-mark">taxidermy</u> overnight.</p>
+    <p>Lost &amp; Endangered finished in Figma. Weeks later, Figma Make shipped + vibe coding went baseline. Static prototypes became <u class="lost-mark">taxidermy</u> overnight.</p>
 
     <p>This case story is what happens when I refuse to let a project <u class="lost-mark">go quiet</u>.</p>
 
-    <p>The research held. The thesis held. Nothing else online pulls these four capabilities together in one public archive: directory, listening, ecosystems, composer. The Kaua&rsquo;i &rsquo;ō&rsquo;ō is still worth listening to. What changed was the medium.</p>
+    <p>No other archive pulls these four capabilities&nbsp;&mdash; directory, listening, ecosystems, composer&nbsp;&mdash; into one public place.</p>
 
     <h3 class="lost-reflect__next">What I&rsquo;d build next</h3>
     <ul class="lost-reflect__list">
-      <li>Rive for the ecosystem dissolves&nbsp;&nbsp;+&nbsp;&nbsp;real fades, not state-swaps.</li>
-      <li>A coded listening room for the soundscapes to come alive.</li>
-      <li>Conservation stamps that mint as shareable SVGs.</li>
-      <li>Mobile companion for field listening&nbsp;&nbsp;+&nbsp;&nbsp;record, identify, layer.</li>
-      <li>An AR/VR cut&nbsp;&nbsp;+&nbsp;&nbsp;frosted-glass UI in your own living room, or full immersion inside each ecosystem.</li>
+      <li>A coded listening room with <u class="lost-mark">Rive</u> for the UI dissolves.</li>
+      <li>Conservation stamps that mint as shareable <u class="lost-mark">SVGs</u>.</li>
+      <li>Mobile companion&nbsp;&mdash; record a sound, identify the bird, layer it.</li>
+      <li><u class="lost-mark">AR/VR</u>&nbsp;&mdash; frosted UI in your living room, or full ecosystem immersion.</li>
     </ul>
 
     <p class="lost-reflect__close">
@@ -290,32 +303,15 @@
     </p>
 
     <figure class="lost-reflect__fig">
-      <video src="../../images/lost/train-laptop.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Someone opening a laptop on a train to the Lost &amp; Endangered home screen"></video>
-      <figcaption>The L&amp;E archive.</figcaption>
+      <video src="../../images/lost/train-laptop.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Someone opening a laptop to the Lost &amp; Endangered home screen"></video>
+      <figcaption>Still breathing.</figcaption>
     </figure>
   </div>
 </section>
 
-<!-- ── 9 · SUMMARY (minimal, hover-glitch on each label) ──── -->
-<aside class="lost-summary" aria-label="Project summary">
-  <dl class="lost-summary__dl">
-    <div class="lost-summary__row">
-      <dt class="lost-decode" data-text="Role">Role</dt>
-      <dd>Product + narrative + UI + imagery</dd>
-    </div>
-    <div class="lost-summary__row">
-      <dt class="lost-decode" data-text="Tools">Tools</dt>
-      <dd>Figma + Flora AI + bioacoustic libraries</dd>
-    </div>
-    <div class="lost-summary__row">
-      <dt class="lost-decode" data-text="Thesis">Thesis</dt>
-      <dd>A voice going quiet, not a tragedy</dd>
-    </div>
-    <div class="lost-summary__row">
-      <dt class="lost-decode" data-text="Next">Next</dt>
-      <dd>Build it in code from day one</dd>
-    </div>
-  </dl>
+<!-- ── closing signature ────────────────────────────────── -->
+<aside class="lost-signoff" aria-label="Closing signature">
+  <p>Build it in code from day one.</p>
 </aside>
 
 <!-- ── FOOTER (lost variant — bird card centered behind text) ── -->
