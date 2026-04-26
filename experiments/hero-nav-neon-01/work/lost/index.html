@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Dela+Gothic+One&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=18" />
-<link rel="stylesheet" href="lost.css?v=38" />
+<link rel="stylesheet" href="lost.css?v=40" />
 </head>
 <body class="lost-body">
 
@@ -73,7 +73,7 @@
 <section class="lost-trailer" id="trailer">
   <div class="lost-trailer__inner">
     <div class="lost-trailer__text">
-      <span class="lost-eyebrow">❋ all species, all time</span>
+      <span class="lost-eyebrow">❋ extinction · by the numbers</span>
 
       <p class="lost-trailer__stat">
         <span class="lost-trailer__num" aria-label="99.9 percent">99<em class="lost-trailer__dec">.</em>9<em class="lost-trailer__pct">%</em></span>&nbsp;
@@ -128,8 +128,8 @@
     <path id="insightWavePath" d="M0 40 L 420 40 L 440 10 L 460 68 L 480 22 L 500 54 L 520 36 L 540 44 L 560 40 L 1200 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
   <h2 class="lost-insight__title">
-    <span>Bodies preserved,</span>
-    <em>voices forgotten</em>
+    <span>Preserved,</span>
+    <em>but unheard</em>
   </h2>
   <p class="lost-insight__sub">So I built a place to listen.</p>
 </section>
@@ -179,7 +179,7 @@
       <div class="lost-built__num">04</div>
       <div class="lost-built__body">
         <h3>Soundscape composer</h3>
-        <p>Drag and drop. Layer <u class="lost-mark">bird calls</u>, <u class="lost-mark">weather</u>, <u class="lost-mark">ambience</u>, <u class="lost-mark">silence</u>. Save it as a conservation stamp.</p>
+        <p>Drag and drop. Layer <u class="lost-mark">bird calls</u>, <u class="lost-mark">weather</u>, <u class="lost-mark">ambience</u>, <u class="lost-mark">silence</u>. Mix one or share it to earn a <u class="lost-mark">conservation stamp</u>.</p>
 
         <button class="lost-play lost-play--inline" id="composerPlay" aria-label="Preview the Kaua'i 'ō'ō + rainforest hum mix">
           <span class="lost-play__ring" aria-hidden="true"></span>
@@ -212,7 +212,7 @@
       </figure>
 
       <div class="lost-kauai__story">
-        <p>A Wednesday morning, May 1971. The team <u class="lost-mark">heard a call</u> they&rsquo;d only read about. Fifteen feet away: a pair of &lsquo;ō&rsquo;ō, <u class="lost-mark">thought extinct for years</u>.</p>
+        <p>A Wednesday morning, May 1971. The team <u class="lost-mark">heard a call</u> they&rsquo;d only read about. Fifteen feet away: a pair of Kaua&rsquo;i &lsquo;ō&rsquo;ō, <u class="lost-mark">thought extinct for years</u>.</p>
         <p>They returned with a full camera kit. The first photos of the species were captured that summer. Through the seasons that followed, the team kept recording, hoping the pair might survive.</p>
       </div>
     </div>
@@ -254,7 +254,11 @@
       </figure>
     </div>
 
-    <p class="lost-kauai__outro">Last seen 1985. Last heard 1987. After thousands of years, the Kaua&rsquo;i &rsquo;ō&rsquo;ō was gone. Its entire family line ended with it.</p>
+    <p class="lost-kauai__outro lost-glitch" data-text="Last seen 1985. Last heard 1987.">
+      <span class="lost-outro__line">Last seen 1985. Last heard 1987.</span>
+      <span class="lost-outro__line">After thousands of years, the Kaua&rsquo;i &rsquo;ō&rsquo;ō was gone.</span>
+      <span class="lost-outro__line">Its entire family line ended with it.</span>
+    </p>
   </div>
 </section>
 
@@ -287,13 +291,13 @@
 
     <p>My static prototypes weren&rsquo;t actually static. I linked every screen, animated every transition. But none of that translates to code. The handoff was dead.</p>
 
-    <p>That gap between design and code is starting to close. When the web started, designers did both. Then everything split into roles. Now it&rsquo;s converging again&nbsp;&mdash;&nbsp;and prototypes don&rsquo;t have to die in Figma. <u class="lost-mark">In code, they&rsquo;re alive.</u></p>
+    <p>That gap between design + code is starting to close. When the web started, designers did both. Then everything split into roles. Now they&rsquo;re meeting back up. Prototypes don&rsquo;t have to die in Figma. <u class="lost-mark">In code, they&rsquo;re alive.</u></p>
 
-    <p>No other archive pulls these four capabilities into one public place: directory, listening, ecosystems, composer. The listening room that didn&rsquo;t exist exists now.</p>
+    <p>No other archive pulls these four capabilities into one public place: directory, listening, ecosystems, composer. What I&rsquo;m building next: <u class="lost-mark">a coded listening room with Rive</u> for the interactive UI.</p>
 
     <h3 class="lost-reflect__next">What I&rsquo;d build next</h3>
     <ul class="lost-reflect__list">
-      <li>A coded listening room with <u class="lost-mark">Rive</u> for the interactive UI.</li>
+      <li>Habitat dissolves + call playback animated in <u class="lost-mark">Rive</u>.</li>
       <li>Conservation stamps that mint as shareable <u class="lost-mark">SVGs</u>.</li>
       <li>Mobile companion: record a sound, identify the bird, layer it in.</li>
       <li><u class="lost-mark">AR/VR</u>: frosted UI in your living room, or full ecosystem immersion.</li>
@@ -307,9 +311,9 @@
     <figure class="lost-reflect__fig">
       <div class="lost-reflect__compose">
         <img class="lost-reflect__bg" src="../../images/lost/mossy-waterfall.jpg" alt="" loading="lazy" />
-        <img class="lost-reflect__overlay" src="../../images/lost/lost-stamps-screen.jpg" alt="Conservation impact stamps screen from the Lost &amp; Endangered prototype" loading="lazy" />
+        <img class="lost-reflect__overlay lost-reflect__overlay--clean" src="../../images/lost/endangered-screen.png" alt="Endangered birds screen from the Lost &amp; Endangered prototype" loading="lazy" />
       </div>
-      <figcaption>Listening leaves a trace.</figcaption>
+      <figcaption>Still breathing.</figcaption>
     </figure>
   </div>
 </section>
@@ -354,6 +358,6 @@
 </button>
 
 <script type="module" src="../../script.js?v=38"></script>
-<script type="module" src="lost.js?v=12"></script>
+<script type="module" src="lost.js?v=13"></script>
 </body>
 </html>

@@ -342,10 +342,11 @@
 }
 .lost-trailer__media {
   margin: 0;
-  aspect-ratio: 3 / 4;
-  max-width: 380px;
-  margin-left: auto;
-  border-radius: 18px;
+  aspect-ratio: 4 / 5;
+  max-width: 360px;
+  margin-left: 0;
+  margin-right: auto;
+  border-radius: 28px;
   overflow: hidden;
   background: var(--void-2);
   filter: drop-shadow(0 30px 70px oklch(0 0 0 / 0.55));
@@ -355,7 +356,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 18px;
+  /* clip the white edge lines from the Figma export by zooming in
+     just enough to push the bleed past the rounded mask */
+  object-position: center 50%;
+  transform: scale(1.18);
+  transform-origin: center;
+  border-radius: 28px;
 }
 
 /* massive stat — 99.9% is the hook */
@@ -445,7 +451,7 @@
 /* ── 3 · THE PROBLEM ──────────────────────────────────────── */
 
 .lost-problem {
-  padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 72px);
+  padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 72px) clamp(160px, 22vh, 260px);
 }
 .lost-problem__inner {
   max-width: 1400px;
@@ -492,9 +498,9 @@
   filter: saturate(0.9) contrast(1.05);
 }
 /* Kaua'i AI-enhanced reconstruction is tighter in its original frame --
-   shrink it slightly + nudge up a few pixels so beaks roughly align. */
+   shrink + drop lower so it doesn't dwarf the taxidermy mount */
 .lost-specimen:last-child img {
-  transform: scale(0.85) translateY(-2%);
+  transform: scale(0.72) translateY(10%);
   transform-origin: center top;
 }
 .lost-specimen figcaption {
@@ -534,7 +540,7 @@
 /* ── 4 · THE INSIGHT ──────────────────────────────────────── */
 
 .lost-insight {
-  padding: clamp(160px, 22vh, 280px) clamp(24px, 5vw, 72px);
+  padding: clamp(220px, 28vh, 360px) clamp(24px, 5vw, 72px) clamp(160px, 20vh, 260px);
   text-align: center;
   position: relative;
   isolation: isolate;
@@ -561,9 +567,6 @@
   pointer-events: none;
   z-index: 0;
   filter: drop-shadow(0 0 10px rgb(184 235 96 / 0.35));
-}
-.lost-insight {
-  padding-top: clamp(160px, 22vh, 280px);
 }
 .lost-insight__wave path { transition: d 0.18s linear; }
 @media (prefers-reduced-motion: reduce) {
@@ -603,7 +606,7 @@
 /* ── 5 · WHAT WAS BUILT ───────────────────────────────────── */
 
 .lost-built {
-  padding: clamp(140px, 18vh, 220px) clamp(24px, 5vw, 72px);
+  padding: clamp(110px, 14vh, 180px) clamp(24px, 5vw, 72px) clamp(140px, 18vh, 220px);
 }
 .lost-built__head {
   max-width: 62ch;
@@ -615,7 +618,7 @@
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  gap: clamp(96px, 12vh, 144px);
+  gap: clamp(128px, 16vh, 200px);
   list-style: none;
   padding: 0;
 }
@@ -783,15 +786,84 @@
 .lost-kauai__story p { margin: 0; }
 
 .lost-kauai__outro {
-  max-width: 56ch;
-  margin: clamp(40px, 6vh, 72px) auto 0;
+  max-width: 64ch;
+  margin: clamp(56px, 8vh, 96px) auto 0;
   text-align: center;
   font-family: var(--f-display);
   font-weight: 400;
   font-size: clamp(20px, 2vw, 30px);
-  line-height: 1.4;
+  line-height: 1.45;
   color: var(--text);
   letter-spacing: -0.01em;
+  display: grid;
+  gap: 0.4em;
+}
+.lost-outro__line {
+  display: block;
+}
+.lost-outro__line:first-child {
+  /* the dates line carries the glitch -- crisp + memorable */
+  font-weight: 700;
+  font-style: italic;
+  background: linear-gradient(92deg, var(--neon), var(--mint));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 18px rgb(184 235 96 / 0.25));
+}
+.lost-outro__line:last-child {
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.92em;
+}
+
+/* glitch chromatic ghost for the dates line (CSS pseudo-element copies)
+   sits on .lost-glitch parent which has data-text from HTML */
+.lost-glitch {
+  position: relative;
+}
+.lost-glitch::before,
+.lost-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: max-content;
+  pointer-events: none;
+  font-weight: 700;
+  font-style: italic;
+  font-family: var(--f-display);
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  mix-blend-mode: screen;
+  opacity: 0;
+  -webkit-text-fill-color: currentColor;
+}
+.lost-glitch::before {
+  color: rgb(184 235 96 / 0.85);
+  animation: lost-outro-glitch-a 4.6s steps(7, end) infinite;
+}
+.lost-glitch::after {
+  color: rgb(124 193 172 / 0.85);
+  animation: lost-outro-glitch-b 5.2s steps(7, end) infinite;
+}
+@keyframes lost-outro-glitch-a {
+  0%, 88%, 100% { opacity: 0; transform: translate(-50%, 0); clip-path: inset(0 0 0 0); }
+  90%           { opacity: 0.7; transform: translate(calc(-50% - 3px), -1px); clip-path: inset(0 0 60% 0); }
+  94%           { opacity: 0.6; transform: translate(calc(-50% - 5px), 1px); clip-path: inset(45% 0 25% 0); }
+  98%           { opacity: 0; transform: translate(-50%, 0); }
+}
+@keyframes lost-outro-glitch-b {
+  0%, 84%, 100% { opacity: 0; transform: translate(-50%, 0); clip-path: inset(0 0 0 0); }
+  86%           { opacity: 0.7; transform: translate(calc(-50% + 3px), 1px); clip-path: inset(55% 0 10% 0); }
+  92%           { opacity: 0.6; transform: translate(calc(-50% + 5px), -1px); clip-path: inset(15% 0 50% 0); }
+  96%           { opacity: 0; transform: translate(-50%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lost-glitch::before,
+  .lost-glitch::after { animation: none; opacity: 0; }
 }
 
 /* quote row: quote text on the left, Sincock's 1971 memo on the right.
@@ -799,7 +871,9 @@
    archival source material. */
 .lost-kauai__quote-row {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  /* mirror the .lost-kauai__pair grid so the quote column lands directly
+     under the truck photo above (same left edge + same right edge) */
+  grid-template-columns: 0.9fr 1.1fr;
   gap: clamp(32px, 5vw, 72px);
   align-items: center;
   margin: clamp(48px, 7vh, 88px) 0;
@@ -810,7 +884,8 @@
 .lost-kauai__quote {
   position: relative;
   margin: 0;
-  padding: clamp(20px, 3vh, 32px) 0 0 clamp(36px, 4.5vw, 72px);
+  /* lighter left padding so the quote sits under the truck photo's left edge */
+  padding: clamp(20px, 3vh, 32px) 0 0 clamp(20px, 2.5vw, 40px);
   background: none;
   backdrop-filter: none;
   border: none;
@@ -855,6 +930,10 @@
   margin: 0 0 18px;
   font-style: italic;
   letter-spacing: -0.005em;
+  /* width chosen so "Knowing they might be" sits as line 1 + the rest
+     wraps cleanly without leaving "call." as a widow */
+  max-width: 21ch;
+  text-wrap: balance;
 }
 .lost-kauai__quote cite {
   font-family: var(--f-mono);
@@ -1133,12 +1212,20 @@
   gap: 12px;
   text-align: left;
 }
+/* sketch sits in a left-aligned wrapper so its real visual width matches
+   the caption width; field-footage cell stays full-bleed for contrast */
+.lost-kauai__cell:first-child {
+  align-items: start;
+  justify-items: start;
+}
 .lost-kauai__sketch {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 4 / 3;
+  width: auto;
+  height: auto;
+  max-width: 80%;
+  max-height: 320px;
+  aspect-ratio: auto;
+  display: block;
   object-fit: contain;
-  object-position: left center;
   /* chalk-on-void: invert so the sketch becomes light lines */
   filter: invert(1) contrast(0.82) hue-rotate(180deg);
   mix-blend-mode: screen;
@@ -1146,9 +1233,8 @@
   opacity: 0.82;
 }
 .lost-kauai__cell:first-child figcaption {
-  /* nudge caption right to align with the sketch's actual visual edge
-     since object-position: left + contain leaves whitespace on the right */
-  padding-left: clamp(20px, 3vw, 44px);
+  padding-left: 0;
+  max-width: 80%;
 }
 .lost-kauai__field {
   width: 100%;
@@ -1388,6 +1474,14 @@
   filter: drop-shadow(0 30px 60px oklch(0 0 0 / 0.6))
           drop-shadow(0 0 40px rgb(184 235 96 / 0.15));
 }
+/* the endangered screen PNG has a real transparent bg -- no blend hack needed */
+.lost-reflect__overlay--clean {
+  mix-blend-mode: normal;
+  width: 70% !important;
+  border-radius: 14px !important;
+  filter: drop-shadow(0 30px 60px oklch(0 0 0 / 0.6))
+          drop-shadow(0 0 40px rgb(184 235 96 / 0.18));
+}
 .lost-reflect__fig figcaption {
   font-family: var(--f-mono);
   font-size: clamp(10px, 0.88vw, 12px);
@@ -1512,10 +1606,7 @@
   margin: 0;
 }
 
-/* ── footer spacing override so the section above breathes ── */
-.lost-body .foot {
-  border-top: 1px solid var(--lost-rule);
-}
+/* footer breathes naturally now -- no top rule splitting it from the page */
 
 /* ── bird-card footer: centered, big, behind text ─────────
    the text "let's build something / with soul" sits ON TOP of
