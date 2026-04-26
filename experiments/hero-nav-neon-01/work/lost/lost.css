@@ -185,7 +185,20 @@
   max-height: 68vh;
   object-fit: contain;
   filter: saturate(1) brightness(1) contrast(1.02);
-  border-radius: 4px;
+  border-radius: 18px;
+  /* the source video has a pure-black bg that doesn't match the page void,
+     so the top edge reads as a hard rectangle. fade the top + corner zones
+     into transparent so the seam dissolves into the page. */
+  -webkit-mask-image:
+    radial-gradient(ellipse 35% 24% at top left, transparent 0%, black 70%),
+    radial-gradient(ellipse 35% 24% at top right, transparent 0%, black 70%),
+    linear-gradient(180deg, transparent 0%, black 5%, black 100%);
+  mask-image:
+    radial-gradient(ellipse 35% 24% at top left, transparent 0%, black 70%),
+    radial-gradient(ellipse 35% 24% at top right, transparent 0%, black 70%),
+    linear-gradient(180deg, transparent 0%, black 5%, black 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 /* on wide viewports the grid stays at 1400px total but we let the video
    column breathe a little more -- on 27" it reads as the primary visual. */
@@ -345,7 +358,7 @@
   aspect-ratio: 4 / 5;
   max-width: 360px;
   /* sit close to the left so it lines up with the column gutter */
-  margin-left: clamp(8px, 3vw, 56px);
+  margin-left: clamp(12px, 3.4vw, 64px);
   margin-right: auto;
   border-radius: 28px;
   overflow: hidden;
@@ -501,7 +514,7 @@
 /* Kaua'i AI-enhanced reconstruction is tighter in its original frame --
    shrink + drop low so it sits beneath the taxidermy peg, not floating up */
 .lost-specimen:last-child img {
-  transform: scale(0.72) translateY(22%);
+  transform: scale(0.72) translateY(24%);
   transform-origin: center top;
 }
 .lost-specimen figcaption {
@@ -681,6 +694,21 @@
   height: auto;
   display: block;
 }
+/* the soundscape video has a hardcoded black bg that doesn't match the
+   void; soften corners + top edge so it dissolves into the page */
+.lost-built__media video {
+  border-radius: 14px;
+  -webkit-mask-image:
+    radial-gradient(ellipse 30% 22% at top left, transparent 0%, black 70%),
+    radial-gradient(ellipse 30% 22% at top right, transparent 0%, black 70%),
+    linear-gradient(180deg, transparent 0%, black 4%, black 100%);
+  mask-image:
+    radial-gradient(ellipse 30% 22% at top left, transparent 0%, black 70%),
+    radial-gradient(ellipse 30% 22% at top right, transparent 0%, black 70%),
+    linear-gradient(180deg, transparent 0%, black 4%, black 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
 
 /* ── 6 · DEEP DIVE: KAUA'I 'Ō'Ō ───────────────────────────── */
 
@@ -695,14 +723,15 @@
   background: oklch(0.04 0.01 270);
 }
 /* lost-kauai__bg video removed -- dark page, no background distraction */
+/* veil is now identity-only: no tint, just sits ready in case is-listening
+   flips it. fixes the visible seam between built (pure void) and kauai */
 .lost-kauai__veil {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(60% 50% at 50% 30%, transparent 0%, oklch(0.07 0.02 270 / 0.7) 60%, var(--void) 100%),
-    linear-gradient(180deg, oklch(0.07 0.02 270 / 0.4), oklch(0.07 0.02 270 / 0.9));
+  background: var(--void);
   transition: opacity 1.6s var(--ease);
+  opacity: 0;
 }
 .lost-kauai.is-listening .lost-kauai__veil { opacity: 0.6; }
 
@@ -1213,20 +1242,20 @@
   gap: 12px;
   text-align: left;
 }
-/* sketch sits in a left-aligned wrapper so its real visual width matches
-   the caption width; field-footage cell stays full-bleed for contrast */
+/* sketch + field footage cells share the same height so captions land
+   on the same baseline. sketch is contained (no crop) inside a 4/3 box,
+   field footage covers the box (object-fit: cover) */
 .lost-kauai__cell:first-child {
   align-items: start;
   justify-items: start;
 }
 .lost-kauai__sketch {
-  width: auto;
+  width: 100%;
   height: auto;
-  max-width: 80%;
-  max-height: 320px;
-  aspect-ratio: auto;
+  aspect-ratio: 4 / 3;
   display: block;
   object-fit: contain;
+  object-position: left center;
   /* chalk-on-void: invert so the sketch becomes light lines */
   filter: invert(1) contrast(0.82) hue-rotate(180deg);
   mix-blend-mode: screen;
@@ -1235,7 +1264,6 @@
 }
 .lost-kauai__cell:first-child figcaption {
   padding-left: 0;
-  max-width: 80%;
 }
 .lost-kauai__field {
   width: 100%;
@@ -1453,6 +1481,14 @@
    set as overlay text so the image reads as a self-contained closer. */
 .lost-reflect__fig--single {
   margin-top: clamp(56px, 8vh, 96px);
+  display: grid;
+  gap: clamp(20px, 3vh, 32px);
+  justify-items: center;
+}
+.lost-reflect__eyebrow--above {
+  /* this version sits ABOVE the image, not over the fog -- always readable */
+  text-shadow: none;
+  color: var(--text-mute);
 }
 .lost-reflect__frame {
   position: relative;
