@@ -137,18 +137,17 @@ iframe[src*="unicornstudio"] {
 @media (prefers-reduced-motion: reduce) {
   .lede-word { opacity: 1; transform: none; transition: none; }
 }
-/* Lava-red -> hot-pink accent on key phrases in the lede.
-   Matches the warm palette of the cloud WebGL backdrop so the accent
-   reads like the sky bleeding into the words. */
+/* Pink underline accent on key phrases in the lede.
+   Same treatment as the home page hero (hero__lede u) -- nothing fancy,
+   just a clean pink underline. The reading-pace word reveal does the
+   atmospheric work. No glow, no gradient text. */
 .lede-accent {
-  background: linear-gradient(92deg, #FF2020 0%, #FF4F93 55%, #FF1493 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  font-weight: 600;
-  filter: drop-shadow(0 0 14px rgba(255, 32, 32, 0.35))
-          drop-shadow(0 0 28px rgba(255, 20, 147, 0.22));
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--pink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 .lede-highlight.is-active {
   background-size: 100% 1.5px;
@@ -304,7 +303,8 @@ iframe[src*="unicornstudio"] {
 
 .about-events {
   position: relative;
-  padding: clamp(100px, 14vh, 160px) clamp(24px, 5vw, 72px);
+  /* lift the SF eyebrow + section title up a touch (less top padding) */
+  padding: clamp(64px, 10vh, 120px) clamp(24px, 5vw, 72px) clamp(100px, 14vh, 160px);
   z-index: 1;
 }
 .about-events__inner {
@@ -556,7 +556,8 @@ iframe[src*="unicornstudio"] {
 .commits-head {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  /* more breathing room so "april commits" doesn't crowd "@grzy" */
+  gap: clamp(16px, 2vh, 24px);
   margin-bottom: clamp(48px, 7vh, 80px);
 }
 .commits-head__title {
@@ -632,7 +633,9 @@ iframe[src*="unicornstudio"] {
   transition: opacity 0.4s var(--ease), transform 0.5s cubic-bezier(.2,.8,.2,1);
   pointer-events: none;
 }
-.commit-cell:not(.commit-cell--empty):hover::after {
+/* only fire the pink ripple on cells that actually have commits --
+   no-commit days (data-level=0) shouldn't tease a pink dot */
+.commit-cell:not(.commit-cell--empty):not(.commit-cell--future):not([data-level="0"]):hover::after {
   opacity: 1;
   transform: scale(1.4);
 }

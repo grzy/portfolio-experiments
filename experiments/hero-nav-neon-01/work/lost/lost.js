@@ -245,8 +245,7 @@ function teaseAndRestore(el, teaseText, finalText, opts = {}) {
   }, scrambleMs);
 }
 
-/* hero extinction — decode once after preloader settles, then loop a
-   "tease lost" reveal every ~9s (scramble → "lost" → scramble → extinction) */
+/* hero extinction — decode once after preloader settles (~5.5s) and stop */
 {
   const heroDecode = document.querySelector('.lost-hero__title .lost-decode');
   if (heroDecode) {
@@ -260,13 +259,7 @@ function teaseAndRestore(el, teaseText, finalText, opts = {}) {
       s.textContent = ch;
       heroDecode.appendChild(s);
     }
-    setTimeout(() => {
-      decodeWord(heroDecode);
-      // start the tease loop after the initial decode finishes (~1s)
-      setTimeout(() => {
-        setInterval(() => teaseAndRestore(heroDecode, 'lost', final), 9000);
-      }, 1500);
-    }, 5500);
+    setTimeout(() => decodeWord(heroDecode), 5500);
   }
 }
 

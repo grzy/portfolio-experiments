@@ -1540,37 +1540,40 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* tight dark outline + halo stack so each letter pops off the fog,
-     plus the breathing lime/mint glow that animates */
+  /* lime/mint glow only -- no black halos. the soft frosted defocus
+     pseudo behind the text does the readability work */
   filter:
-    drop-shadow(0 0 1.5px oklch(0 0 0 / 1))
-    drop-shadow(0 0 4px oklch(0 0 0 / 0.95))
-    drop-shadow(0 0 10px oklch(0 0 0 / 0.85))
-    drop-shadow(0 4px 18px oklch(0 0 0 / 0.7))
-    drop-shadow(0 0 38px rgb(184 235 96 / 0.55))
-    drop-shadow(0 0 70px rgb(124 193 172 / 0.35));
+    drop-shadow(0 0 24px rgb(184 235 96 / 0.5))
+    drop-shadow(0 0 60px rgb(124 193 172 / 0.35));
   animation: lost-phrase-pulse 4.5s ease-in-out infinite;
 }
-/* a slightly more dramatic breathing pulse for the closing phrase --
-   gives "Still breathing" a heartbeat instead of a flat glow */
+/* frosted defocus zone behind the phrase: blurs the fog underneath so
+   the gradient text reads cleanly without resorting to a stark dark halo */
+.lost-reflect__phrase::before {
+  content: '';
+  position: absolute;
+  inset: -0.2em -0.4em;
+  border-radius: 999px;
+  z-index: -1;
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  backdrop-filter: blur(14px) saturate(1.05);
+  /* very subtle dark wash so the blur reads as a cool zone, not a smudge */
+  background: linear-gradient(180deg, rgb(15 30 36 / 0.18), rgb(15 30 36 / 0.06));
+  pointer-events: none;
+  /* fade the edges so the defocus zone has no hard boundary */
+  -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 85%);
+  mask-image: radial-gradient(ellipse at center, black 35%, transparent 85%);
+}
 @keyframes lost-phrase-pulse {
   0%, 100% {
     filter:
-      drop-shadow(0 0 1.5px oklch(0 0 0 / 1))
-      drop-shadow(0 0 4px oklch(0 0 0 / 0.95))
-      drop-shadow(0 0 10px oklch(0 0 0 / 0.85))
-      drop-shadow(0 4px 18px oklch(0 0 0 / 0.7))
-      drop-shadow(0 0 28px rgb(184 235 96 / 0.45))
-      drop-shadow(0 0 60px rgb(124 193 172 / 0.28));
+      drop-shadow(0 0 18px rgb(184 235 96 / 0.4))
+      drop-shadow(0 0 48px rgb(124 193 172 / 0.28));
   }
   50% {
     filter:
-      drop-shadow(0 0 1.5px oklch(0 0 0 / 1))
-      drop-shadow(0 0 4px oklch(0 0 0 / 0.95))
-      drop-shadow(0 0 12px oklch(0 0 0 / 0.9))
-      drop-shadow(0 4px 22px oklch(0 0 0 / 0.78))
-      drop-shadow(0 0 56px rgb(184 235 96 / 0.7))
-      drop-shadow(0 0 100px rgb(124 193 172 / 0.45));
+      drop-shadow(0 0 32px rgb(184 235 96 / 0.65))
+      drop-shadow(0 0 80px rgb(124 193 172 / 0.42));
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1715,6 +1718,10 @@
 .lost-body .foot__content {
   position: relative;
   z-index: 3;
+}
+/* lift just the "✢ inbox open" eyebrow upward; middle + bottom stay put */
+.lost-body .foot__content > .eyebrow {
+  transform: translateY(clamp(-60px, -5vh, -28px));
 }
 .lost-body .lost-foot__card {
   /* override the shared orchid bloom — we replace its role entirely */
