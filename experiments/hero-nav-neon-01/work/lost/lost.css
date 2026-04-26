@@ -314,7 +314,6 @@
 
 .lost-trailer {
   padding: clamp(120px, 18vh, 220px) clamp(24px, 5vw, 72px);
-  border-bottom: 1px solid var(--lost-rule);
   position: relative;
   isolation: isolate;
 }
@@ -460,7 +459,7 @@
 /* ── 3 · THE PROBLEM ──────────────────────────────────────── */
 
 .lost-problem {
-  padding: clamp(80px, 12vh, 140px) clamp(24px, 5vw, 72px);
+  padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 72px);
 }
 .lost-problem__inner {
   max-width: 1400px;
@@ -507,10 +506,11 @@
   filter: saturate(0.9) contrast(1.05);
 }
 /* Kaua'i AI-enhanced reconstruction is tighter in its original frame --
-   shrink it a hair so it reads the same size as the taxidermy next to it. */
+   shrink it slightly + lift it up so its beak roughly aligns with the
+   taxidermy's beak on the left. */
 .lost-specimen:last-child img {
-  transform: scale(0.82);
-  transform-origin: center bottom;
+  transform: scale(0.78) translateY(-6%);
+  transform-origin: center top;
 }
 .lost-specimen figcaption {
   display: grid;
@@ -549,10 +549,8 @@
 /* ── 4 · THE INSIGHT ──────────────────────────────────────── */
 
 .lost-insight {
-  padding: clamp(120px, 18vh, 220px) clamp(24px, 5vw, 72px);
+  padding: clamp(160px, 22vh, 280px) clamp(24px, 5vw, 72px);
   text-align: center;
-  border-top: 1px solid var(--lost-rule);
-  border-bottom: 1px solid var(--lost-rule);
   position: relative;
   isolation: isolate;
 }
@@ -620,7 +618,7 @@
 /* ── 5 · WHAT WAS BUILT ───────────────────────────────────── */
 
 .lost-built {
-  padding: clamp(100px, 14vh, 180px) clamp(24px, 5vw, 72px);
+  padding: clamp(140px, 18vh, 220px) clamp(24px, 5vw, 72px);
 }
 .lost-built__head {
   max-width: 62ch;
@@ -632,7 +630,7 @@
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  gap: clamp(60px, 8vh, 100px);
+  gap: clamp(96px, 12vh, 144px);
   list-style: none;
   padding: 0;
 }
@@ -977,9 +975,8 @@
   text-transform: none;
 }
 .lost-play:hover .lost-play__label {
-  text-shadow:
-    -1px 0 rgb(184 235 96 / 0.7),
-    1px 0 rgb(124 193 172 / 0.7);
+  /* subtle color shift to neon, no chromatic ghosting (it read as blurry) */
+  color: var(--neon);
 }
 .lost-play.is-playing .lost-play__ring {
   background:
@@ -1157,11 +1154,17 @@
   height: 100%;
   aspect-ratio: 4 / 3;
   object-fit: contain;
+  object-position: left center;
   /* chalk-on-void: invert so the sketch becomes light lines */
   filter: invert(1) contrast(0.82) hue-rotate(180deg);
   mix-blend-mode: screen;
   background: transparent;
   opacity: 0.82;
+}
+.lost-kauai__cell:first-child figcaption {
+  /* nudge caption right to align with the sketch's actual visual edge
+     since object-position: left + contain leaves whitespace on the right */
+  padding-left: clamp(8px, 2vw, 24px);
 }
 .lost-kauai__field {
   width: 100%;
@@ -1184,8 +1187,7 @@
 /* ── 7 · PIVOT: SPOTTED OWL ───────────────────────────────── */
 
 .lost-owl {
-  padding: clamp(100px, 14vh, 180px) clamp(24px, 5vw, 72px);
-  border-top: 1px solid var(--lost-rule);
+  padding: clamp(140px, 18vh, 220px) clamp(24px, 5vw, 72px);
 }
 .lost-owl__inner {
   max-width: 1400px;
@@ -1238,8 +1240,7 @@
 /* ── 8 · REFLECTION ───────────────────────────────────────── */
 
 .lost-reflect {
-  padding: clamp(100px, 14vh, 180px) clamp(24px, 5vw, 72px);
-  border-top: 1px solid var(--lost-rule);
+  padding: clamp(140px, 18vh, 220px) clamp(24px, 5vw, 72px);
 }
 .lost-reflect__inner {
   max-width: 68ch;
@@ -1320,12 +1321,12 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  transform-origin: left center;
-  animation: lost-breathe 4.2s ease-in-out infinite;
+  animation: lost-breathe 6s ease-in-out infinite;
 }
+/* whisper-soft glow pulse; no scale, no aggressive bloom */
 @keyframes lost-breathe {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgb(184 235 96 / 0.15)); }
-  50%      { transform: scale(1.012); filter: drop-shadow(0 0 22px rgb(184 235 96 / 0.35)); }
+  0%, 100% { filter: drop-shadow(0 0 4px rgb(184 235 96 / 0.08)); }
+  50%      { filter: drop-shadow(0 0 12px rgb(184 235 96 / 0.18)); }
 }
 .lost-sweep:hover {
   color: var(--text);
@@ -1375,10 +1376,12 @@
 /* ── closing signature (replaces the old summary table) ── */
 .lost-signoff {
   max-width: 1400px;
-  margin: 0 auto clamp(100px, 14vh, 160px);
-  padding: clamp(60px, 9vh, 110px) clamp(24px, 5vw, 72px);
+  margin: 0 auto clamp(120px, 16vh, 180px);
+  padding: clamp(40px, 7vh, 90px) clamp(24px, 5vw, 72px) clamp(80px, 12vh, 140px);
   text-align: center;
-  border-top: 1px solid var(--lost-rule);
+  display: grid;
+  gap: clamp(20px, 3vh, 36px);
+  justify-items: center;
 }
 .lost-signoff p {
   font-family: var(--f-display);
