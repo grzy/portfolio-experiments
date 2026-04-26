@@ -344,8 +344,8 @@
   margin: 0;
   aspect-ratio: 4 / 5;
   max-width: 360px;
-  /* sit a bit away from the left edge so it reads as a card, not a margin element */
-  margin-left: clamp(20px, 5vw, 80px);
+  /* sit close to the left so it lines up with the column gutter */
+  margin-left: clamp(8px, 3vw, 56px);
   margin-right: auto;
   border-radius: 28px;
   overflow: hidden;
@@ -501,7 +501,7 @@
 /* Kaua'i AI-enhanced reconstruction is tighter in its original frame --
    shrink + drop low so it sits beneath the taxidermy peg, not floating up */
 .lost-specimen:last-child img {
-  transform: scale(0.72) translateY(20%);
+  transform: scale(0.72) translateY(22%);
   transform-origin: center top;
 }
 .lost-specimen figcaption {
