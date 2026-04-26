@@ -70,28 +70,32 @@
 
 /* eyebrow word flip: entire "story" swaps to "study" with a brief
    chromatic shudder, then snaps back. runs every ~6s via JS. */
-.lost-flip-word {
+.lost-flip-word,
+.lost-eyebrow__phrase {
   position: relative;
   display: inline-block;
   font-family: inherit;
   transition: color 0.14s steps(2, end);
 }
-.lost-flip-word.is-flipped {
+.lost-flip-word.is-flipped,
+.lost-eyebrow__phrase.is-flipped {
   color: var(--neon);
   text-shadow:
     -1px 0 rgb(124 193 172 / 0.7),
      1px 0 rgb(184 235 96 / 0.7),
      0 0 12px rgb(184 235 96 / 0.6);
-  animation: lost-flip-shudder 0.42s steps(4, end);
+  animation: lost-flip-shudder 0.46s steps(5, end);
 }
 @keyframes lost-flip-shudder {
   0%, 100% { transform: translate(0, 0); }
-  25%      { transform: translate(-1px, 0); }
-  50%      { transform: translate(1px, 0); }
-  75%      { transform: translate(-1px, 0); }
+  20%      { transform: translate(-1px, 0); }
+  40%      { transform: translate(2px, 0); }
+  60%      { transform: translate(-2px, 0); }
+  80%      { transform: translate(1px, 0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .lost-flip-word.is-flipped { animation: none; }
+  .lost-flip-word.is-flipped,
+  .lost-eyebrow__phrase.is-flipped { animation: none; }
 }
 
 /* ── scroll-reveal machinery ──────────────────────────────── */
@@ -334,14 +338,7 @@
   position: relative;
   isolation: isolate;
 }
-.lost-trailer::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(70% 50% at 25% 40%, rgb(184 235 96 / 0.05), transparent 60%);
-  z-index: -1;
-  pointer-events: none;
-}
+/* the lime radial backdrop was static and read as a smudge -- removed */
 .lost-trailer__inner {
   max-width: 1400px;
   margin: 0 auto;
@@ -362,7 +359,7 @@
   aspect-ratio: 4 / 5;
   max-width: 360px;
   /* sit close to the left so it lines up with the column gutter */
-  margin-left: clamp(12px, 3.4vw, 64px);
+  margin-left: clamp(14px, 3.5vw, 66px);
   margin-right: auto;
   border-radius: 28px;
   overflow: hidden;
@@ -1532,6 +1529,7 @@
   text-shadow: 0 0 24px oklch(0 0 0 / 0.8);
 }
 .lost-reflect__phrase {
+  position: relative;
   font-family: var(--f-display);
   font-weight: 600;
   font-style: italic;
@@ -1542,13 +1540,41 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* heavier dark halo + bigger lime glow so it punches through the fog */
+  /* tight dark outline + halo stack so each letter pops off the fog,
+     plus the breathing lime/mint glow that animates */
   filter:
-    drop-shadow(0 2px 6px oklch(0 0 0 / 0.85))
-    drop-shadow(0 4px 28px oklch(0 0 0 / 0.7))
-    drop-shadow(0 0 44px rgb(184 235 96 / 0.55))
-    drop-shadow(0 0 80px rgb(124 193 172 / 0.35));
-  animation: lost-breathe 6s ease-in-out infinite;
+    drop-shadow(0 0 1.5px oklch(0 0 0 / 1))
+    drop-shadow(0 0 4px oklch(0 0 0 / 0.95))
+    drop-shadow(0 0 10px oklch(0 0 0 / 0.85))
+    drop-shadow(0 4px 18px oklch(0 0 0 / 0.7))
+    drop-shadow(0 0 38px rgb(184 235 96 / 0.55))
+    drop-shadow(0 0 70px rgb(124 193 172 / 0.35));
+  animation: lost-phrase-pulse 4.5s ease-in-out infinite;
+}
+/* a slightly more dramatic breathing pulse for the closing phrase --
+   gives "Still breathing" a heartbeat instead of a flat glow */
+@keyframes lost-phrase-pulse {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 1.5px oklch(0 0 0 / 1))
+      drop-shadow(0 0 4px oklch(0 0 0 / 0.95))
+      drop-shadow(0 0 10px oklch(0 0 0 / 0.85))
+      drop-shadow(0 4px 18px oklch(0 0 0 / 0.7))
+      drop-shadow(0 0 28px rgb(184 235 96 / 0.45))
+      drop-shadow(0 0 60px rgb(124 193 172 / 0.28));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 1.5px oklch(0 0 0 / 1))
+      drop-shadow(0 0 4px oklch(0 0 0 / 0.95))
+      drop-shadow(0 0 12px oklch(0 0 0 / 0.9))
+      drop-shadow(0 4px 22px oklch(0 0 0 / 0.78))
+      drop-shadow(0 0 56px rgb(184 235 96 / 0.7))
+      drop-shadow(0 0 100px rgb(124 193 172 / 0.45));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lost-reflect__phrase { animation: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .lost-reflect__phrase { animation: none; }

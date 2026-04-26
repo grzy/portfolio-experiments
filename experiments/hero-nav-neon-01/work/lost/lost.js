@@ -102,24 +102,28 @@
   }
 }
 
-/* ── eyebrow word flip: "story" <-> "study" every ~6s ── */
+/* ── eyebrow phrase glitch: "case story" <-> "case study" every ~5s ──
+   the entire phrase glitches (chromatic shudder + text swap), holds in
+   the new state for a few seconds, then glitches back. */
 {
-  const word = document.querySelector('.lost-eyebrow--story .lost-flip-word');
-  if (word) {
-    const original = word.textContent.trim();
-    const alt = word.dataset.alt || original;
-    const flip = () => {
-      word.classList.add('is-flipped');
-      word.textContent = alt;
+  const phrase = document.querySelector('.lost-eyebrow--story .lost-eyebrow__phrase');
+  if (phrase) {
+    const a = phrase.dataset.a || phrase.textContent.trim();
+    const b = phrase.dataset.b || a;
+    let isB = false;
+    const swap = () => {
+      phrase.classList.add('is-flipped');
+      // mid-shudder, swap the text so the eye sees the change inside the glitch
       setTimeout(() => {
-        word.classList.remove('is-flipped');
-        word.textContent = original;
-      }, 480);
+        phrase.textContent = isB ? a : b;
+        isB = !isB;
+      }, 180);
+      setTimeout(() => phrase.classList.remove('is-flipped'), 460);
     };
     setTimeout(() => {
-      flip();
-      setInterval(flip, 6000);
-    }, 7000);
+      swap();
+      setInterval(swap, 5000);
+    }, 5000);
   }
 }
 
@@ -170,7 +174,79 @@ function decodeWord(el, { stagger = 45, cycles = 8, cycleMs = 38 } = {}) {
   setTimeout(() => { el.dataset.decoding = '0'; }, chars.length * stagger + cycles * cycleMs + 200);
 }
 
-/* hero extinction — decode once after preloader settles (~5.5s for new 5.2s video) */
+/* tease-and-restore: scramble the word, briefly reveal a tease string
+   centered within the original (edges stay scrambled), then scramble
+   again and resolve back to the original. used on the hero "extinction"
+   to flicker "lost" in the middle of the chars and snap back. */
+function teaseAndRestore(el, teaseText, finalText, opts = {}) {
+  const { holdMs = 700, scrambleMs = 480, cycleMs = 38, cycles = 8 } = opts;
+  if (!el || el.dataset.decoding === '1') return;
+  el.dataset.decoding = '1';
+
+  const chars = [...el.querySelectorAll('.lost-decode__char')];
+  const len = chars.length;
+
+  // figure out where the tease text lands inside the original char count
+  const teaseLen = teaseText.length;
+  const padding = Math.max(0, Math.floor((len - teaseLen) / 2));
+  const teaseAt = (i) => {
+    if (i >= padding && i < padding + teaseLen) return teaseText[i - padding];
+    return null;
+  };
+
+  // phase 1 -- scramble all chars for scrambleMs
+  chars.forEach(span => span.classList.add('lost-decode__char--scramble'));
+  const tickAll = setInterval(() => {
+    chars.forEach(span => {
+      span.textContent = DECODE_CHARS[Math.floor(Math.random() * DECODE_CHARS.length)];
+    });
+  }, cycleMs);
+
+  // phase 2 -- after scrambleMs, lock the centered tease, keep edges flickering
+  setTimeout(() => {
+    clearInterval(tickAll);
+    chars.forEach((span, i) => {
+      const t = teaseAt(i);
+      if (t !== null) {
+        span.textContent = t;
+        span.classList.remove('lost-decode__char--scramble');
+      }
+    });
+    // keep edges flickering quietly during the hold
+    const tickEdges = setInterval(() => {
+      chars.forEach((span, i) => {
+        if (teaseAt(i) === null) {
+          span.textContent = DECODE_CHARS[Math.floor(Math.random() * DECODE_CHARS.length)];
+        }
+      });
+    }, cycleMs * 1.5);
+
+    // phase 3 -- after holdMs, scramble + resolve back to finalText
+    setTimeout(() => {
+      clearInterval(tickEdges);
+      chars.forEach((span, idx) => {
+        const targetCh = finalText[idx] || '';
+        if (targetCh === ' ') return;
+        span.classList.add('lost-decode__char--scramble');
+        let tick = 0;
+        const id = setInterval(() => {
+          tick++;
+          if (tick >= cycles + idx % 3) {
+            span.textContent = targetCh;
+            span.classList.remove('lost-decode__char--scramble');
+            clearInterval(id);
+          } else {
+            span.textContent = DECODE_CHARS[Math.floor(Math.random() * DECODE_CHARS.length)];
+          }
+        }, cycleMs);
+      });
+      setTimeout(() => { el.dataset.decoding = '0'; }, cycles * cycleMs + 200);
+    }, holdMs);
+  }, scrambleMs);
+}
+
+/* hero extinction — decode once after preloader settles, then loop a
+   "tease lost" reveal every ~9s (scramble → "lost" → scramble → extinction) */
 {
   const heroDecode = document.querySelector('.lost-hero__title .lost-decode');
   if (heroDecode) {
@@ -184,7 +260,13 @@ function decodeWord(el, { stagger = 45, cycles = 8, cycleMs = 38 } = {}) {
       s.textContent = ch;
       heroDecode.appendChild(s);
     }
-    setTimeout(() => decodeWord(heroDecode), 5500);
+    setTimeout(() => {
+      decodeWord(heroDecode);
+      // start the tease loop after the initial decode finishes (~1s)
+      setTimeout(() => {
+        setInterval(() => teaseAndRestore(heroDecode, 'lost', final), 9000);
+      }, 1500);
+    }, 5500);
   }
 }
 
