@@ -919,7 +919,7 @@
   position: relative;
   margin: 0;
   /* breathing room off the curly mark + the column edge */
-  padding: clamp(20px, 3vh, 32px) 0 0 clamp(36px, 4.5vw, 64px);
+  padding: clamp(20px, 3vh, 32px) 0 0 clamp(48px, 5.5vw, 84px);
   background: none;
   backdrop-filter: none;
   border: none;
@@ -1486,7 +1486,7 @@
 .lost-reflect__fig--single {
   margin-top: clamp(56px, 8vh, 96px);
   display: grid;
-  gap: clamp(8px, 2vh, 18px);
+  gap: clamp(20px, 3vh, 32px);
   justify-items: center;
 }
 .lost-reflect__eyebrow--above {
@@ -1511,8 +1511,8 @@
 }
 .lost-reflect__caption-overlay {
   position: absolute;
-  /* drop the phrase down out of the dense fog into the cleaner zone above the screen */
-  top: clamp(80px, 14%, 200px);
+  /* lands above the laptop screen edge but below the densest fog band */
+  top: clamp(40px, 8%, 120px);
   left: 0;
   right: 0;
   display: grid;
@@ -1675,6 +1675,11 @@
   position: relative;
   min-height: clamp(640px, 92vh, 860px);
   padding-bottom: clamp(60px, 8vh, 96px);
+  /* shared .foot uses isolation: isolate which clips the bird card's
+     drop-shadow at the section seam -- override so the glow can bleed
+     up into the signoff above without a hard cut line */
+  isolation: auto;
+  overflow: visible;
 }
 /* kill the shared pink orb that was bleeding behind the card */
 .lost-body .backdrop,
