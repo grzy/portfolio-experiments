@@ -186,16 +186,20 @@
   object-fit: contain;
   filter: saturate(1) brightness(1) contrast(1.02);
   border-radius: 18px;
-  /* the source video has a pure-black bg that doesn't match the page void,
-     so the top edge reads as a hard rectangle. fade the top + corner zones
-     into transparent so the seam dissolves into the page. */
+  /* the source video has a pure-black bg that doesn't match the page void.
+     fade top + corners + upper sides into transparent, but keep the bottom
+     edge crisp so the laptop base reads as a clean horizon. */
   -webkit-mask-image:
     radial-gradient(ellipse 35% 24% at top left, transparent 0%, black 70%),
     radial-gradient(ellipse 35% 24% at top right, transparent 0%, black 70%),
+    radial-gradient(ellipse 18% 55% at left 30%, transparent 0%, black 75%),
+    radial-gradient(ellipse 18% 55% at right 30%, transparent 0%, black 75%),
     linear-gradient(180deg, transparent 0%, black 5%, black 100%);
   mask-image:
     radial-gradient(ellipse 35% 24% at top left, transparent 0%, black 70%),
     radial-gradient(ellipse 35% 24% at top right, transparent 0%, black 70%),
+    radial-gradient(ellipse 18% 55% at left 30%, transparent 0%, black 75%),
+    radial-gradient(ellipse 18% 55% at right 30%, transparent 0%, black 75%),
     linear-gradient(180deg, transparent 0%, black 5%, black 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
@@ -914,8 +918,8 @@
 .lost-kauai__quote {
   position: relative;
   margin: 0;
-  /* lighter left padding so the quote sits under the truck photo's left edge */
-  padding: clamp(20px, 3vh, 32px) 0 0 clamp(20px, 2.5vw, 40px);
+  /* breathing room off the curly mark + the column edge */
+  padding: clamp(20px, 3vh, 32px) 0 0 clamp(36px, 4.5vw, 64px);
   background: none;
   backdrop-filter: none;
   border: none;
@@ -1482,7 +1486,7 @@
 .lost-reflect__fig--single {
   margin-top: clamp(56px, 8vh, 96px);
   display: grid;
-  gap: clamp(20px, 3vh, 32px);
+  gap: clamp(8px, 2vh, 18px);
   justify-items: center;
 }
 .lost-reflect__eyebrow--above {
@@ -1507,7 +1511,8 @@
 }
 .lost-reflect__caption-overlay {
   position: absolute;
-  top: clamp(20px, 4%, 56px);
+  /* drop the phrase down out of the dense fog into the cleaner zone above the screen */
+  top: clamp(80px, 14%, 200px);
   left: 0;
   right: 0;
   display: grid;
@@ -1528,17 +1533,21 @@
 }
 .lost-reflect__phrase {
   font-family: var(--f-display);
-  font-weight: 400;
+  font-weight: 600;
   font-style: italic;
-  font-size: clamp(28px, 3.6vw, 56px);
+  font-size: clamp(32px, 4.4vw, 68px);
   line-height: 1.05;
   letter-spacing: -0.02em;
   background: linear-gradient(92deg, var(--neon), var(--mint));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 24px oklch(0 0 0 / 0.7))
-          drop-shadow(0 0 32px rgb(184 235 96 / 0.25));
+  /* heavier dark halo + bigger lime glow so it punches through the fog */
+  filter:
+    drop-shadow(0 2px 6px oklch(0 0 0 / 0.85))
+    drop-shadow(0 4px 28px oklch(0 0 0 / 0.7))
+    drop-shadow(0 0 44px rgb(184 235 96 / 0.55))
+    drop-shadow(0 0 80px rgb(124 193 172 / 0.35));
   animation: lost-breathe 6s ease-in-out infinite;
 }
 @media (prefers-reduced-motion: reduce) {
