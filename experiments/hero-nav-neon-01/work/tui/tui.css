@@ -252,6 +252,141 @@
   visibility: visible;
 }
 
+/* image-backed screens: each .tui-screen--bg uses a Figma export PNG
+   as its full-bleed background. preserves the exact 4:3 layout from
+   the design file. interactive elements ride on top via .tui-hit /
+   .tui-slider-live / .tui-confetti. */
+.tui-screen--bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--tui-fogbound);
+}
+
+/* invisible click hotspots — sized + positioned to match Figma element
+   bounds. user clicks act as autoplay skips (handlers in tui.js). */
+.tui-hit {
+  position: absolute;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 4;
+  border-radius: 12px;
+  transition: outline 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.tui-hit:focus-visible {
+  outline: 2px solid var(--tui-electric);
+  outline-offset: 2px;
+}
+.tui-hit.is-auto-pick {
+  box-shadow:
+    0 0 0 3px var(--tui-electric),
+    0 0 24px rgba(223,255,0,0.55),
+    0 0 36px rgba(54,113,199,0.45);
+  animation: tui-auto-pulse 0.7s ease-out;
+}
+/* Bakery 1 orb: bottom-center small circle */
+.tui-hit--orb {
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 9%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+}
+/* Bakery 2 Nourish card: rightmost of 5 activity cards, lower-half */
+.tui-hit--nourish {
+  bottom: 14%;
+  right: 7%;
+  width: 16%;
+  height: 36%;
+  border-radius: 8px;
+}
+/* Bakery 3 Bakery sub-card: 3rd of 6 sub-cards in the bottom row */
+.tui-hit--bakery {
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8%;
+  height: 16%;
+  border-radius: 8px;
+}
+/* Bakery 4 Yes-send-a-map gradient pill: middle of the dashboard */
+.tui-hit--yes {
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36%;
+  height: 13%;
+  border-radius: 999px;
+}
+
+/* ── live slider overlay (B5) — sits exactly over the Figma slider
+   in the background image. autoplay drives the fill width, knob
+   position, and pct text in tui.js. ──────────────────────────── */
+.tui-slider-live {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  pointer-events: none;
+}
+.tui-slider-live__pct {
+  display: block;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 64px);
+  color: var(--tui-battery);
+  text-align: center;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: clamp(10px, 1.6vh, 18px);
+  transition: color 0.2s;
+}
+.tui-slider-live__track {
+  position: relative;
+  height: clamp(20px, 2.6vh, 32px);
+  background: var(--tui-pure);
+  border-radius: 999px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+.tui-slider-live__fill {
+  position: absolute;
+  inset: 0;
+  width: 10%;
+  background: linear-gradient(90deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  border-radius: 999px;
+  transition: width 0.06s linear;
+}
+.tui-slider-live__knob {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  width: clamp(32px, 4.4vh, 48px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--tui-electric);
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.25),
+    inset 0 -2px 4px rgba(0,0,0,0.18),
+    inset 0 2px 3px rgba(255,255,255,0.4);
+  transition: left 0.06s linear, transform 0.18s, box-shadow 0.18s;
+  margin-top: calc(clamp(20px, 2.6vh, 32px) * 0.5 + clamp(36px, 5vw, 64px) + clamp(10px, 1.6vh, 18px));
+  /* ^ pull knob down to align with track centerline (track sits below pct) */
+}
+.tui-screen--slider.is-dragging .tui-slider-live__knob {
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow:
+    0 0 0 12px rgba(54,113,199,0.18),
+    0 6px 14px rgba(0,0,0,0.3),
+    inset 0 -2px 4px rgba(0,0,0,0.18),
+    inset 0 2px 3px rgba(255,255,255,0.5);
+}
+
 /* ── Bakery 1 · start screen ──────────────────────────────── */
 /* absolute-positioned within the dashboard — matches Figma layout
    (corners pinned, greeting upper-left, mascot center, orb bottom). */

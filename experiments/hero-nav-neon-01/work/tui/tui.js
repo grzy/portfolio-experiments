@@ -114,46 +114,18 @@ const noMap  = document.getElementById('tuiNoMap');
 if (yesMap) yesMap.addEventListener('click', () => { setCabinState('press'); setTimeout(() => goTo(5), 280); });
 if (noMap)  noMap.addEventListener('click',  () => goTo(5));
 
-/* B5 slider: sync fill width, knob position, tumbler scroll, drag halo */
-const slider     = document.querySelector('.tui-slider');
-const sliderInput= document.getElementById('tuiSliderInput');
+/* B5 live slider overlay — drives DOM directly, no real <input>. */
 const sliderFill = document.getElementById('tuiSliderFill');
 const sliderKnob = document.getElementById('tuiSliderKnob');
-const tumblerCol = document.getElementById('tuiTumblerCol');
-const noTexts    = document.getElementById('tuiNoTexts');
+const sliderPct  = document.getElementById('tuiSliderPct');
+const sliderScreen = document.querySelector('.tui-screen--slider');
 
-function syncSlider() {
-  if (!sliderInput) return;
-  const val = +sliderInput.value;
-  const pct = val; // 0–100 already
+function syncSlider(val) {
+  const pct = Math.max(0, Math.min(100, Math.round(val)));
   if (sliderFill) sliderFill.style.width = pct + '%';
   if (sliderKnob) sliderKnob.style.left  = pct + '%';
-  if (tumblerCol) {
-    const idx = Math.round(val / 10);
-    tumblerCol.style.transform = `translateY(-${idx}em)`;
-  }
+  if (sliderPct)  sliderPct.textContent  = pct + '%';
 }
-if (sliderInput) {
-  sliderInput.addEventListener('input', () => { syncSlider(); setCabinState('drag'); });
-  sliderInput.addEventListener('pointerdown', () => slider.classList.add('is-dragging'));
-  const releaseAdvance = () => {
-    slider.classList.remove('is-dragging');
-    setCabinState('', 0);
-    setTimeout(() => goTo(6), 380);
-  };
-  sliderInput.addEventListener('pointerup',    releaseAdvance);
-  sliderInput.addEventListener('pointerleave', () => slider.classList.remove('is-dragging'));
-  sliderInput.addEventListener('change',       releaseAdvance);
-  syncSlider();
-}
-if (noTexts) noTexts.addEventListener('click', () => goTo(6));
-
-/* replay demo */
-const replay = document.getElementById('tuiReplay');
-if (replay) replay.addEventListener('click', () => {
-  if (sliderInput) { sliderInput.value = 50; syncSlider(); }
-  goTo(1);
-});
 
 /* ── autoplay sequence — the prototype demos itself ──────
    Hiring manager scrolls past, watches the whole bakery flow
@@ -190,22 +162,19 @@ function autoTick() {
 }
 
 function animateSliderDrag() {
-  const i = document.getElementById('tuiSliderInput');
-  if (!i) return;
   const start = performance.now();
   const duration = 2200;
   const target = 80;
-  i.value = 0; syncSlider();
-  slider && slider.classList.add('is-dragging');
+  syncSlider(0);
+  sliderScreen && sliderScreen.classList.add('is-dragging');
   setCabinState('drag');
   const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
   function tick(now) {
     const t = Math.min(1, (now - start) / duration);
-    i.value = Math.round(ease(t) * target);
-    syncSlider();
+    syncSlider(ease(t) * target);
     if (t < 1) requestAnimationFrame(tick);
     else {
-      slider && slider.classList.remove('is-dragging');
+      sliderScreen && sliderScreen.classList.remove('is-dragging');
       setCabinState('', 0);
     }
   }

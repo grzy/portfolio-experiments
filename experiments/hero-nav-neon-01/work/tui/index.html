@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=20" />
-<link rel="stylesheet" href="tui.css?v=7" />
+<link rel="stylesheet" href="tui.css?v=8" />
 </head>
 <body class="tui-body">
 
@@ -65,320 +65,47 @@
       <div class="tui-dash__bezel" aria-hidden="true"></div>
       <div class="tui-dash__noise" aria-hidden="true"></div>
 
-      <!-- screens stack — only one visible at a time -->
+      <!-- screens stack — each screen is a full Figma export PNG.
+           code overlays only what needs to be live: cabin-light cues,
+           autoplay knob animation on B5, confetti on B6, click hotspots. -->
       <div class="tui-screens" id="tuiScreens">
 
         <!-- ── Bakery 1 · start ─────────────────────────────── -->
-        <section class="tui-screen tui-screen--start is-active" data-screen="1" aria-label="Hello Hiro start screen">
-          <div class="tui-corner tui-corner--tl">
-            <button class="tui-icon" aria-label="Home"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2h-3v-7H8v7H5a2 2 0 0 1-2-2z"/></svg></button>
-            <button class="tui-icon" aria-label="EV charge"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11v16H5zM16 8h2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2"/><path d="M9 13l2-3h-2l2-3"/></svg></button>
-          </div>
-          <div class="tui-corner tui-corner--tr">
-            <button class="tui-icon" aria-label="Tūī"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14c2-6 8-9 14-7-2 6-7 10-14 7zM4 14l-1 4M14 11h.01"/></svg></button>
-            <button class="tui-icon" aria-label="Settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
-          </div>
-
-          <div class="tui-greet">
-            <p class="tui-greet__hello">HELLO HIRO</p>
-            <h2 class="tui-greet__q">What kind of activity would you like while you charge?</h2>
-          </div>
-
-          <!-- Tūī mascot — blinks + breathes idle -->
-          <div class="tui-mascot tui-mascot--awake" aria-hidden="true">
-            <svg class="tui-mascot__svg" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="tuiBody" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="var(--tui-lichen)"/>
-                  <stop offset="100%" stop-color="var(--tui-electric)"/>
-                </linearGradient>
-                <radialGradient id="tuiEyeGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="var(--tui-electric)" stop-opacity="0.9"/>
-                  <stop offset="100%" stop-color="var(--tui-electric)" stop-opacity="0"/>
-                </radialGradient>
-              </defs>
-              <!-- body -->
-              <g class="tui-mascot__body">
-                <ellipse cx="110" cy="118" rx="86" ry="72" fill="url(#tuiBody)"/>
-                <!-- soft inner highlight -->
-                <ellipse cx="86" cy="92" rx="42" ry="28" fill="rgba(255,255,255,0.18)"/>
-              </g>
-              <!-- beak -->
-              <path class="tui-mascot__beak" d="M196 118 L222 122 L196 130 Z" fill="var(--tui-battery)"/>
-              <!-- left eye -->
-              <g class="tui-mascot__eye tui-mascot__eye--l">
-                <circle class="tui-mascot__eye-glow" cx="78" cy="100" r="22" fill="url(#tuiEyeGlow)"/>
-                <circle class="tui-mascot__eye-white" cx="78" cy="100" r="13" fill="#ffffff"/>
-                <circle class="tui-mascot__eye-pupil" cx="78" cy="100" r="6" fill="var(--tui-battery)"/>
-              </g>
-              <!-- right eye -->
-              <g class="tui-mascot__eye tui-mascot__eye--r">
-                <circle class="tui-mascot__eye-glow" cx="138" cy="100" r="22" fill="url(#tuiEyeGlow)"/>
-                <circle class="tui-mascot__eye-white" cx="138" cy="100" r="13" fill="#ffffff"/>
-                <circle class="tui-mascot__eye-pupil" cx="138" cy="100" r="6" fill="var(--tui-battery)"/>
-              </g>
-              <!-- eyelids for blink (closed state) -->
-              <rect class="tui-mascot__lid tui-mascot__lid--l" x="62" y="98" width="32" height="4" rx="2" fill="var(--tui-battery)" opacity="0"/>
-              <rect class="tui-mascot__lid tui-mascot__lid--r" x="122" y="98" width="32" height="4" rx="2" fill="var(--tui-battery)" opacity="0"/>
-            </svg>
-          </div>
-
-          <!-- Talk-to-Tūī CTA: 50px gradient circle that pulses -->
-          <button class="tui-talk tui-talk--orb" id="tuiTalkOrb" aria-label="Talk to Tūī">
-            <span class="tui-talk__halo" aria-hidden="true"></span>
-            <span class="tui-talk__core" aria-hidden="true"></span>
-          </button>
+        <section class="tui-screen tui-screen--bg tui-screen--start is-active" data-screen="1" aria-label="Hello Hiro start screen" style="background-image: url('assets/bakery-1-383-1336.png');">
+          <button class="tui-hit tui-hit--orb" id="tuiTalkOrb" aria-label="Talk to Tūī"></button>
         </section>
 
-        <!-- ── Bakery 2 · activity grid ──────────────────── -->
-        <section class="tui-screen tui-screen--grid" data-screen="2" aria-label="Select an activity">
-          <div class="tui-mascot tui-mascot--small" aria-hidden="true">
-            <svg class="tui-mascot__svg" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
-              <g class="tui-mascot__body">
-                <ellipse cx="110" cy="118" rx="86" ry="72" fill="url(#tuiBody)"/>
-                <ellipse cx="86" cy="92" rx="42" ry="28" fill="rgba(255,255,255,0.18)"/>
-              </g>
-              <path d="M196 118 L222 122 L196 130 Z" fill="var(--tui-battery)"/>
-              <g class="tui-mascot__eye tui-mascot__eye--l">
-                <circle class="tui-mascot__eye-glow" cx="78" cy="100" r="22" fill="url(#tuiEyeGlow)"/>
-                <circle cx="78" cy="100" r="13" fill="#ffffff"/>
-                <circle cx="78" cy="100" r="6" fill="var(--tui-battery)"/>
-              </g>
-              <g class="tui-mascot__eye tui-mascot__eye--r">
-                <circle class="tui-mascot__eye-glow" cx="138" cy="100" r="22" fill="url(#tuiEyeGlow)"/>
-                <circle cx="138" cy="100" r="13" fill="#ffffff"/>
-                <circle cx="138" cy="100" r="6" fill="var(--tui-battery)"/>
-              </g>
-              <rect class="tui-mascot__lid tui-mascot__lid--l" x="62" y="98" width="32" height="4" rx="2" fill="var(--tui-battery)" opacity="0"/>
-              <rect class="tui-mascot__lid tui-mascot__lid--r" x="122" y="98" width="32" height="4" rx="2" fill="var(--tui-battery)" opacity="0"/>
-            </svg>
-          </div>
-
-          <h2 class="tui-screen__h">Select an activity</h2>
-
-          <ul class="tui-cards" role="list">
-            <li><button class="tui-card" data-activity="listen">
-              <span class="tui-card__icon">
-                <svg viewBox="0 0 60 60" width="100%" height="100%" fill="none">
-                  <path d="M10 38c4-14 18-22 36-18-4 14-16 26-36 18z" fill="url(#tuiBody)"/>
-                  <circle cx="36" cy="22" r="3" fill="var(--tui-battery)"/>
-                  <path d="M10 38l-2 8M40 18h.01" stroke="var(--tui-battery)" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </span>
-              <span class="tui-card__label">Listen</span>
-            </button></li>
-            <li><button class="tui-card" data-activity="focus">
-              <span class="tui-card__icon">
-                <svg viewBox="0 0 60 60" width="100%" height="100%" fill="none" stroke="var(--tui-battery)" stroke-width="2" stroke-linejoin="round">
-                  <path d="M14 12h22a4 4 0 0 1 4 4v36l-7-5-7 5-7-5-7 5V16a4 4 0 0 1 2-4z"/>
-                  <path d="M22 22h12M22 30h12"/>
-                </svg>
-              </span>
-              <span class="tui-card__label">Focus</span>
-            </button></li>
-            <li><button class="tui-card" data-activity="connect">
-              <span class="tui-card__icon">
-                <svg viewBox="0 0 60 60" width="100%" height="100%" fill="none">
-                  <path d="M30 50 C 8 36, 8 16, 22 16 c 5 0 7 3 8 6 c 1-3 3-6 8-6 c 14 0 14 20-8 34z" fill="url(#tuiBody)"/>
-                </svg>
-              </span>
-              <span class="tui-card__label">Connect</span>
-            </button></li>
-            <li><button class="tui-card" data-activity="outside">
-              <span class="tui-card__icon">
-                <svg viewBox="0 0 60 60" width="100%" height="100%" fill="none">
-                  <ellipse cx="32" cy="38" rx="14" ry="11" fill="url(#tuiBody)"/>
-                  <ellipse cx="20" cy="34" rx="6" ry="9" fill="url(#tuiBody)"/>
-                  <path d="M14 28 L 16 18 L 22 28 Z" fill="url(#tuiBody)"/>
-                  <path d="M22 28 L 24 16 L 28 28 Z" fill="url(#tuiBody)"/>
-                  <circle cx="17" cy="33" r="1.6" fill="var(--tui-battery)"/>
-                  <circle cx="23" cy="33" r="1.6" fill="var(--tui-battery)"/>
-                  <ellipse cx="20" cy="38" rx="2" ry="1.4" fill="var(--tui-battery)"/>
-                  <path d="M44 38 L 50 32 L 48 42 Z" fill="url(#tuiBody)"/>
-                </svg>
-              </span>
-              <span class="tui-card__label">Outside</span>
-            </button></li>
-            <li><button class="tui-card" data-activity="nourish">
-              <span class="tui-card__icon">
-                <svg viewBox="0 0 60 60" width="100%" height="100%" fill="none">
-                  <circle cx="30" cy="34" r="18" fill="#f4a958"/>
-                  <ellipse cx="22" cy="28" rx="6" ry="3" fill="rgba(255,255,255,0.4)"/>
-                  <path d="M30 16 q-4-6 2-10 q-2 6 6 8 q-6 0-8 4z" fill="#7cb069"/>
-                </svg>
-              </span>
-              <span class="tui-card__label">Nourish</span>
-            </button></li>
-          </ul>
-
-          <div class="tui-progress" aria-label="Step 1 of 5">
-            <span class="tui-progress__dot is-active"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-          </div>
+        <!-- ── Bakery 2 · activity grid ──────────────────────── -->
+        <section class="tui-screen tui-screen--bg" data-screen="2" aria-label="Select an activity" style="background-image: url('assets/bakery-2-383-1236.png');">
+          <button class="tui-hit tui-hit--card tui-hit--nourish" data-activity="nourish" aria-label="Nourish"></button>
         </section>
 
-        <!-- ── Bakery 3 · Nourish drill-in (storybook moment) ─ -->
-        <section class="tui-screen tui-screen--drill" data-screen="3" aria-label="Choose a nourishment type">
-          <h2 class="tui-screen__h">What type of nourishment are you after?</h2>
+        <!-- ── Bakery 3 · Nourish drill-in ───────────────────── -->
+        <section class="tui-screen tui-screen--bg" data-screen="3" aria-label="Choose a nourishment type" style="background-image: url('assets/bakery-3-383-1237.png');">
+          <button class="tui-hit tui-hit--sub tui-hit--bakery" data-sub="bakery" aria-label="Bakery"></button>
+        </section>
 
-          <div class="tui-hero-card" aria-hidden="true">
-            <!-- mascot peeking BEHIND the card with yellow eyes -->
-            <div class="tui-mascot tui-mascot--peek">
-              <svg class="tui-mascot__svg" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="110" cy="100" rx="86" ry="56" fill="url(#tuiBody)"/>
-                <ellipse cx="86" cy="80" rx="42" ry="20" fill="rgba(255,255,255,0.18)"/>
-                <g class="tui-mascot__eye">
-                  <circle cx="78" cy="84" r="20" fill="rgba(223,255,0,0.45)"/>
-                  <circle cx="78" cy="84" r="11" fill="#ffffff"/>
-                  <circle cx="78" cy="84" r="5" fill="var(--tui-battery)"/>
-                </g>
-                <g class="tui-mascot__eye">
-                  <circle cx="138" cy="84" r="20" fill="rgba(223,255,0,0.45)"/>
-                  <circle cx="138" cy="84" r="11" fill="#ffffff"/>
-                  <circle cx="138" cy="84" r="5" fill="var(--tui-battery)"/>
-                </g>
-              </svg>
+        <!-- ── Bakery 4 · confirmation ───────────────────────── -->
+        <section class="tui-screen tui-screen--bg" data-screen="4" aria-label="Confirm walking directions" style="background-image: url('assets/bakery-4-386-1699.png');">
+          <button class="tui-hit tui-hit--yes" id="tuiYesMap" aria-label="Yes, send a map"></button>
+        </section>
+
+        <!-- ── Bakery 5 · charge slider (live overlay) ───────── -->
+        <section class="tui-screen tui-screen--bg tui-screen--slider" data-screen="5" aria-label="Set charge level" style="background-image: url('assets/bakery-5-386-2023.png');">
+          <!-- live slider overlay sits exactly over the Figma slider in the bg.
+               autoplay drives the value 0→80 over 2.2s. cabin halos in time. -->
+          <div class="tui-slider-live" aria-hidden="true">
+            <span class="tui-slider-live__pct" id="tuiSliderPct">10%</span>
+            <div class="tui-slider-live__track">
+              <div class="tui-slider-live__fill" id="tuiSliderFill"></div>
             </div>
-            <div class="tui-card tui-card--lifted" aria-hidden="true">
-              <span class="tui-card__icon">
-                <svg viewBox="0 0 60 60" width="100%" height="100%" fill="none">
-                  <circle cx="30" cy="34" r="18" fill="#f4a958"/>
-                  <path d="M30 16 q-4-6 2-10 q-2 6 6 8 q-6 0-8 4z" fill="#7cb069"/>
-                </svg>
-              </span>
-              <span class="tui-card__label">Nourish</span>
-            </div>
-          </div>
-
-          <ul class="tui-subcards" role="list">
-            <li><button class="tui-subcard" data-sub="grocery"><span>🛒</span><span>Grocery</span></button></li>
-            <li><button class="tui-subcard" data-sub="coffee"><span>☕</span><span>Coffee</span></button></li>
-            <li><button class="tui-subcard tui-subcard--target" data-sub="bakery"><span>🥐</span><span>Bakery</span></button></li>
-            <li><button class="tui-subcard" data-sub="takeout"><span>🥡</span><span>Takeout</span></button></li>
-            <li><button class="tui-subcard" data-sub="tacos"><span>🌮</span><span>Tacos</span></button></li>
-            <li><button class="tui-subcard" data-sub="noodles"><span>🍜</span><span>Noodles</span></button></li>
-            <li><button class="tui-subcard tui-subcard--more" aria-label="More options">+</button></li>
-          </ul>
-
-          <div class="tui-progress" aria-label="Step 2 of 5">
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot is-active"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
+            <div class="tui-slider-live__knob" id="tuiSliderKnob"></div>
           </div>
         </section>
 
-        <!-- ── Bakery 4 · confirmation ──────────────────────── -->
-        <section class="tui-screen tui-screen--confirm" data-screen="4" aria-label="Confirm walking directions">
-          <h2 class="tui-screen__h tui-screen__h--confirm">Would you like walking directions for nearby <em>bakeries</em> texted to your phone?</h2>
-
-          <div class="tui-buttons">
-            <button class="tui-pill tui-pill--primary" id="tuiYesMap">
-              <span>Yes, send a map</span>
-            </button>
-            <button class="tui-pill tui-pill--ghost" id="tuiNoMap">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 6l18 12M21 6l-18 12"/></svg>
-              <span>No directions</span>
-            </button>
-          </div>
-
-          <div class="tui-progress" aria-label="Step 3 of 5">
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot is-active"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-          </div>
-        </section>
-
-        <!-- ── Bakery 5 · charge slider (the show-stopper) ──── -->
-        <section class="tui-screen tui-screen--slider" data-screen="5" aria-label="Set charge level">
-          <h2 class="tui-screen__h tui-screen__h--slider">How about a text update for your preferred charge level?</h2>
-
-          <div class="tui-slider-wrap">
-            <div class="tui-tumbler" id="tuiTumbler" aria-hidden="true">
-              <div class="tui-tumbler__col" id="tuiTumblerCol">
-                <span>0</span><span>10</span><span>20</span><span>30</span><span>40</span>
-                <span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span>
-              </div>
-              <span class="tui-tumbler__pct">%</span>
-            </div>
-
-            <div class="tui-slider">
-              <div class="tui-slider__track" aria-hidden="true">
-                <div class="tui-slider__fill" id="tuiSliderFill"></div>
-              </div>
-              <input class="tui-slider__input" id="tuiSliderInput" type="range" min="0" max="100" step="10" value="50" aria-label="Charge level" />
-              <div class="tui-slider__knob" id="tuiSliderKnob" aria-hidden="true">
-                <span class="tui-slider__halo"></span>
-              </div>
-            </div>
-
-            <p class="tui-slider__hint">SLIDE TO ADJUST</p>
-          </div>
-
-          <button class="tui-pill tui-pill--ghost tui-pill--bottom" id="tuiNoTexts">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5"/><path d="M3 3l18 18"/></svg>
-            <span>No text updates</span>
-          </button>
-
-          <div class="tui-progress" aria-label="Step 4 of 5">
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot is-active"></span>
-            <span class="tui-progress__dot"></span>
-          </div>
-        </section>
-
-        <!-- ── Bakery 6 · success state with confetti ───────── -->
-        <section class="tui-screen tui-screen--success" data-screen="6" aria-label="Success">
+        <!-- ── Bakery 6 · success + confetti ─────────────────── -->
+        <section class="tui-screen tui-screen--bg tui-screen--success" data-screen="6" aria-label="Success" style="background-image: url('assets/bakery-6-386-2076.png');">
           <canvas class="tui-confetti" id="tuiConfetti" aria-hidden="true"></canvas>
-
-          <h2 class="tui-screen__h tui-screen__h--success">You're all set, <em>Hiro!</em></h2>
-          <p class="tui-screen__sub">Enjoy your baked goods while your EV charges.</p>
-
-          <div class="tui-mascot tui-mascot--rest" aria-hidden="true">
-            <svg class="tui-mascot__svg" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <radialGradient id="tuiEyeRest" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="var(--tui-lichen)" stop-opacity="0.95"/>
-                  <stop offset="100%" stop-color="var(--tui-lichen)" stop-opacity="0"/>
-                </radialGradient>
-              </defs>
-              <ellipse cx="110" cy="118" rx="86" ry="72" fill="#a8a8a3"/>
-              <ellipse cx="86" cy="92" rx="42" ry="28" fill="rgba(255,255,255,0.16)"/>
-              <path d="M196 118 L222 122 L196 130 Z" fill="var(--tui-battery)"/>
-              <g class="tui-mascot__eye tui-mascot__eye--rest tui-mascot__eye--l">
-                <circle cx="78" cy="100" r="24" fill="url(#tuiEyeRest)"/>
-                <circle cx="78" cy="100" r="11" fill="var(--tui-lichen)"/>
-                <circle cx="78" cy="100" r="6" fill="var(--tui-battery)"/>
-              </g>
-              <g class="tui-mascot__eye tui-mascot__eye--rest tui-mascot__eye--r">
-                <circle cx="138" cy="100" r="24" fill="url(#tuiEyeRest)"/>
-                <circle cx="138" cy="100" r="11" fill="var(--tui-lichen)"/>
-                <circle cx="138" cy="100" r="6" fill="var(--tui-battery)"/>
-              </g>
-              <rect class="tui-mascot__lid tui-mascot__lid--success" x="62" y="98" width="32" height="4" rx="2" fill="var(--tui-battery)" opacity="0"/>
-              <rect class="tui-mascot__lid tui-mascot__lid--success" x="122" y="98" width="32" height="4" rx="2" fill="var(--tui-battery)" opacity="0"/>
-              <!-- confetti piece stuck on eye, animated by JS -->
-              <text class="tui-mascot__stuck" x="138" y="106" text-anchor="middle" font-size="22" opacity="0">🥐</text>
-            </svg>
-          </div>
-
-          <button class="tui-replay" id="tuiReplay" aria-label="Replay demo">↺ replay demo</button>
-
-          <div class="tui-progress" aria-label="Step 5 of 5">
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot"></span>
-            <span class="tui-progress__dot is-active"></span>
-          </div>
         </section>
 
       </div>
@@ -581,6 +308,6 @@
 </button>
 
 <script type="module" src="../../script.js?v=38"></script>
-<script type="module" src="tui.js?v=3"></script>
+<script type="module" src="tui.js?v=4"></script>
 </body>
 </html>
