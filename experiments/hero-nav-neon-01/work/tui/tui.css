@@ -459,6 +459,445 @@
   .tui-meta__cue { grid-column: 1 / -1; justify-self: start; }
 }
 
+/* ── shared screen heading + 5-dot progress ──────────────── */
+.tui-screen__h {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(22px, 2.6vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--tui-battery);
+  text-align: center;
+  margin: 0;
+  text-wrap: balance;
+}
+.tui-screen__h em {
+  font-style: italic;
+  background: linear-gradient(92deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tui-progress {
+  position: absolute;
+  bottom: clamp(20px, 3.4%, 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: clamp(10px, 1.4%, 18px);
+  padding: clamp(8px, 1.2%, 14px) clamp(14px, 2.4%, 28px);
+  background: var(--tui-fogbound);
+  border-radius: 999px;
+  box-shadow: var(--tui-shadow-out);
+}
+.tui-progress__dot {
+  width: clamp(10px, 1.1%, 14px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--tui-carbon);
+  opacity: 0.55;
+  transition: background 0.4s, opacity 0.4s, transform 0.4s;
+}
+.tui-progress__dot.is-active {
+  background: linear-gradient(135deg, var(--tui-lichen), var(--tui-electric));
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(223,255,0,0.6), 0 0 20px rgba(54,113,199,0.4);
+  transform: scale(1.2);
+}
+
+/* ── Bakery 2 · activity grid ────────────────────────────── */
+.tui-screen--grid {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: clamp(12px, 2%, 24px);
+  padding: clamp(20px, 4%, 48px) clamp(20px, 4%, 56px) clamp(60px, 8%, 100px);
+  align-items: center;
+  justify-items: center;
+}
+.tui-mascot--small {
+  position: relative;
+  inset: auto;
+  width: clamp(110px, 16%, 180px);
+  margin-top: clamp(0px, 1%, 12px);
+  animation: tui-breathe-small 4.2s ease-in-out infinite;
+}
+@keyframes tui-breathe-small {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.014); }
+}
+.tui-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(8px, 1.4%, 18px);
+  width: 100%;
+  max-width: 100%;
+}
+.tui-card {
+  appearance: none;
+  border: 0;
+  background: rgba(255,255,255,0.5);
+  border-radius: clamp(10px, 1.2%, 18px);
+  padding: clamp(14px, 2%, 22px) clamp(8px, 1%, 14px) clamp(16px, 2%, 22px);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  justify-items: center;
+  gap: clamp(8px, 1.2%, 16px);
+  cursor: pointer;
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: var(--tui-battery);
+  box-shadow: var(--tui-shadow-out);
+  transition: transform 0.18s var(--ease, cubic-bezier(.2,.7,0,1)), box-shadow 0.18s;
+  min-height: clamp(140px, 22%, 220px);
+}
+.tui-card:hover { transform: translateY(-2px); box-shadow: -2px -2px 4px var(--tui-pure), 4px 6px 12px rgba(178,174,167,0.55); }
+.tui-card:active {
+  transform: scale(0.99);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.12), inset 0 -1px 2px var(--tui-pure);
+}
+.tui-card__icon {
+  display: grid;
+  place-items: center;
+  width: clamp(40px, 5vw, 80px);
+  aspect-ratio: 1;
+}
+.tui-card__label {
+  font-weight: 500;
+  font-size: clamp(13px, 1.3vw, 20px);
+  letter-spacing: 0.01em;
+}
+
+/* ── Bakery 3 · Nourish drill-in ─────────────────────────── */
+.tui-screen--drill {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(10px, 1.6%, 22px);
+  padding: clamp(20px, 4%, 48px) clamp(20px, 4%, 56px) clamp(60px, 8%, 100px);
+  align-items: center;
+  justify-items: center;
+}
+.tui-screen__h {
+  position: relative;
+  z-index: 2;
+}
+.tui-hero-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(160px, 22%, 260px);
+  aspect-ratio: 198 / 300;
+}
+.tui-mascot--peek {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: clamp(180px, 28%, 320px);
+  transform: translate(-50%, -64%);
+  pointer-events: none;
+  z-index: 0;
+  animation: tui-peek-bob 3.4s ease-in-out infinite;
+}
+@keyframes tui-peek-bob {
+  0%, 100% { transform: translate(-50%, -64%); }
+  50%      { transform: translate(-50%, calc(-64% - 4px)); }
+}
+.tui-card--lifted {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.92);
+  border-radius: clamp(10px, 1.2%, 18px);
+  padding: clamp(14px, 3%, 24px);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  justify-items: center;
+  gap: clamp(10px, 1.6%, 18px);
+  box-shadow: -2px -2px 6px var(--tui-pure), 6px 8px 18px rgba(0,0,0,0.18);
+}
+.tui-subcards {
+  list-style: none;
+  margin: 0 0 clamp(56px, 9%, 90px);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: clamp(6px, 1%, 12px);
+  width: 100%;
+  align-self: end;
+}
+.tui-subcard {
+  appearance: none;
+  border: 0;
+  background: rgba(255,255,255,0.5);
+  border-radius: clamp(8px, 1%, 14px);
+  padding: clamp(8px, 1.4%, 14px) clamp(4px, 0.8%, 8px);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: clamp(4px, 0.6%, 8px);
+  align-items: center;
+  justify-items: center;
+  cursor: pointer;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: clamp(10px, 1vw, 14px);
+  font-weight: 500;
+  color: var(--tui-battery);
+  box-shadow: var(--tui-shadow-out);
+  min-height: clamp(70px, 11%, 110px);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.tui-subcard span:first-child { font-size: clamp(20px, 2.6vw, 36px); line-height: 1; }
+.tui-subcard:hover { transform: translateY(-2px); }
+.tui-subcard:active { transform: scale(0.97); box-shadow: inset 0 2px 6px rgba(0,0,0,0.12); }
+.tui-subcard--target {
+  outline: 2px solid var(--tui-electric);
+  outline-offset: 2px;
+}
+.tui-subcard--more {
+  font-size: clamp(20px, 2.6vw, 32px);
+  font-weight: 700;
+  color: var(--tui-electric);
+}
+
+/* ── Bakery 4 · confirmation ─────────────────────────────── */
+.tui-screen--confirm {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(20px, 3vh, 36px);
+  padding: clamp(40px, 8%, 100px) clamp(28px, 5%, 64px) clamp(60px, 8%, 100px);
+  align-items: center;
+  justify-items: center;
+}
+.tui-screen__h--confirm { max-width: 24ch; }
+.tui-buttons {
+  display: grid;
+  gap: clamp(12px, 1.8vh, 20px);
+  width: clamp(280px, 50%, 460px);
+}
+.tui-pill {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(16px, 1.6vw, 22px);
+  border-radius: 999px;
+  padding: clamp(14px, 2vh, 22px) clamp(20px, 3%, 36px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.18s var(--ease, cubic-bezier(.2,.7,0,1)), box-shadow 0.18s;
+}
+.tui-pill--primary {
+  background: linear-gradient(135deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  color: var(--tui-battery);
+  box-shadow: 0 8px 18px rgba(54,113,199,0.35), inset 0 -3px 6px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.5);
+}
+.tui-pill--primary:active {
+  transform: scale(0.98);
+  box-shadow: inset 0 4px 8px rgba(0,0,0,0.25), inset 0 -1px 2px rgba(255,255,255,0.3);
+}
+.tui-pill--ghost {
+  background: rgba(255,255,255,0.4);
+  color: rgba(14,14,14,0.6);
+  font-weight: 500;
+  box-shadow: var(--tui-shadow-out);
+  backdrop-filter: blur(4px);
+}
+.tui-pill--ghost:active { transform: scale(0.98); box-shadow: inset 0 2px 6px rgba(0,0,0,0.15); }
+.tui-pill--bottom { justify-self: center; margin-top: clamp(8px, 1vh, 16px); }
+
+/* ── Bakery 5 · slider ──────────────────────────────────── */
+.tui-screen--slider {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(16px, 2vh, 28px);
+  padding: clamp(36px, 6%, 80px) clamp(28px, 5%, 64px) clamp(60px, 8%, 100px);
+  align-items: center;
+  justify-items: center;
+}
+.tui-screen__h--slider { max-width: 28ch; }
+.tui-slider-wrap {
+  display: grid;
+  gap: clamp(14px, 2vh, 24px);
+  width: clamp(320px, 60%, 540px);
+  justify-items: center;
+}
+.tui-tumbler {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  height: clamp(60px, 9vh, 96px);
+  overflow: hidden;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1;
+  color: var(--tui-battery);
+  letter-spacing: -0.04em;
+}
+.tui-tumbler__col {
+  display: grid;
+  text-align: center;
+  min-width: 2em;
+  transform: translateY(0);
+  transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+}
+.tui-tumbler__col span {
+  display: block;
+  height: 1em;
+}
+.tui-tumbler__pct {
+  font-size: 0.6em;
+  color: var(--tui-carbon);
+  align-self: end;
+  padding-bottom: 0.18em;
+}
+.tui-slider {
+  position: relative;
+  width: 100%;
+  height: clamp(40px, 5vh, 56px);
+  display: grid;
+  align-items: center;
+}
+.tui-slider__track {
+  position: absolute;
+  left: 0; right: 0;
+  height: clamp(36px, 4.6vh, 48px);
+  border-radius: 999px;
+  background: var(--tui-fogbound);
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.15), inset 0 -1px 2px var(--tui-pure);
+  overflow: hidden;
+}
+.tui-slider__fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(90deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  border-radius: 999px;
+  transition: width 0.18s cubic-bezier(.4,0,.2,1);
+}
+.tui-slider__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: grab;
+  z-index: 3;
+}
+.tui-slider__input:active { cursor: grabbing; }
+.tui-slider__knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(56px, 7vh, 80px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.3), inset 0 -3px 6px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.5);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+  transition: transform 0.12s, box-shadow 0.18s;
+}
+.tui-slider__halo {
+  position: absolute;
+  inset: -25%;
+  border-radius: 999px;
+  background: rgba(223,255,0,0.18);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.tui-slider.is-dragging .tui-slider__knob { transform: translate(-50%, -50%) scale(1.1); }
+.tui-slider.is-dragging .tui-slider__halo { opacity: 1; transform: scale(1.4); }
+.tui-slider__hint {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(11px, 1.1vw, 16px);
+  letter-spacing: 0.4em;
+  color: var(--tui-carbon);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* ── Bakery 6 · success ─────────────────────────────────── */
+.tui-screen--success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(8px, 1.4vh, 18px);
+  padding: clamp(28px, 5%, 60px) clamp(28px, 5%, 64px) clamp(60px, 8%, 100px);
+}
+.tui-mascot--rest {
+  position: relative;
+  inset: auto;
+  transform: none;
+  width: clamp(200px, 28%, 360px);
+  margin-top: auto;
+  margin-bottom: clamp(20px, 4%, 48px);
+  animation: tui-breathe-small 4.2s ease-in-out infinite;
+}
+.tui-mascot__eye--rest { animation: none; }
+.tui-mascot__lid--success {
+  animation: tui-blink-stuck 2.2s steps(1, end) 1;
+  animation-delay: 0.6s;
+}
+.tui-mascot__stuck {
+  animation: tui-stuck-piece 2.2s ease-out 1 forwards;
+  animation-delay: 0.6s;
+}
+@keyframes tui-blink-stuck {
+  0%, 30%, 80%, 100% { opacity: 0; }
+  35%, 75%           { opacity: 1; }
+}
+@keyframes tui-stuck-piece {
+  0%   { opacity: 0; transform: translateY(-30px) rotate(-20deg); }
+  20%  { opacity: 1; transform: translateY(0) rotate(0); }
+  60%  { opacity: 1; transform: translateY(0) rotate(0); }
+  100% { opacity: 0; transform: translateY(20px) rotate(40deg); }
+}
+.tui-screen__h--success { color: var(--tui-battery); }
+.tui-screen__sub {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: clamp(14px, 1.4vw, 20px);
+  color: rgba(14,14,14,0.65);
+  margin: 0;
+  text-align: center;
+}
+.tui-replay {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--f-mono, monospace);
+  font-size: clamp(11px, 1vw, 13px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tui-carbon);
+  padding: 6px 12px;
+  margin-top: clamp(4px, 0.8vh, 10px);
+  transition: color 0.2s;
+}
+.tui-replay:hover { color: var(--tui-electric); }
+
+.tui-confetti {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ── 2 · THE PROBLEM — 42-min stat punch ─────────────────── */
 .tui-problem {
   padding: clamp(80px, 14vh, 160px) clamp(20px, 5vw, 72px);
