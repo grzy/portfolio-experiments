@@ -1508,8 +1508,8 @@
 }
 .lost-reflect__caption-overlay {
   position: absolute;
-  /* lands above the laptop screen edge but below the densest fog band */
-  top: clamp(40px, 8%, 120px);
+  /* sits halfway between the top of the image and the laptop screen edge */
+  top: clamp(60px, 12%, 180px);
   left: 0;
   right: 0;
   display: grid;
