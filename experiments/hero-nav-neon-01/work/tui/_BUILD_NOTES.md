@@ -51,10 +51,23 @@ Tūī (this project, Sept-Nov 2024) is the SEED that grew into Lost & Endangered
 
 ## Three personas (UX class assignment)
 Each flow = one persona, one fictional user:
-- **Hiro** → Bakery flow
+- **Hiro (LEAD PERSONA)** → Bakery flow
 - **Marco** → Dog Park flow
 - **Camille** → Tūī Birdsong flow
-Ivy has photos/images of each persona — could use them in the case story when discussing flows.
+
+### 🪄 Hiro's full story (locked in 2026-04-26)
+Hiro lives in San Francisco with his wife and two daughters. His wife is in Seattle for work, so Hiro and the girls hop in the EV and road-trip up to surprise her. They charge the car as they arrive in Seattle, and decide to grab baked goods from a bakery within walking distance of the charging station — to bring to mom.
+
+**This story is the page's emotional engine.** The product solves a real moment: you're charging anyway, the kids are restless, mom is waiting, and there's a bakery 4 blocks away you wouldn't have known about. Tūī tells you, sends you walking directions, and you arrive with bread and pastries. Family reunion built into a charging stop.
+
+**Use this in the case story copy** — it makes the abstract product ("EV charging activity finder") feel like an actual life moment.
+
+### Persona image strategy
+- 2024 AI imagery is inconsistent (people don't look the same across photos)
+- Ivy has the **most photos of Hiro** — he's the visual lead too
+- **Use only the highest-craft images.** Don't try to show all three personas equally if the photos don't hold up.
+- Possible placement: hero photo of Hiro + daughters at a bakery (high-craft only), then small persona cards in the case story body for Marco + Camille if usable.
+- The iOS phone wallpaper across all 4 phone frames is already a father+daughter car-window photo — that's likely a Hiro family image and is already serving the brand mood.
 
 ## Screens collected
 - [x] Bakery 1 (383:1336) — start screen, "HELLO HIRO" greeting + question + Talk-to-Tūī CTA
@@ -268,3 +281,80 @@ On certain interactions, the dashboard screen **bleeds soft light outward into t
 - imgHomeIcon: 2bb50c18-c601-481f-a565-209a7fc2ec3b
 - imgEvIcon: 9739e17e-420a-4ef7-83c6-45efd493083e
 - imgEllipse37 (Talk-to-Tūī CTA gradient): c0409860-df3b-4de4-98ac-7b3a2b2053f8
+
+## Case story facts (from deck + research, locked in 2026-04-26 night)
+
+### Project meta
+- **Title:** Rethinking EV Charging — Beyond the Gas Station
+- **Course:** Academy of Art University, IXD 606 UXD, Fall 2024
+- **Format:** Car UI concept — text-message + in-car interface hybrid (NOT another app)
+- **Name origin:** Tūī, a New Zealand bird known for mimicking sounds and filling quiet spaces with melody. ← This is the through-line to L&E. Past-Ivy didn't know she was naming the seed.
+
+### One-line problem statement
+EV apps prioritize charging speed but ignore the wait. Tūī turns charging downtime into personalized, low-friction moments — without forcing users into another app.
+
+### ⭐ Headline stat (the punch)
+**EV drivers spend an average of 42 minutes per paid public DC fast-charging session.**
+- Source: US Department of Energy / Energetics analysis of 2.4M sessions through June 2023
+- Tesla Superchargers bring the all-charger average to 31 min; non-Tesla public fast-charging averages 42 min
+- **Use this in the case story opening** — it quantifies the problem the deck doesn't quantify itself
+- Suggested opener: *"EV drivers spend an average of 42 minutes at a public fast charger. Apps optimize how fast the car charges. Nobody designs for the wait itself."*
+
+### Market stats (from deck — supporting, not headline)
+- 59.6% of EV drivers use public chargers weekly (PR Newswire via ChargeLab, Feb 2024)
+- 86.0% have access to a home charger (frames why public-charging UX still matters)
+- 192,000+ publicly available charging ports in the US (USDOT, Aug 2024)
+- ~1,000 new public chargers added each week (USDOT)
+
+### Research methodology (UX class)
+- Method: 1:1 user interviews
+- Participants: EV-owning professionals 35-55 (commuters + road-trippers)
+- Named in deck: Eli Danziger (SVP Product, Xero), Kane Cullimore (Senior Data Scientist, O'Reilly), Daniel Erman (Sales, KNBR Radio)
+- Personas built: 3 (Hiro, Marco, Camille) — each tied to a flow
+
+### Personas (deck-confirmed details)
+- **Hiro, 44, SVP Product** → Bakery / Nourish flow
+- **Marco, 52, semi-retired engineer** → Dog Park / Outside flow
+- **Camille, 38, Infrastructure Architect** → Birdsong / Listen flow
+
+### Five activity categories (locked in deck)
+Listen · Focus · Connect · Outside · Nourish
+
+### Type system (deck-confirmed)
+- Manrope, Medium & Bold
+- H1 64 / H2 48 / T1 24 / T2 20 / T3 16
+- (Rework plan still applies — eyebrow → mono, sizes scaled down for calm car-UI)
+
+### Color palette (6, deck-confirmed hex)
+- Electric Blue #1773CE
+- Lichen #B1A56C  ← deck spec; live Figma was #dfff00. **Use deck hex on the case story page; the brighter Figma value can stay in the prototype as the actual mascot/CTA gradient.**
+- Fogbound #E0D9CF
+- Moss #B1A56C (same as Lichen — likely a duplicate in the deck)
+- Pure Air #F9F9F9
+- Battery Black #0E0E0E
+
+### Components built (deck inventory)
+Button cards · interactive progress bar · interactive slider · nav buttons · Tūī companion mascot
+
+### Hi-fi prototype: 9 documented steps
+plug-in text → welcome screen → activity cards → sub-activity cards → walking directions text → charge-level slider → confetti completion screen → walking directions text → charge-status reminder text
+
+### Testing (qualitative only — no metrics in deck)
+- 3 testers over 2 days, Nov 11-12 2024: Joel Evanoff, Kane Cullimore, Tianna Wu
+- ⚠️ No quantitative results in deck. Skip — the script transcripts dilute what Ivy already pulled.
+
+### Competitor benchmarks
+Rivian (EV experience) · WeWork (community/space) · AllTrails (location-based discovery)
+
+### Pull quote (use it)
+> **"Craft over process."** Understanding UX is vital, but polished, visually compelling solutions are what stand out.
+
+### Future concepts (case story "what's next" section)
+- AI-Integrated Progress Bar
+- Paper Mode
+- Glow-in-the-Dark Mode (already locked into the build)
+- "Tell Tūī an Activity" voice input (already wired via Web Speech API)
+- Rive for mascot animation (Ivy's hindsight: "Rive would've been the better tool" — the design-engineering handoff repair angle)
+
+### Deck narrative arc (optional structure cue)
+The deck is structured as a 6-stage "gear shift" narrative (1st Gear → Reverse). **Don't copy this on the case story page** — it's cute for a school deck, too cute for a hiring-manager-facing portfolio. Use the standard Problem → Insight → Decision → Why-it-matters arc instead.

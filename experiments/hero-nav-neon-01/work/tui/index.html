@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tūī ✺ Ivy Grzybowski</title>
+<meta name="description" content="An EV car-UI concept that turns charging downtime into walking-distance moments. Case story by Ivy Grzybowski." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../style.css?v=20" />
+<link rel="stylesheet" href="tui.css?v=1" />
+</head>
+<body class="tui-body">
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="cursor" aria-hidden="true">
+  <span class="cursor__dot"></span>
+  <span class="cursor__ring"></span>
+</div>
+
+<!-- nav -->
+<nav class="nav" aria-label="Primary">
+  <a class="nav__mark" href="/" data-hover>
+    <span class="nav__glyph">✺</span>
+    <span class="nav__name">ivy grzybowski</span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="/#work" data-hover aria-current="page">work</a></li>
+    <li><a href="/#work" data-hover>experiments</a></li>
+    <li><a href="/about/" data-hover>about</a></li>
+    <li class="nav__contact-wrap"><a href="mailto:ivygrzybowski@gmail.com" class="nav__contact" data-hover>contact</a></li>
+  </ul>
+  <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── 1 · HERO — prototype lives inside cabin ──────────────────── -->
+<header class="tui-hero" id="top">
+  <div class="tui-hero__veil" aria-hidden="true"></div>
+
+  <div class="tui-hero__text">
+    <span class="tui-eyebrow"><span class="tui-eyebrow__glyph">✺</span> case story</span>
+    <h1 class="tui-hero__title">
+      Forty-two minutes<br />of <em>doing nothing</em>.
+    </h1>
+    <p class="tui-hero__sub">
+      <span class="tui-hero__sub-line">An EV car-UI concept that turns charging downtime</span>
+      <span class="tui-hero__sub-line">into walking-distance moments — without forcing another app.</span>
+    </p>
+  </div>
+
+  <!-- the cabin holds the dashboard. swap background on .tui-cabin
+       to a real Rivian/Lucid photo once Ivy sources one. -->
+  <div class="tui-cabin" data-flow="bakery" data-screen="1">
+    <div class="tui-cabin__bg" aria-hidden="true"></div>
+    <div class="tui-cabin__bleed" aria-hidden="true"></div>
+    <div class="tui-cabin__vignette" aria-hidden="true"></div>
+
+    <!-- dashboard frame: 1366×1024 in design, scaled responsively -->
+    <div class="tui-dash" id="tuiDash">
+      <div class="tui-dash__bezel" aria-hidden="true"></div>
+      <div class="tui-dash__noise" aria-hidden="true"></div>
+
+      <!-- screens stack — only one visible at a time -->
+      <div class="tui-screens" id="tuiScreens">
+
+        <!-- ── Bakery 1 · start ─────────────────────────────── -->
+        <section class="tui-screen tui-screen--start is-active" data-screen="1" aria-label="Hello Hiro start screen">
+          <div class="tui-corner tui-corner--tl">
+            <button class="tui-icon" aria-label="Home"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2h-3v-7H8v7H5a2 2 0 0 1-2-2z"/></svg></button>
+            <button class="tui-icon" aria-label="EV charge"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11v16H5zM16 8h2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2"/><path d="M9 13l2-3h-2l2-3"/></svg></button>
+          </div>
+          <div class="tui-corner tui-corner--tr">
+            <button class="tui-icon" aria-label="Tūī"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14c2-6 8-9 14-7-2 6-7 10-14 7zM4 14l-1 4M14 11h.01"/></svg></button>
+            <button class="tui-icon" aria-label="Settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+          </div>
+
+          <div class="tui-greet">
+            <p class="tui-greet__hello">HELLO HIRO</p>
+            <h2 class="tui-greet__q">What kind of activity would you like while you charge?</h2>
+          </div>
+
+          <!-- Tūī mascot — blinks + breathes idle -->
+          <div class="tui-mascot tui-mascot--awake" aria-hidden="true">
+            <svg class="tui-mascot__svg" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="tuiBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--tui-lichen)"/>
+                  <stop offset="100%" stop-color="var(--tui-electric)"/>
+                </linearGradient>
+                <radialGradient id="tuiEyeGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="var(--tui-electric)" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="var(--tui-electric)" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <!-- body -->
+              <g class="tui-mascot__body">
+                <ellipse cx="110" cy="118" rx="86" ry="72" fill="url(#tuiBody)"/>
+                <!-- soft inner highlight -->
+                <ellipse cx="86" cy="92" rx="42" ry="28" fill="rgba(255,255,255,0.18)"/>
+              </g>
+              <!-- beak -->
+              <path class="tui-mascot__beak" d="M196 118 L222 122 L196 130 Z" fill="var(--tui-battery)"/>
+              <!-- left eye -->
+              <g class="tui-mascot__eye tui-mascot__eye--l">
+                <circle class="tui-mascot__eye-glow" cx="78" cy="100" r="22" fill="url(#tuiEyeGlow)"/>
+                <circle class="tui-mascot__eye-white" cx="78" cy="100" r="13" fill="#ffffff"/>
+                <circle class="tui-mascot__eye-pupil" cx="78" cy="100" r="6" fill="var(--tui-battery)"/>
+              </g>
+              <!-- right eye -->
+              <g class="tui-mascot__eye tui-mascot__eye--r">
+                <circle class="tui-mascot__eye-glow" cx="138" cy="100" r="22" fill="url(#tuiEyeGlow)"/>
+                <circle class="tui-mascot__eye-white" cx="138" cy="100" r="13" fill="#ffffff"/>
+                <circle class="tui-mascot__eye-pupil" cx="138" cy="100" r="6" fill="var(--tui-battery)"/>
+              </g>
+              <!-- eyelids for blink (closed state) -->
+              <rect class="tui-mascot__lid tui-mascot__lid--l" x="62" y="98" width="32" height="4" rx="2" fill="var(--tui-battery)" opacity="0"/>
+              <rect class="tui-mascot__lid tui-mascot__lid--r" x="122" y="98" width="32" height="4" rx="2" fill="var(--tui-battery)" opacity="0"/>
+            </svg>
+          </div>
+
+          <!-- Talk-to-Tūī CTA: 50px gradient circle that pulses -->
+          <button class="tui-talk tui-talk--orb" id="tuiTalkOrb" aria-label="Talk to Tūī">
+            <span class="tui-talk__halo" aria-hidden="true"></span>
+            <span class="tui-talk__core" aria-hidden="true"></span>
+          </button>
+        </section>
+
+        <!-- placeholders for screens 2–6, built in Phase 2 -->
+        <section class="tui-screen" data-screen="2" aria-hidden="true"></section>
+        <section class="tui-screen" data-screen="3" aria-hidden="true"></section>
+        <section class="tui-screen" data-screen="4" aria-hidden="true"></section>
+        <section class="tui-screen" data-screen="5" aria-hidden="true"></section>
+        <section class="tui-screen" data-screen="6" aria-hidden="true"></section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- meta strip under the cabin: role, tools, scope, scroll cue -->
+  <dl class="tui-meta">
+    <div><dt>Role</dt><dd>Concept · UI · interaction · prototype</dd></div>
+    <div><dt>Tools</dt><dd>Figma · Manrope · Web Speech API</dd></div>
+    <div><dt>Scope</dt><dd>UX class · one designer · end-to-end</dd></div>
+    <div class="tui-meta__cue">
+      <a class="tui-hero__scroll" href="#problem" data-hover aria-label="Read the case story">
+        <span>case story</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
+      </a>
+    </div>
+  </dl>
+</header>
+
+<!-- ── 2 · THE PROBLEM — 42-min stat punch ──────────────────── -->
+<section class="tui-problem" id="problem">
+  <div class="tui-problem__inner">
+    <span class="tui-eyebrow">◆ the problem</span>
+    <p class="tui-problem__stat">
+      <span class="tui-problem__num">42</span>
+      <span class="tui-problem__unit">minutes</span>
+    </p>
+    <p class="tui-problem__lede">
+      EV drivers spend an average of <em>42 minutes</em> at a public DC fast charger.
+    </p>
+    <p class="tui-problem__sub">
+      Apps optimize how fast the car charges. Nobody designs for the wait itself.
+    </p>
+    <p class="tui-problem__src">U.S. Dept. of Energy + Energetics, 2.4M sessions through June 2023.</p>
+  </div>
+</section>
+
+<!-- placeholders for sections 3–8, built in Phase 5 -->
+<section class="tui-section-stub" id="research" aria-hidden="true"></section>
+<section class="tui-section-stub" id="insight" aria-hidden="true"></section>
+<section class="tui-section-stub" id="built" aria-hidden="true"></section>
+<section class="tui-section-stub" id="deepdive" aria-hidden="true"></section>
+<section class="tui-section-stub" id="reflect" aria-hidden="true"></section>
+
+<!-- ── FOOTER ───────────────────────────────────────────────── -->
+<footer id="contact" class="foot tui-foot">
+  <div class="foot__content">
+    <span class="eyebrow">✢ inbox open</span>
+    <div class="foot__middle">
+      <h2 class="foot__title">
+        <span class="foot__title-sm">Let&rsquo;s build something</span>
+        <em>w/&nbsp;soul</em>
+      </h2>
+      <a class="foot__mail" href="mailto:ivygrzybowski@gmail.com" data-hover data-text="ivygrzybowski@gmail.com">ivygrzybowski@gmail.com</a>
+    </div>
+    <div class="foot__bottom">
+      <ul class="foot__links">
+        <li><a href="https://www.linkedin.com/in/ivygrzy/" target="_blank" rel="noopener" data-hover>linkedin</a></li>
+        <li><a href="#" data-hover>twitter</a></li>
+        <li><a href="https://github.com/grzy" target="_blank" rel="noopener" data-hover>github</a></li>
+      </ul>
+      <p class="foot__sig">✺ built in the terminal with claude code • 2026</p>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" aria-label="Scroll to top" data-hover>
+  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20V4M6 10l6-6 6 6"/></svg>
+</button>
+
+<script type="module" src="../../script.js?v=38"></script>
+<script type="module" src="tui.js?v=1"></script>
+</body>
+</html>
