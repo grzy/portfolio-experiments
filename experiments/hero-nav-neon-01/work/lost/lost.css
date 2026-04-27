@@ -1509,7 +1509,7 @@
 .lost-reflect__caption-overlay {
   position: absolute;
   /* sits halfway between the top of the image and the laptop screen edge */
-  top: clamp(70px, 14%, 200px);
+  top: clamp(80px, 16%, 220px);
   left: 0;
   right: 0;
   display: grid;
