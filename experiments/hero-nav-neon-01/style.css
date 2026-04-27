@@ -892,7 +892,9 @@ img { display: block; max-width: 100%; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  isolation: isolate;
+  /* isolation removed -- it was clipping the orchid bloom's screen blend
+     at the section seam. without it, the bloom glow extends naturally
+     up into the section above with no visible cutoff line */
   z-index: 1;
   overflow: hidden;
 }
