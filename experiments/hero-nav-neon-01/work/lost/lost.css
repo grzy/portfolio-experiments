@@ -1528,6 +1528,9 @@
   color: var(--text-dim);
   text-shadow: 0 0 24px oklch(0 0 0 / 0.8);
 }
+/* solid teal -- no gradient, no backdrop blur. the mint stands on its
+   own against the fog and there's nothing else on the page using teal
+   as a flat fill, so it reads as the section's signature color. */
 .lost-reflect__phrase {
   position: relative;
   font-family: var(--f-display);
@@ -1536,44 +1539,23 @@
   font-size: clamp(32px, 4.4vw, 68px);
   line-height: 1.05;
   letter-spacing: -0.02em;
-  background: linear-gradient(92deg, var(--neon), var(--mint));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  /* lime/mint glow only -- no black halos. the soft frosted defocus
-     pseudo behind the text does the readability work */
+  color: var(--mint);
+  /* soft mint glow only -- pulses gently, no hard edges */
   filter:
-    drop-shadow(0 0 24px rgb(184 235 96 / 0.5))
-    drop-shadow(0 0 60px rgb(124 193 172 / 0.35));
-  animation: lost-phrase-pulse 4.5s ease-in-out infinite;
-}
-/* frosted defocus zone behind the phrase: blurs the fog underneath so
-   the gradient text reads cleanly without resorting to a stark dark halo */
-.lost-reflect__phrase::before {
-  content: '';
-  position: absolute;
-  inset: -0.2em -0.4em;
-  border-radius: 999px;
-  z-index: -1;
-  -webkit-backdrop-filter: blur(14px) saturate(1.05);
-  backdrop-filter: blur(14px) saturate(1.05);
-  /* very subtle dark wash so the blur reads as a cool zone, not a smudge */
-  background: linear-gradient(180deg, rgb(15 30 36 / 0.18), rgb(15 30 36 / 0.06));
-  pointer-events: none;
-  /* fade the edges so the defocus zone has no hard boundary */
-  -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 85%);
-  mask-image: radial-gradient(ellipse at center, black 35%, transparent 85%);
+    drop-shadow(0 0 16px rgb(124 193 172 / 0.55))
+    drop-shadow(0 0 40px rgb(124 193 172 / 0.35));
+  animation: lost-phrase-pulse 5s ease-in-out infinite;
 }
 @keyframes lost-phrase-pulse {
   0%, 100% {
     filter:
-      drop-shadow(0 0 18px rgb(184 235 96 / 0.4))
-      drop-shadow(0 0 48px rgb(124 193 172 / 0.28));
+      drop-shadow(0 0 14px rgb(124 193 172 / 0.5))
+      drop-shadow(0 0 36px rgb(124 193 172 / 0.3));
   }
   50% {
     filter:
-      drop-shadow(0 0 32px rgb(184 235 96 / 0.65))
-      drop-shadow(0 0 80px rgb(124 193 172 / 0.42));
+      drop-shadow(0 0 22px rgb(124 193 172 / 0.7))
+      drop-shadow(0 0 56px rgb(124 193 172 / 0.42));
   }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -479,92 +479,38 @@ if (document.querySelector(".hero__bloom")) {
   totalEl.textContent = String(totalCommits);
 
   // ── Sound (Web Audio API) ──
-  // Warm pad synths ported from the Unicorn app: xylo (light triangle
-  // overtones) for low-activity days, steelDrum (multi-harmonic) for
-  // high-activity days. Pentatonic notes by level so every hover lands
-  // in a key that mixes well with its neighbors. Off by default.
+  // Pleasant pentatonic sine-wave notes per activity level. Off by default.
   const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
   let audioCtx = null;
-  let masterGain = null;
   let soundEnabled = false;
-
-  // C minor pentatonic across two octaves, ascending by level
-  const noteMap = {
-    1: 392.00,   // G4 -- soft single tap
-    2: 523.25,   // C5
-    3: 659.25,   // E5 -- shifts to steel drum
-    4: 783.99    // G5 -- steel drum + xylo overtone chord
-  };
 
   const ensureCtx = () => {
     if (!AudioCtxClass) return null;
-    if (!audioCtx) {
-      audioCtx = new AudioCtxClass();
-      const comp = audioCtx.createDynamicsCompressor();
-      comp.threshold.value = -18; comp.knee.value = 10;
-      comp.ratio.value = 4; comp.attack.value = 0.003; comp.release.value = 0.25;
-      masterGain = audioCtx.createGain();
-      masterGain.gain.value = 0.55;
-      masterGain.connect(comp); comp.connect(audioCtx.destination);
-    }
+    if (!audioCtx) audioCtx = new AudioCtxClass();
     if (audioCtx.state === "suspended") audioCtx.resume();
     return audioCtx;
   };
 
-  // xylo: soft triangle + sparkly upper overtone
-  const xylo = (freq, vol, when) => {
-    const t = when || audioCtx.currentTime;
-    [[1, 0.7, 0.16], [3.8, 0.18, 0.08]].forEach(([mult, gain, dur]) => {
-      const o = audioCtx.createOscillator();
-      const e = audioCtx.createGain();
-      o.type = "triangle";
-      o.frequency.value = freq * mult;
-      e.gain.setValueAtTime(0, t);
-      e.gain.linearRampToValueAtTime(vol * gain, t + 0.002);
-      e.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(e); e.connect(masterGain);
-      o.start(t); o.stop(t + dur + 0.02);
-    });
-  };
-
-  // steelDrum: warm multi-harmonic pad with quick decay
-  const steelDrum = (freq, vol, when) => {
-    const t = when || audioCtx.currentTime;
-    [
-      [1, 0.55, 1.2, 0],
-      [2, 0.28, 0.8, 3],
-      [3.08, 0.16, 0.5, -5],
-      [0.5, 0.1, 0.7, 0]
-    ].forEach(([mult, gain, dur, detune]) => {
-      const o = audioCtx.createOscillator();
-      const e = audioCtx.createGain();
-      o.type = (mult > 0.5 && mult < 3) ? "triangle" : "sine";
-      o.frequency.value = freq * mult;
-      o.detune.value = detune;
-      const v = vol * gain;
-      e.gain.setValueAtTime(0, t);
-      e.gain.linearRampToValueAtTime(v, t + 0.003);
-      e.gain.exponentialRampToValueAtTime(v * 0.3, t + 0.06);
-      e.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(e); e.connect(masterGain);
-      o.start(t); o.stop(t + dur + 0.05);
-    });
-  };
+  // A minor pentatonic, ascending by level: A C E G C↑
+  const notes = [440, 523.25, 659.25, 783.99, 1046.50];
 
   const playNote = (level) => {
     if (!soundEnabled) return;
     const ctx = ensureCtx();
     if (!ctx) return;
-    const freq = noteMap[Math.max(1, Math.min(4, level))];
-    if (level <= 2) {
-      xylo(freq, 0.32);
-    } else if (level === 3) {
-      steelDrum(freq, 0.32);
-    } else {
-      // level 4: chord -- steel drum root + xylo high overtone
-      steelDrum(freq, 0.32);
-      xylo(freq * 2, 0.18, ctx.currentTime + 0.04);
-    }
+    const freq = notes[Math.max(0, Math.min(4, level - 1))];
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    const t = ctx.currentTime;
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(0.12, t + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.45);
   };
 
   // ── Sound toggle button ──
