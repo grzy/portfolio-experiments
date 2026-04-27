@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=20" />
-<link rel="stylesheet" href="tui.css?v=5" />
+<link rel="stylesheet" href="tui.css?v=6" />
 </head>
 <body class="tui-body">
 
@@ -417,12 +417,142 @@
   </div>
 </section>
 
-<!-- placeholders for sections 3–8, built in Phase 5 -->
-<section class="tui-section-stub" id="research" aria-hidden="true"></section>
-<section class="tui-section-stub" id="insight" aria-hidden="true"></section>
-<section class="tui-section-stub" id="built" aria-hidden="true"></section>
-<section class="tui-section-stub" id="deepdive" aria-hidden="true"></section>
-<section class="tui-section-stub" id="reflect" aria-hidden="true"></section>
+<!-- ── 3 · RESEARCH — three drivers, three flows ──────────── -->
+<section class="tui-research" id="research">
+  <div class="tui-research__inner">
+    <div class="tui-research__head">
+      <span class="tui-eyebrow">❋ research</span>
+      <h2 class="tui-h2">Three drivers,<br/>three flows.</h2>
+      <p>1:1 interviews with EV-owning professionals 35--55 + a question I kept hearing back: <u class="tui-mark">what do I do for the next forty minutes?</u></p>
+    </div>
+
+    <ul class="tui-personas" role="list">
+      <li>
+        <span class="tui-persona__tag">01 / lead</span>
+        <h3>Hiro</h3>
+        <p class="tui-persona__role">44 + SVP Product</p>
+        <p>Drives the family from San Francisco to Seattle to surprise his wife at a work trip. Charges on arrival. Wants to walk into her hotel with bread + pastries from a bakery near the station.</p>
+        <p class="tui-persona__flow">→ Bakery flow</p>
+      </li>
+      <li>
+        <span class="tui-persona__tag">02</span>
+        <h3>Marco</h3>
+        <p class="tui-persona__role">52 + semi-retired engineer</p>
+        <p>Won't sit in the car for forty minutes. Brings the dog. Wants the nearest park, the nearest trail, the nearest patch of grass.</p>
+        <p class="tui-persona__flow">→ Dog Park flow</p>
+      </li>
+      <li>
+        <span class="tui-persona__tag">03</span>
+        <h3>Camille</h3>
+        <p class="tui-persona__role">38 + Infrastructure Architect</p>
+        <p>Doesn't want to do anything. Wants the cabin to go quiet + the world to come back in. Birdsong, rain, ocean, fire.</p>
+        <p class="tui-persona__flow">→ Birdsong flow</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4 · INSIGHT ─────────────────────────────────────────── -->
+<section class="tui-insight" id="insight">
+  <h2 class="tui-insight__title">
+    <span>The wait isn't the problem.</span>
+    <em>The boredom is.</em>
+  </h2>
+  <p class="tui-insight__sub">So I built a co-pilot for the in-between.</p>
+</section>
+
+<!-- ── 5 · WHAT I DESIGNED ─────────────────────────────────── -->
+<section class="tui-built" id="built">
+  <div class="tui-built__head">
+    <span class="tui-eyebrow">❀ what I designed</span>
+    <h2 class="tui-h2">A car-UI + a text-message handoff.<br/>Not another app.</h2>
+  </div>
+
+  <ol class="tui-built__list">
+    <li class="tui-built__block">
+      <div class="tui-built__num">01</div>
+      <div class="tui-built__body">
+        <h3>One mascot to <u class="tui-mark">break the silence</u>.</h3>
+        <p>Tūī is a sidekick, not a chatbot. Greets you by name + breathes + blinks + naps when you're idle too long. Picks up the weight of the activity prompt so the car doesn't feel cold.</p>
+      </div>
+    </li>
+
+    <li class="tui-built__block">
+      <div class="tui-built__num">02</div>
+      <div class="tui-built__body">
+        <h3>Five activity categories. <u class="tui-mark">Touchscreen-sized</u>, finger-perfect.</h3>
+        <p>Listen + Focus + Connect + Outside + Nourish. The grid is the same across every persona. Press, drill in, confirm. Three taps, you're committed.</p>
+      </div>
+    </li>
+
+    <li class="tui-built__block">
+      <div class="tui-built__num">03</div>
+      <div class="tui-built__body">
+        <h3>A storybook moment <u class="tui-mark">between every step</u>.</h3>
+        <p>When you press Nourish, the card lifts + Tūī peeks up from behind it with bright yellow eyes. Tiny, deliberate. The kind of detail you don't notice until it's gone.</p>
+      </div>
+    </li>
+
+    <li class="tui-built__block">
+      <div class="tui-built__num">04</div>
+      <div class="tui-built__body">
+        <h3>A handoff to the phone, <u class="tui-mark">in emojis</u>.</h3>
+        <p>Tūī never sends paragraphs. Just ⚡️🔌 when charging starts, 🍞 + a location pin when the bakery's three blocks away, 🔋🔌 when the car's full. Voice: best friend who doesn't overshare.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- ── 6 · THE SLIDER (deep dive) ──────────────────────────── -->
+<section class="tui-deep" id="deepdive">
+  <div class="tui-deep__inner">
+    <span class="tui-eyebrow">❖ the show-stopper</span>
+    <h2 class="tui-h2">The slider is the screen<br/>I'm still proudest of.</h2>
+    <p>Drag the knob + the gradient fills the track + the percentage tumbles in a vertical stack + the cabin halos in real time as your finger pulls.</p>
+    <p>I was told this was too ambitious for a UX class. I built it anyway, in 2024, with a Figma slot-machine column inside a clipped frame. <u class="tui-mark">Now it's real, in code.</u> One <code>&lt;input type="range"&gt;</code>, one CSS gradient, one translateY tied to the value.</p>
+    <p class="tui-deep__quote">
+      <span>&ldquo;</span>Craft over process.<span>&rdquo;</span>
+      <cite>-- final reflection in my Fall 2024 deck</cite>
+    </p>
+  </div>
+</section>
+
+<!-- ── 7 · REFLECTION: handoff repair ──────────────────────── -->
+<section class="tui-reflect" id="reflect">
+  <div class="tui-reflect__inner">
+    <span class="tui-eyebrow">✢ reflection</span>
+    <h2 class="tui-h2">What I'd build differently.</h2>
+
+    <p>Tūī finished as a static Figma prototype. Linked frames, animated transitions, lots of mascot iteration. None of it translated to engineers. <u class="tui-mark">The handoff was dead.</u></p>
+
+    <p>If I were starting today I'd build it in Rive + ship it in code from week one. The mascot would breathe in production, not just in Smart Animate. The slider would behave, not just demo. <u class="tui-mark">A prototype isn't a screenshot.</u> It's a thing that runs.</p>
+
+    <p>This page is that retake. Same design, alive.</p>
+  </div>
+</section>
+
+<!-- ── 8 · THROUGH-LINE: Tūī as the seed of L&E ───────────── -->
+<section class="tui-seed" id="seed">
+  <div class="tui-seed__inner">
+    <span class="tui-eyebrow">🪶 the through-line</span>
+    <h2 class="tui-h2">I named it after a New Zealand bird.</h2>
+
+    <p>Tūī (the bird) is known for <u class="tui-mark">mimicking sounds + filling quiet spaces with melody</u>. The iridescent green-blue plumage is exactly the gradient I picked for the mascot, before I knew the connection was there.</p>
+
+    <p>The Birdsong flow plays my own field recording from a 2024 New Zealand trip. That same recording is what made me want to build <a href="/work/lost/" data-hover><em>Lost &amp; Endangered</em></a> the next semester.</p>
+
+    <p class="tui-seed__close">Past-me didn't know she was planting a seed.</p>
+  </div>
+</section>
+
+<!-- ── closing signoff + next-project CTA ──────────────────── -->
+<aside class="tui-signoff" aria-label="Closing signature">
+  <span class="tui-signoff__eyebrow">✺ takeaway</span>
+  <p>Build in code. Make it breathe.</p>
+  <a class="tui-next" href="/work/lost/" data-hover>
+    Up next: Lost &amp; Endangered
+  </a>
+</aside>
 
 <!-- ── FOOTER ───────────────────────────────────────────────── -->
 <footer id="contact" class="foot tui-foot">

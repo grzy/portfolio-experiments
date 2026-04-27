@@ -554,7 +554,7 @@
   transition: transform 0.18s var(--ease, cubic-bezier(.2,.7,0,1)), box-shadow 0.18s;
   min-height: clamp(140px, 22%, 220px);
 }
-.tui-card:hover { transform: translateY(-2px); box-shadow: -2px -2px 4px var(--tui-pure), 4px 6px 12px rgba(178,174,167,0.55); }
+.tui-card:hover { box-shadow: -2px -2px 4px var(--tui-pure), 4px 6px 14px rgba(178,174,167,0.7); }
 .tui-card:active {
   transform: scale(0.99);
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.12), inset 0 -1px 2px var(--tui-pure);
@@ -651,7 +651,7 @@
   transition: transform 0.18s, box-shadow 0.18s;
 }
 .tui-subcard span:first-child { font-size: clamp(20px, 2.6vw, 36px); line-height: 1; }
-.tui-subcard:hover { transform: translateY(-2px); }
+.tui-subcard:hover { box-shadow: -2px -2px 4px var(--tui-pure), 3px 5px 10px rgba(178,174,167,0.6); }
 .tui-subcard:active { transform: scale(0.97); box-shadow: inset 0 2px 6px rgba(0,0,0,0.12); }
 .tui-subcard--target {
   outline: 2px solid var(--tui-electric);
@@ -963,8 +963,342 @@
   margin-top: clamp(8px, 1.6vh, 16px);
 }
 
-/* ── stub sections (Phase 5 fills these) ────────────────── */
-.tui-section-stub { display: none; }
+/* ── shared mark + section base for the story tier ───────── */
+.tui-mark {
+  text-decoration: none;
+  background-image: linear-gradient(180deg, transparent 60%, rgba(223,255,0,0.18) 60%);
+  padding: 0 0.06em;
+  transition: background-image 0.3s;
+}
+.tui-mark:hover { background-image: linear-gradient(180deg, transparent 50%, rgba(223,255,0,0.32) 50%); }
+
+/* ── 3 · RESEARCH ─────────────────────────────────────────── */
+.tui-research {
+  padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 72px);
+  border-top: 1px solid var(--rule);
+}
+.tui-research__inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.4fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .tui-research__inner { grid-template-columns: 1fr; gap: 48px; }
+}
+.tui-research__head { display: grid; gap: clamp(14px, 2vh, 24px); position: sticky; top: 120px; }
+.tui-research__head p {
+  font-family: var(--f-mono);
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin: 0;
+  max-width: 36ch;
+}
+.tui-personas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(20px, 3vh, 40px);
+}
+.tui-personas li {
+  display: grid;
+  gap: 6px;
+  padding: clamp(20px, 3vh, 36px) 0;
+  border-top: 1px solid var(--rule);
+}
+.tui-personas li:last-child { border-bottom: 1px solid var(--rule); }
+.tui-persona__tag {
+  font-family: var(--f-mono);
+  font-size: clamp(10px, 0.82vw, 12px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.tui-personas h3 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 4px 0 0;
+}
+.tui-persona__role {
+  font-family: var(--f-mono);
+  font-size: clamp(12px, 0.95vw, 14px);
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin: 0 0 6px;
+  text-transform: lowercase;
+}
+.tui-personas p:not(.tui-persona__role):not(.tui-persona__flow) {
+  font-family: var(--f-display);
+  font-size: clamp(15px, 1.2vw, 19px);
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0;
+  max-width: 56ch;
+}
+.tui-persona__flow {
+  font-family: var(--f-mono);
+  font-size: clamp(11px, 0.9vw, 13px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 8px 0 0 !important;
+  color: var(--neon);
+  background: linear-gradient(92deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── 4 · INSIGHT ─────────────────────────────────────────── */
+.tui-insight {
+  padding: clamp(80px, 14vh, 160px) clamp(20px, 5vw, 72px);
+  text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.tui-insight__title {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+.tui-insight__title span { color: var(--text-dim); display: block; }
+.tui-insight__title em {
+  display: block;
+  font-style: italic;
+  background: linear-gradient(92deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tui-insight__sub {
+  font-family: var(--f-mono);
+  font-size: clamp(13px, 1.05vw, 16px);
+  color: var(--text-dim);
+  margin: clamp(20px, 3vh, 36px) 0 0;
+}
+
+/* ── 5 · WHAT I DESIGNED ─────────────────────────────────── */
+.tui-built {
+  padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 72px);
+  border-top: 1px solid var(--rule);
+}
+.tui-built__head {
+  max-width: 1300px;
+  margin: 0 auto clamp(40px, 6vh, 80px);
+  display: grid;
+  gap: clamp(14px, 2vh, 24px);
+}
+.tui-built__list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1300px;
+  display: grid;
+  gap: clamp(40px, 6vh, 80px);
+}
+.tui-built__block {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: clamp(20px, 3vw, 48px);
+  align-items: start;
+  padding-top: clamp(20px, 3vh, 36px);
+  border-top: 1px solid var(--rule);
+}
+.tui-built__num {
+  font-family: var(--f-mono);
+  font-size: clamp(14px, 1.2vw, 18px);
+  letter-spacing: 0.12em;
+  color: var(--text-mute);
+}
+.tui-built__body { display: grid; gap: 12px; max-width: 64ch; }
+.tui-built__body h3 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(20px, 2.2vw, 32px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+.tui-built__body p {
+  font-family: var(--f-display);
+  font-size: clamp(15px, 1.2vw, 19px);
+  line-height: 1.55;
+  color: var(--text-dim);
+  margin: 0;
+}
+@media (max-width: 720px) {
+  .tui-built__block { grid-template-columns: 1fr; gap: 12px; }
+}
+
+/* ── 6 · DEEP / SHOW-STOPPER ─────────────────────────────── */
+.tui-deep {
+  padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 72px);
+  border-top: 1px solid var(--rule);
+}
+.tui-deep__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(20px, 3vh, 36px);
+}
+.tui-deep__inner p {
+  font-family: var(--f-display);
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0;
+}
+.tui-deep__inner code {
+  font-family: var(--f-mono);
+  font-size: 0.9em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--neon);
+}
+.tui-deep__quote {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: clamp(22px, 2.6vw, 36px) !important;
+  line-height: 1.3 !important;
+  margin-top: clamp(24px, 4vh, 48px) !important;
+  padding: clamp(20px, 3vh, 36px) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  text-wrap: balance;
+}
+.tui-deep__quote span {
+  font-style: normal;
+  color: var(--neon);
+  background: linear-gradient(92deg, var(--tui-lichen), var(--tui-electric));
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.4em;
+  vertical-align: -0.1em;
+}
+.tui-deep__quote cite {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--f-mono);
+  font-style: normal;
+  font-size: clamp(11px, 0.92vw, 13px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+/* ── 7 · REFLECTION ──────────────────────────────────────── */
+.tui-reflect {
+  padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 72px);
+  border-top: 1px solid var(--rule);
+}
+.tui-reflect__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(18px, 2.6vh, 28px);
+}
+.tui-reflect__inner p {
+  font-family: var(--f-display);
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.55;
+  color: var(--text-dim);
+  margin: 0;
+  max-width: 64ch;
+}
+
+/* ── 8 · THROUGH-LINE: Tūī as seed ───────────────────────── */
+.tui-seed {
+  padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 72px);
+  border-top: 1px solid var(--rule);
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 30%, rgb(54 113 199 / 0.12) 0%, transparent 70%);
+}
+.tui-seed__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(18px, 2.6vh, 28px);
+}
+.tui-seed__inner p {
+  font-family: var(--f-display);
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.55;
+  color: var(--text-dim);
+  margin: 0;
+  max-width: 64ch;
+}
+.tui-seed__inner em {
+  font-style: italic;
+  background: linear-gradient(92deg, var(--tui-lichen), var(--tui-electric));
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tui-seed__inner a {
+  color: var(--neon);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.tui-seed__inner a:hover { color: var(--mint); }
+.tui-seed__close {
+  font-family: var(--f-display);
+  font-size: clamp(20px, 2.2vw, 32px) !important;
+  font-style: italic;
+  color: var(--text) !important;
+  margin-top: clamp(16px, 2.4vh, 28px) !important;
+  text-wrap: balance;
+}
+
+/* ── closing signoff + next-project CTA ───────────────────── */
+.tui-signoff {
+  text-align: center;
+  padding: clamp(80px, 14vh, 160px) clamp(20px, 5vw, 72px) clamp(60px, 8vh, 100px);
+  border-top: 1px solid var(--rule);
+  display: grid;
+  gap: clamp(14px, 2vh, 22px);
+  justify-items: center;
+}
+.tui-signoff__eyebrow {
+  font-family: var(--f-mono);
+  font-size: clamp(10px, 0.82vw, 13px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.tui-signoff p {
+  font-family: var(--f-display);
+  font-size: clamp(22px, 3vw, 44px);
+  font-style: italic;
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance;
+}
+.tui-next {
+  font-family: var(--f-mono);
+  font-size: clamp(13px, 1.1vw, 16px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--neon);
+  padding: 14px 28px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  margin-top: clamp(14px, 2vh, 22px);
+  transition: background 0.2s, color 0.2s;
+}
+.tui-next:hover { background: var(--neon); color: var(--void); }
 
 /* ── footer adopt — minimal Tūī flourish ────────────────── */
 .tui-foot { position: relative; }
