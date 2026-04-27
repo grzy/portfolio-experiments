@@ -555,6 +555,29 @@
   min-height: clamp(140px, 22%, 220px);
 }
 .tui-card:hover { box-shadow: -2px -2px 4px var(--tui-pure), 4px 6px 14px rgba(178,174,167,0.7); }
+/* autoplay "this is the pick" glow — fires briefly before the screen advances */
+.is-auto-pick {
+  outline: 2px solid var(--tui-electric);
+  outline-offset: 4px;
+  box-shadow:
+    -2px -2px 4px var(--tui-pure),
+     4px 6px 18px rgba(54,113,199,0.5),
+     0 0 24px rgba(223,255,0,0.4) !important;
+  animation: tui-auto-pulse 0.7s ease-out;
+}
+@keyframes tui-auto-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+.tui-pill.is-auto-pick {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(223,255,0,0.4),
+    0 8px 18px rgba(54,113,199,0.6),
+    inset 0 -3px 6px rgba(0,0,0,0.15),
+    inset 0 2px 4px rgba(255,255,255,0.5) !important;
+}
 .tui-card:active {
   transform: scale(0.99);
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.12), inset 0 -1px 2px var(--tui-pure);

@@ -155,6 +155,103 @@ if (replay) replay.addEventListener('click', () => {
   goTo(1);
 });
 
+/* ── autoplay sequence — the prototype demos itself ──────
+   Hiring manager scrolls past, watches the whole bakery flow
+   without lifting a finger. User clicks act as optional "skips":
+   they advance the sequence early; autoplay resumes from there. */
+const AUTO_STEPS = [
+  { screen: 1, dwell: 2600 },
+  { screen: 2, dwell: 2600, before: () => glowCard('[data-activity="nourish"]') },
+  { screen: 3, dwell: 2800, before: () => glowCard('[data-sub="bakery"]') },
+  { screen: 4, dwell: 2400, before: () => glowCard('#tuiYesMap') },
+  { screen: 5, dwell: 4200, action: animateSliderDrag },
+  { screen: 6, dwell: 4200 },
+];
+let autoIdx = 0;
+let autoTimer = null;
+
+function glowCard(sel) {
+  const el = document.querySelector(sel);
+  if (!el) return;
+  el.classList.add('is-auto-pick');
+  setTimeout(() => el.classList.remove('is-auto-pick'), 700);
+}
+
+function autoTick() {
+  const step = AUTO_STEPS[autoIdx];
+  if (step.before) step.before();
+  setTimeout(() => goTo(step.screen), 100);
+  if (step.action) setTimeout(step.action, 600);
+  clearTimeout(autoTimer);
+  autoTimer = setTimeout(() => {
+    autoIdx = (autoIdx + 1) % AUTO_STEPS.length;
+    autoTick();
+  }, step.dwell);
+}
+
+function animateSliderDrag() {
+  const i = document.getElementById('tuiSliderInput');
+  if (!i) return;
+  const start = performance.now();
+  const duration = 2200;
+  const target = 80;
+  i.value = 0; syncSlider();
+  slider && slider.classList.add('is-dragging');
+  setCabinState('drag');
+  const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
+  function tick(now) {
+    const t = Math.min(1, (now - start) / duration);
+    i.value = Math.round(ease(t) * target);
+    syncSlider();
+    if (t < 1) requestAnimationFrame(tick);
+    else {
+      slider && slider.classList.remove('is-dragging');
+      setCabinState('', 0);
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+/* user interaction skips: advance the sequence early. clicks on
+   demo-path buttons fast-forward; autoplay continues from the new
+   index next tick. */
+function jumpToScreen(n) {
+  const i = AUTO_STEPS.findIndex(s => s.screen === n);
+  if (i >= 0) autoIdx = i;
+  clearTimeout(autoTimer);
+  autoTick();
+}
+
+/* override the manual goTo handlers from earlier so they call
+   jumpToScreen instead — keeps autoplay in sync. */
+if (orb) orb.replaceWith(orb.cloneNode(true));
+const orbEl = document.getElementById('tuiTalkOrb');
+if (orbEl) orbEl.addEventListener('click', () => jumpToScreen(2));
+document.querySelectorAll('[data-activity="nourish"]').forEach(el =>
+  el.addEventListener('click', (e) => { e.stopImmediatePropagation(); jumpToScreen(3); }, true));
+document.querySelectorAll('[data-sub="bakery"]').forEach(el =>
+  el.addEventListener('click', (e) => { e.stopImmediatePropagation(); jumpToScreen(4); }, true));
+const yesEl = document.getElementById('tuiYesMap');
+if (yesEl) yesEl.addEventListener('click', (e) => { e.stopImmediatePropagation(); jumpToScreen(5); }, true);
+
+/* kick off autoplay when the dashboard scrolls into view. once started,
+   it runs forever (cheap timers, no rAF unless slider is animating). */
+const dashEl = document.getElementById('tuiDash');
+let autoStarted = false;
+if (dashEl && 'IntersectionObserver' in window) {
+  const dashIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting && !autoStarted) {
+        autoStarted = true;
+        autoTick();
+      }
+    });
+  }, { threshold: 0.3 });
+  dashIO.observe(dashEl);
+} else if (dashEl) {
+  autoStarted = true; autoTick();
+}
+
 /* ── confetti — particles ARE the activity icons ────────── */
 const canvas = document.getElementById('tuiConfetti');
 const ctx = canvas && canvas.getContext('2d');
