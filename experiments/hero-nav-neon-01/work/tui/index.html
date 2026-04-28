@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=20" />
-<link rel="stylesheet" href="tui.css?v=8" />
+<link rel="stylesheet" href="tui.css?v=9" />
 </head>
 <body class="tui-body">
 
@@ -90,17 +90,8 @@
           <button class="tui-hit tui-hit--yes" id="tuiYesMap" aria-label="Yes, send a map"></button>
         </section>
 
-        <!-- ── Bakery 5 · charge slider (live overlay) ───────── -->
+        <!-- ── Bakery 5 · charge slider ──────────────────────── -->
         <section class="tui-screen tui-screen--bg tui-screen--slider" data-screen="5" aria-label="Set charge level" style="background-image: url('assets/bakery-5-386-2023.png');">
-          <!-- live slider overlay sits exactly over the Figma slider in the bg.
-               autoplay drives the value 0→80 over 2.2s. cabin halos in time. -->
-          <div class="tui-slider-live" aria-hidden="true">
-            <span class="tui-slider-live__pct" id="tuiSliderPct">10%</span>
-            <div class="tui-slider-live__track">
-              <div class="tui-slider-live__fill" id="tuiSliderFill"></div>
-            </div>
-            <div class="tui-slider-live__knob" id="tuiSliderKnob"></div>
-          </div>
         </section>
 
         <!-- ── Bakery 6 · success + confetti ─────────────────── -->
@@ -308,6 +299,6 @@
 </button>
 
 <script type="module" src="../../script.js?v=38"></script>
-<script type="module" src="tui.js?v=4"></script>
+<script type="module" src="tui.js?v=5"></script>
 </body>
 </html>

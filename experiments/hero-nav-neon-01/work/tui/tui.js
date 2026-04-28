@@ -114,18 +114,9 @@ const noMap  = document.getElementById('tuiNoMap');
 if (yesMap) yesMap.addEventListener('click', () => { setCabinState('press'); setTimeout(() => goTo(5), 280); });
 if (noMap)  noMap.addEventListener('click',  () => goTo(5));
 
-/* B5 live slider overlay — drives DOM directly, no real <input>. */
-const sliderFill = document.getElementById('tuiSliderFill');
-const sliderKnob = document.getElementById('tuiSliderKnob');
-const sliderPct  = document.getElementById('tuiSliderPct');
+/* B5 slider is part of the Figma background image — no live overlay.
+   we just pulse the cabin halo during the dwell so something feels live. */
 const sliderScreen = document.querySelector('.tui-screen--slider');
-
-function syncSlider(val) {
-  const pct = Math.max(0, Math.min(100, Math.round(val)));
-  if (sliderFill) sliderFill.style.width = pct + '%';
-  if (sliderKnob) sliderKnob.style.left  = pct + '%';
-  if (sliderPct)  sliderPct.textContent  = pct + '%';
-}
 
 /* ── autoplay sequence — the prototype demos itself ──────
    Hiring manager scrolls past, watches the whole bakery flow
@@ -133,27 +124,19 @@ function syncSlider(val) {
    they advance the sequence early; autoplay resumes from there. */
 const AUTO_STEPS = [
   { screen: 1, dwell: 2600 },
-  { screen: 2, dwell: 2600, before: () => glowCard('[data-activity="nourish"]') },
-  { screen: 3, dwell: 2800, before: () => glowCard('[data-sub="bakery"]') },
-  { screen: 4, dwell: 2400, before: () => glowCard('#tuiYesMap') },
-  { screen: 5, dwell: 4200, action: animateSliderDrag },
+  { screen: 2, dwell: 2600 },
+  { screen: 3, dwell: 2800 },
+  { screen: 4, dwell: 2400 },
+  { screen: 5, dwell: 3400, action: animateSliderDrag },
   { screen: 6, dwell: 4200 },
 ];
 let autoIdx = 0;
 let autoTimer = null;
 
-function glowCard(sel) {
-  const el = document.querySelector(sel);
-  if (!el) return;
-  el.classList.add('is-auto-pick');
-  setTimeout(() => el.classList.remove('is-auto-pick'), 700);
-}
-
 function autoTick() {
   const step = AUTO_STEPS[autoIdx];
-  if (step.before) step.before();
-  setTimeout(() => goTo(step.screen), 100);
-  if (step.action) setTimeout(step.action, 600);
+  goTo(step.screen);
+  if (step.action) setTimeout(step.action, 500);
   clearTimeout(autoTimer);
   autoTimer = setTimeout(() => {
     autoIdx = (autoIdx + 1) % AUTO_STEPS.length;
@@ -162,23 +145,10 @@ function autoTick() {
 }
 
 function animateSliderDrag() {
-  const start = performance.now();
-  const duration = 2200;
-  const target = 80;
-  syncSlider(0);
-  sliderScreen && sliderScreen.classList.add('is-dragging');
+  /* cabin halo pulse during the slider screen dwell so it feels live
+     even though the slider visual is static in the bg image. */
   setCabinState('drag');
-  const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
-  function tick(now) {
-    const t = Math.min(1, (now - start) / duration);
-    syncSlider(ease(t) * target);
-    if (t < 1) requestAnimationFrame(tick);
-    else {
-      sliderScreen && sliderScreen.classList.remove('is-dragging');
-      setCabinState('', 0);
-    }
-  }
-  requestAnimationFrame(tick);
+  setTimeout(() => setCabinState('', 0), 2400);
 }
 
 /* user interaction skips: advance the sequence early. clicks on
@@ -221,10 +191,37 @@ if (dashEl && 'IntersectionObserver' in window) {
   autoStarted = true; autoTick();
 }
 
-/* ── confetti — particles ARE the activity icons ────────── */
+/* ── confetti — particles ARE the activity icons from the Figma sprite.
+   they rain DOWN from above the dashboard, not bunched in the middle. */
 const canvas = document.getElementById('tuiConfetti');
 const ctx = canvas && canvas.getContext('2d');
-const PIECES = ['🥐', '☕', '🌮', '🥡', '🛒', '🍜', '🐾', '🌲', '🎷', '🌧', '🔥', '🌊', '🎹', '🌳', '🛤'];
+
+/* sprite: 1024×192 PNG containing all the activity icons in 3 rows.
+   coordinates are in ORIGINAL Figma units (1893 wide × 354 tall),
+   we scale them to the rendered sprite dimensions at draw time. */
+const SPRITE_SRC_W = 1893;
+const SPRITE_SRC_H = 354;
+const ICON_COORDS = [
+  // row 1 — sound icons
+  [29, 23, 90, 90],   [155, 23, 90, 90],  [281, 23, 90, 90],  [421, 23, 90, 90],
+  [577, 46, 90, 90],  [733, 23, 90, 90],  [873, 23, 90, 90],
+  // row 2 — weather + nature
+  [29, 136, 90, 90],  [173, 136, 90, 90], [317, 136, 90, 90], [455, 136, 90, 90],
+  [577, 136, 90, 90], [688, 136, 90, 90], [810, 132, 90, 90],
+  [1297, 19, 90, 90], [1424, 19, 90, 90], [1540, 23, 90, 90], [1656, 19, 90, 90],
+  [1772, 19, 90, 90], [1308, 130, 90, 90],[1424, 132, 90, 90],[1540, 130, 90, 90],
+  [1656, 136, 90, 90],[1772, 136, 90, 90],
+  // row 3 — outdoor + adventure
+  [421, 249, 90, 90], [632, 249, 90, 90], [733, 245, 90, 90], [834, 245, 90, 90],
+  [936, 245, 90, 90], [1057, 245, 90, 90],[1424, 245, 90, 90],[1540, 237, 90, 90],
+  [1654, 245, 90, 90],[1789, 245, 90, 90],
+];
+
+const spriteImg = new Image();
+spriteImg.src = 'assets/confetti-icons-sprite.png';
+let spriteReady = false;
+spriteImg.addEventListener('load', () => { spriteReady = true; });
+
 let confettiState = { active: false, particles: [], raf: 0, started: 0 };
 
 function sizeCanvas() {
@@ -244,17 +241,20 @@ function startSuccess() {
 
   sizeCanvas();
   const r = canvas.getBoundingClientRect();
-  confettiState.particles = Array.from({ length: 36 }, () => ({
-    x: r.width * (0.45 + Math.random() * 0.1),
-    y: -20 - Math.random() * 60,
-    vx: (Math.random() - 0.5) * 6,
-    vy: 2 + Math.random() * 3,
-    rot: Math.random() * Math.PI * 2,
-    vrot: (Math.random() - 0.5) * 0.2,
-    char: PIECES[Math.floor(Math.random() * PIECES.length)],
-    size: 18 + Math.random() * 16,
-    life: 0,
-  }));
+  /* spawn 44 pieces spread across the top, each falling at slight angle */
+  confettiState.particles = Array.from({ length: 44 }, () => {
+    const coord = ICON_COORDS[Math.floor(Math.random() * ICON_COORDS.length)];
+    return {
+      x: Math.random() * r.width,
+      y: -60 - Math.random() * 200,
+      vx: (Math.random() - 0.5) * 1.2,
+      vy: 1.5 + Math.random() * 1.5,
+      rot: (Math.random() - 0.5) * 0.4,
+      vrot: (Math.random() - 0.5) * 0.06,
+      coord,
+      size: 26 + Math.random() * 18,
+    };
+  });
   confettiState.active = true;
   confettiState.started = performance.now();
   cancelAnimationFrame(confettiState.raf);
@@ -266,23 +266,31 @@ function tickConfetti() {
   const r = canvas.getBoundingClientRect();
   ctx.clearRect(0, 0, r.width, r.height);
   const elapsed = performance.now() - confettiState.started;
+  const fadeStart = 3000;
+  const fadeEnd   = 4000;
+
   confettiState.particles.forEach((p) => {
     p.x += p.vx;
     p.y += p.vy;
-    p.vy += 0.12;
+    p.vy += 0.05;
     p.rot += p.vrot;
-    p.life += 16;
-    ctx.save();
-    ctx.translate(p.x, p.y);
-    ctx.rotate(p.rot);
-    ctx.font = `${p.size}px system-ui`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.globalAlpha = elapsed > 2200 ? Math.max(0, 1 - (elapsed - 2200) / 800) : 1;
-    ctx.fillText(p.char, 0, 0);
-    ctx.restore();
+
+    if (spriteReady) {
+      const [sx, sy, sw, sh] = p.coord;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.globalAlpha = elapsed > fadeStart ? Math.max(0, 1 - (elapsed - fadeStart) / (fadeEnd - fadeStart)) : 1;
+      ctx.drawImage(
+        spriteImg,
+        sx, sy, sw, sh,
+        -p.size / 2, -p.size / 2, p.size, p.size
+      );
+      ctx.restore();
+    }
   });
-  if (elapsed < 3200) confettiState.raf = requestAnimationFrame(tickConfetti);
+
+  if (elapsed < fadeEnd) confettiState.raf = requestAnimationFrame(tickConfetti);
   else { confettiState.active = false; ctx.clearRect(0, 0, r.width, r.height); }
 }
 window.addEventListener('resize', () => { if (confettiState.active) sizeCanvas(); });
