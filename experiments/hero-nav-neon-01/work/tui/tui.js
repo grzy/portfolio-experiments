@@ -87,6 +87,7 @@ function goTo(n) {
   cabin && cabin.setAttribute('data-screen', String(n));
   if (SUCCESS_SCREENS.includes(String(n))) startSuccess();
   if (String(n) === '5' && typeof resetSlider === 'function') resetSlider();
+  if (typeof updateNavState === 'function') updateNavState();
   /* B1 has a 4.5s safety auto-advance so a passive viewer never gets
      stuck — gives time to read the greet + question. cleared on any
      other transition. */
@@ -131,9 +132,7 @@ document.querySelectorAll('[data-activity]').forEach((card) => {
   });
 });
 
-/* sub-cards on B3 / B7 / B10 → confirm or slider depending on flow.
-   the entire screen is also click-anywhere-advance (covers the +-sign
-   and any visual gap), so any tap on the sub-card screen advances. */
+/* sub-cards on B3 / B7 / B10 / B12 → confirm or slider, depending on flow */
 function advanceSubCards() {
   setCabinState('press');
   setTimeout(() => setCabinState('', 0), 600);
@@ -142,12 +141,23 @@ function advanceSubCards() {
   else if (currentFlow === 'birdsong') setTimeout(() => goTo(5), 280);
 }
 document.querySelectorAll('[data-sub]').forEach((sub) => {
-  sub.addEventListener('click', advanceSubCards);
+  sub.addEventListener('click', (e) => { e.stopPropagation(); advanceSubCards(); });
 });
-['3', '7', '10'].forEach((n) => {
+/* +-sign on Dog Park 3 → expand to the 12-card grid (B12) */
+document.querySelectorAll('[data-plus="dogpark"]').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setCabinState('press');
+    setTimeout(() => setCabinState('', 0), 500);
+    setTimeout(() => goTo(12), 220);
+  });
+});
+/* click anywhere on B3 / B7 / B10 / B12 also advances (catches the
+   +-sign on flows where it's not yet wired, and the visual gaps) */
+['3', '7', '10', '12'].forEach((n) => {
   const screen = document.querySelector(`.tui-screen[data-screen="${n}"]`);
   if (screen) screen.addEventListener('click', (e) => {
-    if (e.target.closest('[data-sub]')) return;
+    if (e.target.closest('[data-sub], [data-plus]')) return;
     advanceSubCards();
   });
 });
@@ -170,65 +180,113 @@ const sliderScreen = document.querySelector('.tui-screen--slider');
    success. Three flows branch at B2: Nourish → Bakery, Outside →
    Dog Park, Listen → Birdsong. Tap success screen to start over. */
 
-/* B5 click → animate the slider 10% → 80%, then advance to success.
-   the live overlay sits on top of the Figma static slider in the bg
-   and "drags" itself. tap is the cue, animation does the work. */
+/* ── B5 slider with REAL drag interaction ──────────────────
+   pointer down on the track grabs + jumps to that position. drag
+   to scrub. release at desired value → cabin halo fades, screen
+   advances to success after a short pause. like a real slider, not
+   a one-shot animation. */
 const sliderScreenEl = document.querySelector('.tui-screen--slider');
-let sliderAnimating = false;
+const sliderTrackEl  = document.querySelector('.tui-slider-track');
+let sliderDragging = false;
+let sliderReleaseTimer = null;
 
-function animateSliderDrag(onDone) {
-  if (sliderAnimating) return;
+function syncSlider(pct) {
   const fill = document.getElementById('tuiSliderFill');
   const knob = document.getElementById('tuiSliderKnob');
-  const pct  = document.getElementById('tuiSliderPct');
-  if (!fill || !knob || !pct) { onDone && onDone(); return; }
-  sliderAnimating = true;
-  sliderScreenEl && sliderScreenEl.classList.add('is-dragging');
-  setCabinState('drag');
-  const start = performance.now();
-  const duration = 4200;
-  const from = 10, to = 80;
-  const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
-  function tick(now) {
-    const t = Math.min(1, (now - start) / duration);
-    const v = from + ease(t) * (to - from);
-    fill.style.width = v + '%';
-    knob.style.left  = v + '%';
-    pct.textContent  = Math.round(v) + '%';
-    if (t < 1) requestAnimationFrame(tick);
-    else {
-      sliderAnimating = false;
-      sliderScreenEl && sliderScreenEl.classList.remove('is-dragging');
-      setCabinState('', 0);
-      onDone && onDone();
-    }
-  }
-  requestAnimationFrame(tick);
+  const pctEl = document.getElementById('tuiSliderPct');
+  const v = Math.max(0, Math.min(100, pct));
+  if (fill)  fill.style.width = v + '%';
+  if (knob)  knob.style.left  = v + '%';
+  if (pctEl) pctEl.textContent = Math.round(v) + '%';
 }
 
-if (sliderScreenEl) {
-  sliderScreenEl.addEventListener('click', () => {
-    if (sliderAnimating) return; // ignore extra clicks during the drag animation
-    const target = currentFlow === 'bakery' ? 6
-                : currentFlow === 'dogpark' ? 9
-                : 11;
-    animateSliderDrag(() => goTo(target));
+function pointerToValue(e) {
+  const rect = sliderTrackEl.getBoundingClientRect();
+  const x = (e.clientX || (e.touches && e.touches[0].clientX) || 0) - rect.left;
+  return Math.max(0, Math.min(100, (x / rect.width) * 100));
+}
+
+function scheduleAdvance() {
+  clearTimeout(sliderReleaseTimer);
+  sliderReleaseTimer = setTimeout(() => {
+    if (sliderDragging) return;
+    const target = currentFlow === 'bakery' ? 6 : currentFlow === 'dogpark' ? 9 : 11;
+    goTo(target);
+  }, 1500);  // give user time to see their pick before advancing
+}
+
+if (sliderTrackEl) {
+  sliderTrackEl.addEventListener('pointerdown', (e) => {
+    sliderDragging = true;
+    sliderScreenEl.classList.add('is-dragging');
+    setCabinState('drag');
+    syncSlider(pointerToValue(e));
+    sliderTrackEl.setPointerCapture(e.pointerId);
+    clearTimeout(sliderReleaseTimer);
+    e.preventDefault();
   });
+  sliderTrackEl.addEventListener('pointermove', (e) => {
+    if (sliderDragging) syncSlider(pointerToValue(e));
+  });
+  const release = (e) => {
+    if (!sliderDragging) return;
+    sliderDragging = false;
+    sliderScreenEl.classList.remove('is-dragging');
+    setCabinState('', 0);
+    scheduleAdvance();
+    try { sliderTrackEl.releasePointerCapture(e.pointerId); } catch {}
+  };
+  sliderTrackEl.addEventListener('pointerup', release);
+  sliderTrackEl.addEventListener('pointercancel', release);
 }
 
-/* reset slider position whenever the user (re-)enters B5 */
+/* reset slider to 10% whenever the user (re-)enters B5 */
 function resetSlider() {
-  const fill = document.getElementById('tuiSliderFill');
-  const knob = document.getElementById('tuiSliderKnob');
-  const pct  = document.getElementById('tuiSliderPct');
-  if (fill) fill.style.width = '10%';
-  if (knob) knob.style.left  = '10%';
-  if (pct)  pct.textContent  = '10%';
+  syncSlider(10);
+  clearTimeout(sliderReleaseTimer);
+  sliderDragging = false;
+  sliderScreenEl && sliderScreenEl.classList.remove('is-dragging');
 }
 
 /* any success screen → click to restart at B1 */
 document.querySelectorAll('.tui-screen--success').forEach((scr) => {
   scr.addEventListener('click', () => goTo(1));
+});
+
+/* ── back / forward navigation arrows ────────────────────
+   each flow has a known sequence of screen IDs. arrows step
+   backwards or forwards through that sequence. */
+const FLOWS = {
+  bakery:   [1, 2, 3, 4, 5, 6],
+  dogpark:  [1, 2, 7, 12, 8, 5, 9],   // 12 = expanded grid (after +-tap)
+  birdsong: [1, 2, 10, 5, 11],
+};
+function currentFlowSeq() { return FLOWS[currentFlow] || FLOWS.bakery; }
+function currentScreenIdx() {
+  const cur = +document.querySelector('.tui-screen.is-active')?.dataset.screen;
+  return currentFlowSeq().indexOf(cur);
+}
+function updateNavState() {
+  const seq = currentFlowSeq();
+  const i = currentScreenIdx();
+  const back = document.getElementById('tuiNavBack');
+  const fwd  = document.getElementById('tuiNavForward');
+  if (back) back.toggleAttribute('disabled', i <= 0);
+  if (fwd)  fwd.toggleAttribute('disabled',  i < 0 || i >= seq.length - 1);
+}
+const navBack = document.getElementById('tuiNavBack');
+const navFwd  = document.getElementById('tuiNavForward');
+if (navBack) navBack.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const seq = currentFlowSeq();
+  const i = currentScreenIdx();
+  if (i > 0) goTo(seq[i - 1]);
+});
+if (navFwd) navFwd.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const seq = currentFlowSeq();
+  const i = currentScreenIdx();
+  if (i >= 0 && i < seq.length - 1) goTo(seq[i + 1]);
 });
 
 /* ── confetti — particles ARE the activity icons from the Figma sprite.
@@ -256,10 +314,29 @@ const ICON_COORDS = [
   [1654, 245, 90, 90],[1789, 245, 90, 90],
 ];
 
+/* sprite preprocessor: load the icon sheet, then walk the pixels and
+   knock out white backgrounds so each icon is a clean black silhouette
+   on transparent. drawImage on the resulting canvas blends naturally. */
 const spriteImg = new Image();
 spriteImg.src = 'assets/confetti-icons-sprite.png';
 let spriteReady = false;
-spriteImg.addEventListener('load', () => { spriteReady = true; });
+let spriteCanvas = null;
+spriteImg.addEventListener('load', () => {
+  const off = document.createElement('canvas');
+  off.width = spriteImg.naturalWidth;
+  off.height = spriteImg.naturalHeight;
+  const offCtx = off.getContext('2d');
+  offCtx.drawImage(spriteImg, 0, 0);
+  const imgData = offCtx.getImageData(0, 0, off.width, off.height);
+  const data = imgData.data;
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i], g = data[i+1], b = data[i+2];
+    if (r > 225 && g > 225 && b > 225) data[i+3] = 0;  // knock out near-white
+  }
+  offCtx.putImageData(imgData, 0, 0);
+  spriteCanvas = off;
+  spriteReady = true;
+});
 
 let confettiState = { active: false, particles: [], raf: 0, started: 0, canvas: null, ctx: null };
 
@@ -292,21 +369,26 @@ function startSuccess() {
 
   sizeCanvas(canvas, ctx);
   const r = canvas.getBoundingClientRect();
-  /* pure brand-color shapes — Lichen + Electric Blue circles, rectangles,
-     triangles in varied sizes. dropped activity icons for now (the white
-     card backgrounds read as cropped junk in the falling shower). */
-  confettiState.particles = Array.from({ length: 64 }, () => ({
-    x: Math.random() * r.width,
-    y: -60 - Math.random() * 240,
-    vx: (Math.random() - 0.5) * 0.9,
-    vy: 0.7 + Math.random() * 0.9,
-    rot: (Math.random() - 0.5) * 0.5,
-    vrot: (Math.random() - 0.5) * 0.04,
-    color: BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)],
-    shape: SHAPE_KINDS[Math.floor(Math.random() * SHAPE_KINDS.length)],
-    size: 8 + Math.random() * 14,
-    stretch: 1 + Math.random() * 2,
-  }));
+  /* mix: ~70% brand-color shapes (Lichen + Electric), ~30% activity
+     icons drawn from the white-stripped sprite so each piece is just
+     the black silhouette. */
+  confettiState.particles = Array.from({ length: 60 }, () => {
+    const isShape = Math.random() < 0.70;
+    return {
+      x: Math.random() * r.width,
+      y: -60 - Math.random() * 240,
+      vx: (Math.random() - 0.5) * 0.9,
+      vy: 0.7 + Math.random() * 0.9,
+      rot: (Math.random() - 0.5) * 0.5,
+      vrot: (Math.random() - 0.5) * 0.04,
+      kind: isShape ? 'shape' : 'icon',
+      coord: isShape ? null : ICON_COORDS[Math.floor(Math.random() * ICON_COORDS.length)],
+      color: isShape ? BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)] : null,
+      shape: isShape ? SHAPE_KINDS[Math.floor(Math.random() * SHAPE_KINDS.length)] : null,
+      size: isShape ? 8 + Math.random() * 14 : 22 + Math.random() * 14,
+      stretch: isShape ? 1 + Math.random() * 2 : 1,
+    };
+  });
   confettiState.active = true;
   confettiState.started = performance.now();
   cancelAnimationFrame(confettiState.raf);
@@ -335,21 +417,26 @@ function tickConfetti() {
     ctx.rotate(p.rot);
     ctx.globalAlpha = alpha;
 
-    ctx.fillStyle = p.color;
-    const w = p.size, h = p.size * p.stretch;
-    if (p.shape === 'circle') {
-      ctx.beginPath();
-      ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
-      ctx.fill();
-    } else if (p.shape === 'tri') {
-      ctx.beginPath();
-      ctx.moveTo(0, -h / 2);
-      ctx.lineTo(w / 2, h / 2);
-      ctx.lineTo(-w / 2, h / 2);
-      ctx.closePath();
-      ctx.fill();
+    if (p.kind === 'icon' && spriteReady && spriteCanvas) {
+      const [sx, sy, sw, sh] = p.coord;
+      ctx.drawImage(spriteCanvas, sx, sy, sw, sh, -p.size / 2, -p.size / 2, p.size, p.size);
     } else {
-      ctx.fillRect(-w / 2, -h / 2, w, h);
+      ctx.fillStyle = p.color;
+      const w = p.size, h = p.size * p.stretch;
+      if (p.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (p.shape === 'tri') {
+        ctx.beginPath();
+        ctx.moveTo(0, -h / 2);
+        ctx.lineTo(w / 2, h / 2);
+        ctx.lineTo(-w / 2, h / 2);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.fillRect(-w / 2, -h / 2, w, h);
+      }
     }
     ctx.restore();
   });

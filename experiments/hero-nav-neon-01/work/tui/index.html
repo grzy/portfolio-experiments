@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=20" />
-<link rel="stylesheet" href="tui.css?v=15" />
+<link rel="stylesheet" href="tui.css?v=16" />
 </head>
 <body class="tui-body">
 
@@ -64,6 +64,15 @@
     <div class="tui-dash" id="tuiDash">
       <div class="tui-dash__bezel" aria-hidden="true"></div>
       <div class="tui-dash__noise" aria-hidden="true"></div>
+
+      <!-- back/forward navigation — sits at the bottom of the dashboard,
+           always available across screens. arrows fade in on hover. -->
+      <button class="tui-nav-arrow tui-nav-arrow--back" id="tuiNavBack" aria-label="Previous screen">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="tui-nav-arrow tui-nav-arrow--forward" id="tuiNavForward" aria-label="Next screen">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
 
       <!-- screens stack — each screen is a full Figma export PNG.
            code overlays only what needs to be live: cabin-light cues,
@@ -143,9 +152,15 @@
           <canvas class="tui-confetti" data-flow="bakery" aria-hidden="true"></canvas>
         </section>
 
-        <!-- ── Dog Park 3 · Outside drill-in ─────────────────── -->
+        <!-- ── Dog Park 3 · Outside drill-in (collapsed, 6 sub-cards) ── -->
         <section class="tui-screen tui-screen--bg" data-screen="7" aria-label="Choose an outside activity" style="background-image: url('assets/dogpark-3-499-647.png');">
           <button class="tui-hit tui-hit--sub-row" data-sub="park" aria-label="Pick a sub-activity"></button>
+          <button class="tui-hit tui-hit--plus" data-plus="dogpark" aria-label="More options"></button>
+        </section>
+
+        <!-- ── Dog Park 4 · expanded grid (12 sub-cards including Dog Park) ── -->
+        <section class="tui-screen tui-screen--bg" data-screen="12" aria-label="Expanded outside grid" style="background-image: url('assets/dogpark-4-896-677.png');">
+          <button class="tui-hit tui-hit--sub-row tui-hit--sub-row--tall" data-sub="dogpark" aria-label="Pick Dog Park"></button>
         </section>
 
         <!-- ── Dog Park 5 · confirmation ─────────────────────── -->
@@ -367,6 +382,6 @@
 </button>
 
 <script type="module" src="../../script.js?v=38"></script>
-<script type="module" src="tui.js?v=10"></script>
+<script type="module" src="tui.js?v=11"></script>
 </body>
 </html>
