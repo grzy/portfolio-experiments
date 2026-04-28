@@ -68,34 +68,130 @@
   color: var(--text-mute);
 }
 
-/* eyebrow word flip: entire "story" swaps to "study" with a brief
-   chromatic shudder, then snaps back. runs every ~6s via JS. */
+/* hover-triggered chromatic glitch on eyebrows.
+   trigger: hover anywhere in the section/aside containing the eyebrow.
+   the eyebrow label briefly fractures into lime + mint ghosts. */
+.lost-eyebrow--glitch {
+  position: relative;
+}
+.lost-eyebrow--glitch::before,
+.lost-eyebrow--glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  white-space: nowrap;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.lost-eyebrow--glitch::before {
+  color: rgb(184 235 96 / 0.85);
+}
+.lost-eyebrow--glitch::after {
+  color: rgb(124 193 172 / 0.85);
+}
+/* glitch fires when the section's headline is hovered (not the whole
+   section) — keeps the figure / images / spacing from triggering it.
+   moving the cursor in and out of the headline replays the animation. */
+.lost-trailer:has(.lost-trailer__stat:hover) .lost-eyebrow--glitch::before,
+.lost-problem:has(.lost-h2:hover) .lost-eyebrow--glitch::before,
+.lost-thinking:has(.lost-h2:hover) .lost-eyebrow--glitch::before,
+.lost-built:has(.lost-h2:hover) .lost-eyebrow--glitch::before,
+.lost-kauai:has(.lost-h2:hover) .lost-eyebrow--glitch::before,
+.lost-owl:has(.lost-owl__h2:hover) .lost-eyebrow--glitch::before,
+.lost-reflect:has(.lost-h2:hover) .lost-eyebrow--glitch::before,
+.lost-signoff:has(p:hover) .lost-eyebrow--glitch::before {
+  animation: lost-eyebrow-glitch-a 0.6s steps(7, end);
+}
+.lost-trailer:has(.lost-trailer__stat:hover) .lost-eyebrow--glitch::after,
+.lost-problem:has(.lost-h2:hover) .lost-eyebrow--glitch::after,
+.lost-thinking:has(.lost-h2:hover) .lost-eyebrow--glitch::after,
+.lost-built:has(.lost-h2:hover) .lost-eyebrow--glitch::after,
+.lost-kauai:has(.lost-h2:hover) .lost-eyebrow--glitch::after,
+.lost-owl:has(.lost-owl__h2:hover) .lost-eyebrow--glitch::after,
+.lost-reflect:has(.lost-h2:hover) .lost-eyebrow--glitch::after,
+.lost-signoff:has(p:hover) .lost-eyebrow--glitch::after {
+  animation: lost-eyebrow-glitch-b 0.7s steps(7, end);
+}
+@keyframes lost-eyebrow-glitch-a {
+  0%   { opacity: 0; transform: translateX(0); clip-path: inset(0 0 0 0); }
+  18%  { opacity: 0.85; transform: translateX(-2px); clip-path: inset(0 0 60% 0); }
+  42%  { opacity: 0.7; transform: translateX(3px); clip-path: inset(40% 0 30% 0); }
+  68%  { opacity: 0.5; transform: translateX(-1px); clip-path: inset(60% 0 0 0); }
+  100% { opacity: 0; transform: translateX(0); clip-path: inset(0 0 0 0); }
+}
+@keyframes lost-eyebrow-glitch-b {
+  0%   { opacity: 0; transform: translateX(0); clip-path: inset(0 0 0 0); }
+  22%  { opacity: 0.7; transform: translateX(2px); clip-path: inset(50% 0 10% 0); }
+  52%  { opacity: 0.6; transform: translateX(-3px); clip-path: inset(15% 0 50% 0); }
+  76%  { opacity: 0.4; transform: translateX(1px); clip-path: inset(0 0 70% 0); }
+  100% { opacity: 0; transform: translateX(0); clip-path: inset(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lost-eyebrow--glitch::before,
+  .lost-eyebrow--glitch::after { animation: none; opacity: 0; }
+}
+
+/* small attribution that sits in the stat's right column, directly
+   under the unit text — tight, like the kauai cite under a quote */
+.lost-trailer__source {
+  grid-column: 2;
+  font-family: var(--f-mono);
+  font-size: clamp(11px, 0.78vw, 13px);
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+  opacity: 0.85;
+  margin-top: 6px;
+  display: block;
+}
+.lost-trailer__source cite {
+  font-style: normal;
+}
+.lost-trailer__source cite em {
+  font-style: italic;
+  color: var(--text-dim);
+}
+@media (max-width: 820px) {
+  .lost-trailer__source { grid-column: 1; }
+}
+
+/* eyebrow word flip: "story" <-> "study". uses the same chromatic
+   ghost pattern as the section eyebrows so it visually matches them.
+   ::before / ::after read data-text, which the JS updates to the
+   upcoming word right before adding .is-flipped. */
 .lost-flip-word,
 .lost-eyebrow__phrase {
   position: relative;
   display: inline-block;
   font-family: inherit;
-  transition: color 0.14s steps(2, end);
 }
-.lost-flip-word.is-flipped,
-.lost-eyebrow__phrase.is-flipped {
-  color: var(--neon);
-  text-shadow:
-    -1px 0 rgb(124 193 172 / 0.7),
-     1px 0 rgb(184 235 96 / 0.7),
-     0 0 12px rgb(184 235 96 / 0.6);
-  animation: lost-flip-shudder 0.46s steps(5, end);
+.lost-eyebrow__phrase::before,
+.lost-eyebrow__phrase::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  white-space: nowrap;
+  mix-blend-mode: screen;
+  opacity: 0;
 }
-@keyframes lost-flip-shudder {
-  0%, 100% { transform: translate(0, 0); }
-  20%      { transform: translate(-1px, 0); }
-  40%      { transform: translate(2px, 0); }
-  60%      { transform: translate(-2px, 0); }
-  80%      { transform: translate(1px, 0); }
+.lost-eyebrow__phrase::before { color: rgb(184 235 96 / 0.85); }
+.lost-eyebrow__phrase::after { color: rgb(124 193 172 / 0.85); }
+.lost-eyebrow__phrase.is-flipped::before {
+  animation: lost-eyebrow-glitch-a 0.7s steps(7, end);
+}
+.lost-eyebrow__phrase.is-flipped::after {
+  animation: lost-eyebrow-glitch-b 0.8s steps(7, end);
 }
 @media (prefers-reduced-motion: reduce) {
-  .lost-flip-word.is-flipped,
-  .lost-eyebrow__phrase.is-flipped { animation: none; }
+  .lost-eyebrow__phrase::before,
+  .lost-eyebrow__phrase::after { animation: none; opacity: 0; }
 }
 
 /* ── scroll-reveal machinery ──────────────────────────────── */
@@ -425,7 +521,7 @@
   color: var(--text-dim);
   max-width: 30ch;
   align-self: end;
-  padding-bottom: clamp(8px, 2vh, 24px);
+  padding-bottom: 0;
 }
 .lost-trailer__unit em {
   font-style: italic;
@@ -991,16 +1087,19 @@
   margin: clamp(24px, 4vh, 48px) 0;
   padding: 0;
   position: relative;
+  justify-items: center;
+  text-align: center;
 }
 .lost-kauai__player::before {
-  /* subtle bio-green horizon line above the play moment */
+  /* subtle bio-green horizon line above the play moment, centered */
   content: '';
   position: absolute;
   top: -18px;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: clamp(60px, 10vw, 140px);
   height: 1px;
-  background: linear-gradient(90deg, var(--bio) 0%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--bio) 50%, transparent 100%);
   opacity: 0.55;
 }
 .lost-play {
@@ -1014,7 +1113,7 @@
   gap: 18px;
   padding: 6px 0;
   font-family: var(--f-display);
-  text-align: left;
+  text-align: center;
   position: relative;
 }
 /* neon play triangle — no pulsing ring, cleaner geometry
@@ -1342,6 +1441,44 @@
 
 /* ── 8 · REFLECTION ───────────────────────────────────────── */
 
+.lost-thinking {
+  padding: clamp(140px, 18vh, 220px) clamp(24px, 5vw, 72px);
+}
+.lost-thinking__inner {
+  max-width: 68ch;
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+/* image break inside product thinking — escapes the 68ch text column */
+.lost-thinking__fig {
+  margin: clamp(48px, 8vh, 96px) auto;
+  width: min(92vw, 980px);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px oklch(0 0 0 / 0.55);
+  background: var(--void-2);
+}
+.lost-thinking__fig img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.lost-thinking__inner p {
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.65;
+  color: var(--text-dim);
+  margin: 0;
+}
+.lost-thinking__sub {
+  margin-top: clamp(24px, 3vh, 40px);
+  font-family: var(--f-mono);
+  font-size: clamp(12px, 1vw, 14px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
 .lost-reflect {
   padding: clamp(140px, 18vh, 220px) clamp(24px, 5vw, 72px);
 }
@@ -1438,8 +1575,11 @@
   .lost-sweep--alt { animation: none; }
 }
 
-/* neon underline for highlighted words in the reflection */
+/* neon underline for highlighted words. on hover the underlined word
+   does the same chromatic glitch as the section eyebrows, then settles
+   back to the underline. no block-fill flash. */
 .lost-mark {
+  position: relative;
   text-decoration: none;
   background-image: linear-gradient(0deg, var(--neon), var(--neon));
   background-position: 0 100%;
@@ -1447,12 +1587,31 @@
   background-repeat: no-repeat;
   padding-bottom: 2px;
   color: var(--text);
-  transition: background-size 0.5s var(--ease), color 0.3s var(--ease);
 }
-.lost-mark:hover {
-  color: var(--neon);
-  background-size: 100% 100%;
-  background-image: linear-gradient(0deg, rgb(184 235 96 / 0.12), rgb(184 235 96 / 0.12));
+.lost-mark::before,
+.lost-mark::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  white-space: nowrap;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.lost-mark::before { color: rgb(184 235 96 / 0.85); }
+.lost-mark::after { color: rgb(124 193 172 / 0.85); }
+.lost-mark:hover::before {
+  animation: lost-eyebrow-glitch-a 0.6s steps(7, end);
+}
+.lost-mark:hover::after {
+  animation: lost-eyebrow-glitch-b 0.7s steps(7, end);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lost-mark::before,
+  .lost-mark::after { animation: none; opacity: 0; }
 }
 
 .lost-reflect__fig {
@@ -1481,10 +1640,11 @@
    in figma. the empty fog area at the top is reclaimed for "Still breathing"
    set as overlay text so the image reads as a self-contained closer. */
 .lost-reflect__fig--single {
-  margin-top: clamp(56px, 8vh, 96px);
+  margin: clamp(140px, 20vh, 260px) auto clamp(80px, 12vh, 160px);
   display: grid;
-  gap: clamp(20px, 3vh, 32px);
+  gap: clamp(36px, 6vh, 72px);
   justify-items: center;
+  width: min(92vw, 1080px);
 }
 .lost-reflect__eyebrow--above {
   /* this version sits ABOVE the image, not over the fog -- always readable */
@@ -1508,17 +1668,25 @@
 }
 .lost-reflect__caption-overlay {
   position: absolute;
-  /* sits halfway between the top of the image and the laptop screen edge */
-  top: clamp(80px, 16%, 220px);
+  /* sits just above the laptop screen edge — nudged up a touch */
+  top: clamp(100px, 19%, 240px);
   left: 0;
   right: 0;
   display: grid;
   justify-items: center;
-  gap: 14px;
+  gap: 4px;
   text-align: center;
   pointer-events: none;
   z-index: 2;
   padding: 0 clamp(20px, 4vw, 64px);
+}
+
+/* hover the mossy-waterfall image → the ✺ what remains eyebrow glitches */
+.lost-reflect__fig:has(.lost-reflect__frame:hover) .lost-reflect__eyebrow--above::before {
+  animation: lost-eyebrow-glitch-a 0.6s steps(7, end);
+}
+.lost-reflect__fig:has(.lost-reflect__frame:hover) .lost-reflect__eyebrow--above::after {
+  animation: lost-eyebrow-glitch-b 0.7s steps(7, end);
 }
 .lost-reflect__eyebrow {
   font-family: var(--f-mono);
@@ -1536,7 +1704,7 @@
   font-family: var(--f-display);
   font-weight: 500;
   font-style: italic;
-  font-size: clamp(20px, 2.4vw, 40px);
+  font-size: clamp(26px, 3.2vw, 56px);
   line-height: 1.05;
   letter-spacing: -0.01em;
   color: #FFFFFF;
@@ -1596,14 +1764,15 @@
   color: var(--text);
   text-decoration: none;
   text-align: center;
-  transition: border-color 0.4s var(--ease), box-shadow 0.5s var(--ease), color 0.4s var(--ease);
+  transition: border-color 0.4s var(--ease), background-color 0.4s var(--ease), box-shadow 0.5s var(--ease), color 0.4s var(--ease);
 }
 .lost-next:hover {
   border-color: var(--neon);
+  background: var(--neon);
+  color: #000;
   box-shadow:
     0 0 22px -2px rgb(184 235 96 / 0.55),
     0 0 52px -8px rgb(124 193 172 / 0.3);
-  color: var(--neon);
 }
 
 /* legacy (kept for any cache-era references; section removed from HTML) */

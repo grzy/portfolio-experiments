@@ -102,29 +102,56 @@
   }
 }
 
-/* ── eyebrow phrase glitch: "case story" <-> "case study" every ~5s ──
-   the entire phrase glitches (chromatic shudder + text swap), holds in
-   the new state for a few seconds, then glitches back. */
+/* ── eyebrow phrase glitch: "case story" <-> "case study" ───────────
+   timing:
+     1) wait ~9s after page load — lets the preloader video settle and
+        the "extinction" decode finish, plus 2s of breathing room
+     2) fire one delayed reveal swap so the reader sees the toggle exists
+     3) from then on, each mouseenter on the hero grid fires one swap
+        (no continuous loop — single glitch per hover entry) */
 {
+  const trigger = document.querySelector('.lost-hero__grid');
   const phrase = document.querySelector('.lost-eyebrow--story .lost-eyebrow__phrase');
-  if (phrase) {
+  if (trigger && phrase) {
     const a = phrase.dataset.a || phrase.textContent.trim();
     const b = phrase.dataset.b || a;
     let isB = false;
+    let armed = false;
+    let inFlight = false;
+    // seed data-text so the chromatic ghost has something to render before the first swap
+    phrase.dataset.text = a;
     const swap = () => {
+      if (inFlight) return;
+      inFlight = true;
+      const next = isB ? a : b;
+      // update data-text to the upcoming word so the ghost previews it
+      phrase.dataset.text = next;
       phrase.classList.add('is-flipped');
-      // mid-shudder, swap the text so the eye sees the change inside the glitch
       setTimeout(() => {
-        phrase.textContent = isB ? a : b;
+        phrase.textContent = next;
         isB = !isB;
-      }, 180);
-      setTimeout(() => phrase.classList.remove('is-flipped'), 460);
+      }, 200);
+      setTimeout(() => {
+        phrase.classList.remove('is-flipped');
+        inFlight = false;
+      }, 720);
     };
     setTimeout(() => {
       swap();
-      setInterval(swap, 5000);
-    }, 5000);
+      armed = true;
+    }, 9000);
+    trigger.addEventListener('mouseenter', () => {
+      if (armed) swap();
+    });
   }
+}
+
+/* ── seed data-text on every .lost-mark so the chromatic glitch can
+   render on hover without manually annotating each <u> in the html ── */
+{
+  document.querySelectorAll('.lost-mark').forEach((el) => {
+    if (!el.dataset.text) el.dataset.text = el.textContent;
+  });
 }
 
 /* ── decode effect: scramble → resolve per character
