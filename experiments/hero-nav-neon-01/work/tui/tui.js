@@ -86,10 +86,37 @@ function goTo(n) {
   screens.forEach((s) => s.classList.toggle('is-active', s.dataset.screen === String(n)));
   cabin && cabin.setAttribute('data-screen', String(n));
   if (SUCCESS_SCREENS.includes(String(n))) startSuccess();
+  /* B1 has a 4.5s safety auto-advance so a passive viewer never gets
+     stuck — gives time to read the greet + question. cleared on any
+     other transition. */
+  clearTimeout(b1Timer);
+  if (String(n) === '1') {
+    b1Timer = setTimeout(() => {
+      if (document.querySelector('.tui-screen.is-active')?.dataset.screen === '1') goTo(2);
+    }, 4500);
+  }
 }
+let b1Timer = null;
 
 /* B1 orb → B2 (Talk-to-Tūī demo path; speech wiring deferred) */
 if (orb) orb.addEventListener('click', () => setTimeout(() => goTo(2), 320));
+
+/* kick off the B1 timer once when the dashboard first scrolls into view */
+const dashEl = document.getElementById('tuiDash');
+if (dashEl && 'IntersectionObserver' in window) {
+  let started = false;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting && !started) {
+        started = true;
+        b1Timer = setTimeout(() => {
+          if (document.querySelector('.tui-screen.is-active')?.dataset.screen === '1') goTo(2);
+        }, 4500);
+      }
+    });
+  }, { threshold: 0.4 });
+  io.observe(dashEl);
+}
 
 /* B2: pick an activity → branch into the matching flow */
 document.querySelectorAll('[data-activity]').forEach((card) => {

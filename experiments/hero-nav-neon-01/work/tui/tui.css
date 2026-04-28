@@ -278,39 +278,38 @@
 }
 /* auto-pick visual indicator removed — was misaligned + glitchy.
    screen transitions alone communicate the picks. */
-/* Bakery 1 orb: bottom-center small circle */
+/* B1 orb: covers bottom-center area generously */
 .tui-hit--orb {
-  bottom: 12%;
+  bottom: 2%;
   left: 50%;
   transform: translateX(-50%);
-  width: 9%;
-  aspect-ratio: 1;
+  width: 22%;
+  height: 18%;
   border-radius: 999px;
 }
-/* B2 activity cards: 5 across the lower half of the screen */
-.tui-hit--card { bottom: 14%; width: 16%; height: 36%; border-radius: 8px; }
-.tui-hit--listen  { left: 7%;  }
-.tui-hit--outside { right: 24%; }
-.tui-hit--nourish { right: 7%; }
+/* B2 activity cards: 5 cards spanning lower half of screen */
+.tui-hit--card { top: 50%; height: 36%; width: 18%; border-radius: 8px; }
+.tui-hit--listen  { left: 9%;  }
+.tui-hit--outside { right: 23%; }
+.tui-hit--nourish { right: 5%;  }
 
-/* B3/B7/B10 sub-cards: a single wide hit zone over the full row of
-   6 sub-cards near the bottom of the screen. any tap advances. */
+/* B3 / B7 / B10 sub-cards row — generous overlap with the icon row */
 .tui-hit--sub-row {
-  bottom: 18%;
+  top: 49%;
   left: 50%;
   transform: translateX(-50%);
-  width: 70%;
-  height: 16%;
+  width: 76%;
+  height: 18%;
   border-radius: 8px;
 }
 
-/* B4 / B8 "Yes, send a map" gradient pill in the middle */
+/* B4 / B8 "Yes, send a map" gradient pill */
 .tui-hit--yes {
-  top: 47%;
+  top: 48%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 36%;
-  height: 13%;
+  transform: translateX(-50%);
+  width: 44%;
+  height: 18%;
   border-radius: 999px;
 }
 
