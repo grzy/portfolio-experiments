@@ -359,10 +359,165 @@
 
 /* B5 slider styles live further down with the masked-overlay rules */
 
-/* ── Bakery 1 · start screen ──────────────────────────────── */
-/* absolute-positioned within the dashboard — matches Figma layout
-   (corners pinned, greeting upper-left, mascot center, orb bottom). */
-.tui-screen--start { position: absolute; inset: 0; }
+/* ── Bakery 1 · start (NATIVE) ──────────────────────────────
+   rebuilt without a Figma bg image so typography is fully
+   controllable in code. layout: corners pinned, greeting at top,
+   mascot center, orb + progress at bottom. ──────────────── */
+.tui-screen--start {
+  position: absolute;
+  inset: 0;
+  background: var(--tui-fogbound);
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: clamp(8px, 1.4vh, 18px);
+  padding: clamp(20px, 4%, 48px) clamp(28px, 5%, 64px) clamp(40px, 5%, 60px);
+  align-items: center;
+  justify-items: center;
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: var(--tui-battery);
+}
+
+/* corner icon clusters — top-left + top-right of the dashboard */
+.tui-corners {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.tui-corner-cluster {
+  display: flex;
+  gap: clamp(8px, 1.2%, 16px);
+}
+.tui-corner-icon {
+  width: clamp(40px, 5%, 56px);
+  height: clamp(40px, 5%, 56px);
+  border-radius: 999px;
+  background: var(--tui-pure);
+  display: grid;
+  place-items: center;
+  color: var(--tui-battery);
+  box-shadow: -2px -2px 4px var(--tui-pure), 3px 3px 8px rgba(178,174,167,0.55);
+  flex: 0 0 auto;
+}
+.tui-corner-icon svg {
+  width: 60%;
+  height: 60%;
+  display: block;
+}
+
+/* greeting block — top-aligned, hugging the top corners area */
+.tui-greet-block {
+  display: grid;
+  gap: clamp(10px, 1.4vh, 18px);
+  text-align: center;
+  justify-items: center;
+  padding-top: clamp(20px, 3vh, 32px);
+}
+.tui-greet-hello {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(14px, 1.5vw, 22px);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--tui-battery);
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1;
+}
+.tui-greet-hello em {
+  font-style: normal;
+  font-weight: 700;
+  background: linear-gradient(92deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 1;
+}
+.tui-greet-question {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(20px, 2.4vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--tui-battery);
+  margin: 0;
+  text-wrap: balance;
+  max-width: 24ch;
+}
+
+/* mascot — gray Figma PNG component, white bg stripped via blend.
+   the PNG itself is the asset Ivy designed; a soft glow halo +
+   subtle drop-shadow underneath give it presence on the dashboard. */
+.tui-mascot-frame {
+  width: clamp(200px, 30%, 360px);
+  aspect-ratio: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-self: center;
+  animation: tui-breathe-small 4.2s ease-in-out infinite;
+}
+.tui-mascot-frame::before {
+  content: '';
+  position: absolute;
+  inset: -8%;
+  background: radial-gradient(circle, rgba(223,255,0,0.12) 0%, transparent 60%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+.tui-mascot-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* multiply blend strips the white bg of the PNG against the
+     fogbound dashboard color (white × fogbound ≈ fogbound). */
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.12));
+}
+
+/* Talk-to-Tūī orb at bottom-center */
+.tui-talk-orb {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 5%, 72px);
+  aspect-ratio: 1;
+  padding: 0;
+  margin-bottom: clamp(8px, 1.4%, 18px);
+  justify-self: center;
+}
+.tui-talk-orb__halo {
+  position: absolute;
+  inset: -40%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgb(223 255 0 / 0.45) 0%, transparent 60%);
+  opacity: 0.5;
+  animation: tui-talk-pulse 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+.tui-talk-orb__core {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.25),
+    inset 0 -3px 6px rgba(0,0,0,0.15),
+    inset 0 2px 4px rgba(255,255,255,0.4);
+  transition: transform 0.18s var(--ease, cubic-bezier(.2,.7,0,1));
+}
+.tui-talk-orb:active .tui-talk-orb__core { transform: scale(0.94); }
+@media (prefers-reduced-motion: reduce) {
+  .tui-talk-orb__halo { animation: none; }
+  .tui-mascot-frame { animation: none; }
+}
 
 /* corner clusters */
 .tui-corner {
