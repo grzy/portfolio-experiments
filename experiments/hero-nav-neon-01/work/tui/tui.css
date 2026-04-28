@@ -336,15 +336,15 @@
 }
 /* B12 expanded grid (Dog Park 4) — 2 rows of sub-cards, taller area */
 .tui-hit--sub-row--tall { height: 36%; }
-/* B7 +-sign hit zone, sits at the right end of the sub-card row.
-   tap → advance to the expanded grid (B12) instead of confirming. */
+/* B7 +-sign hit zone — large area at the right end + below the
+   sub-card row, so tapping anywhere near the +-glyph or below the
+   cards expands to the 12-grid. */
 .tui-hit--plus {
-  top: 50%;
-  right: 14%;
-  transform: translateY(-50%);
-  width: 8%;
-  height: 14%;
-  border-radius: 999px;
+  top: 47%;
+  right: 0;
+  width: 22%;
+  height: 30%;
+  border-radius: 8px;
 }
 
 /* B4 / B8 "Yes, send a map" gradient pill */
@@ -357,70 +357,7 @@
   border-radius: 999px;
 }
 
-/* ── live slider overlay (B5) — sits exactly over the Figma slider
-   in the background image. autoplay drives the fill width, knob
-   position, and pct text in tui.js. ──────────────────────────── */
-.tui-slider-live {
-  position: absolute;
-  top: 48%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%;
-  pointer-events: none;
-}
-.tui-slider-live__pct {
-  display: block;
-  font-family: 'Manrope', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: clamp(36px, 5vw, 64px);
-  color: var(--tui-battery);
-  text-align: center;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin-bottom: clamp(10px, 1.6vh, 18px);
-  transition: color 0.2s;
-}
-.tui-slider-live__track {
-  position: relative;
-  height: clamp(20px, 2.6vh, 32px);
-  background: var(--tui-pure);
-  border-radius: 999px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
-  overflow: hidden;
-}
-.tui-slider-live__fill {
-  position: absolute;
-  inset: 0;
-  width: 10%;
-  background: linear-gradient(90deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
-  border-radius: 999px;
-  transition: width 0.06s linear;
-}
-.tui-slider-live__knob {
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  transform: translate(-50%, -50%);
-  width: clamp(32px, 4.4vh, 48px);
-  aspect-ratio: 1;
-  border-radius: 999px;
-  background: var(--tui-electric);
-  box-shadow:
-    0 4px 10px rgba(0,0,0,0.25),
-    inset 0 -2px 4px rgba(0,0,0,0.18),
-    inset 0 2px 3px rgba(255,255,255,0.4);
-  transition: left 0.06s linear, transform 0.18s, box-shadow 0.18s;
-  margin-top: calc(clamp(20px, 2.6vh, 32px) * 0.5 + clamp(36px, 5vw, 64px) + clamp(10px, 1.6vh, 18px));
-  /* ^ pull knob down to align with track centerline (track sits below pct) */
-}
-.tui-screen--slider.is-dragging .tui-slider-live__knob {
-  transform: translate(-50%, -50%) scale(1.08);
-  box-shadow:
-    0 0 0 12px rgba(54,113,199,0.18),
-    0 6px 14px rgba(0,0,0,0.3),
-    inset 0 -2px 4px rgba(0,0,0,0.18),
-    inset 0 2px 3px rgba(255,255,255,0.5);
-}
+/* B5 slider styles live further down with the masked-overlay rules */
 
 /* ── Bakery 1 · start screen ──────────────────────────────── */
 /* absolute-positioned within the dashboard — matches Figma layout
@@ -1071,66 +1008,51 @@
      "note cards" mixed into the confetti shower. */
 }
 
-/* ── B5 native slider screen ───────────────────────────────
-   rebuilt without a Figma bg image. pure HTML/CSS so the slider
-   actually behaves: animates, scales, drags. matches Figma layout
-   in proportion + color but driven entirely by code. ────── */
-.tui-screen--native {
+/* ── B5 slider — masked overlay over the Figma bg ──────────
+   bg image carries heading, corner icons, "No text updates" pill,
+   progress bar so this screen matches the other bg-image screens
+   visually. two fogbound masks blank out the static slider + the
+   misplaced bottom-left "Pressed" knob from the bg. live slider
+   sits on top, driven by pointer events. ───────────────── */
+.tui-slider-mask {
+  position: absolute;
+  top: 47%;
+  left: 18%;
+  right: 18%;
+  height: 18%;
   background: var(--tui-fogbound);
+  z-index: 4;
+  pointer-events: none;
+}
+.tui-slider-mask-knob {
+  position: absolute;
+  bottom: 5%;
+  left: 22%;
+  width: 14%;
+  aspect-ratio: 1;
+  background: var(--tui-fogbound);
+  border-radius: 50%;
+  z-index: 4;
+  pointer-events: none;
+}
+.tui-slider-live {
+  position: absolute;
+  top: 56%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  z-index: 5;
   display: grid;
-  grid-template-rows: auto 1fr auto auto auto;
-  gap: clamp(10px, 1.6vh, 22px);
-  padding: clamp(20px, 4%, 48px) clamp(28px, 6%, 72px) clamp(40px, 6%, 70px);
-  align-items: center;
-  justify-items: center;
-  font-family: 'Manrope', system-ui, sans-serif;
-  color: var(--tui-battery);
-}
-.tui-corners {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  grid-row: 1;
-}
-.tui-corner-cluster { display: flex; gap: clamp(8px, 1.2%, 16px); }
-.tui-corner-icon {
-  width: clamp(38px, 4.4%, 56px);
-  height: clamp(38px, 4.4%, 56px);
-  border-radius: 999px;
-  background: var(--tui-pure);
-  display: grid;
-  place-items: center;
-  color: var(--tui-battery);
-  box-shadow: -2px -2px 4px var(--tui-pure), 3px 3px 8px rgba(178,174,167,0.55);
-}
-.tui-corner-icon svg { width: 56%; height: 56%; }
-
-.tui-slider-heading {
-  font-weight: 500;
-  font-size: clamp(20px, 2.6vw, 36px);
-  line-height: 1.18;
-  letter-spacing: -0.01em;
-  text-align: center;
-  margin: 0;
-  text-wrap: balance;
-  align-self: end;
-  grid-row: 2;
-}
-
-.tui-slider-shell {
-  width: clamp(280px, 50%, 520px);
-  display: grid;
-  gap: clamp(8px, 1.2vh, 14px);
-  grid-row: 3;
-  align-self: center;
+  gap: clamp(4px, 0.6vh, 8px);
 }
 .tui-slider-pct {
+  font-family: 'Manrope', system-ui, sans-serif;
   font-weight: 600;
-  font-size: clamp(36px, 5vw, 64px);
+  font-size: clamp(24px, 3.4vw, 44px);
   letter-spacing: -0.02em;
   text-align: center;
   line-height: 1;
+  color: var(--tui-battery);
 }
 .tui-slider-track {
   position: relative;

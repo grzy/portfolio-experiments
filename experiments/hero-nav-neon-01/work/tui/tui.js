@@ -369,23 +369,23 @@ function startSuccess() {
 
   sizeCanvas(canvas, ctx);
   const r = canvas.getBoundingClientRect();
-  /* mix: ~70% brand-color shapes (Lichen + Electric), ~30% activity
-     icons drawn from the white-stripped sprite so each piece is just
-     the black silhouette. */
-  confettiState.particles = Array.from({ length: 60 }, () => {
-    const isShape = Math.random() < 0.70;
+  /* heavy shower: ~120 pieces, roughly half brand shapes + half
+     silhouette icons. spread the spawn-y range so the shower keeps
+     pouring instead of arriving as one big wave. */
+  confettiState.particles = Array.from({ length: 120 }, () => {
+    const isShape = Math.random() < 0.55;
     return {
       x: Math.random() * r.width,
-      y: -60 - Math.random() * 240,
-      vx: (Math.random() - 0.5) * 0.9,
-      vy: 0.7 + Math.random() * 0.9,
+      y: -80 - Math.random() * 700,            // staggered spawn — keeps falling
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: 0.6 + Math.random() * 0.9,
       rot: (Math.random() - 0.5) * 0.5,
       vrot: (Math.random() - 0.5) * 0.04,
       kind: isShape ? 'shape' : 'icon',
       coord: isShape ? null : ICON_COORDS[Math.floor(Math.random() * ICON_COORDS.length)],
       color: isShape ? BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)] : null,
       shape: isShape ? SHAPE_KINDS[Math.floor(Math.random() * SHAPE_KINDS.length)] : null,
-      size: isShape ? 8 + Math.random() * 14 : 22 + Math.random() * 14,
+      size: isShape ? 8 + Math.random() * 14 : 22 + Math.random() * 16,
       stretch: isShape ? 1 + Math.random() * 2 : 1,
     };
   });
@@ -402,8 +402,8 @@ function tickConfetti() {
   const r = canvas.getBoundingClientRect();
   ctx.clearRect(0, 0, r.width, r.height);
   const elapsed = performance.now() - confettiState.started;
-  const fadeStart = 5500;
-  const fadeEnd   = 7000;
+  const fadeStart = 9000;
+  const fadeEnd   = 12000;
 
   confettiState.particles.forEach((p) => {
     p.x += p.vx;
