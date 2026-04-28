@@ -131,14 +131,24 @@ document.querySelectorAll('[data-activity]').forEach((card) => {
   });
 });
 
-/* sub-cards on B3 / B7 / B10 → confirm or slider depending on flow */
+/* sub-cards on B3 / B7 / B10 → confirm or slider depending on flow.
+   the entire screen is also click-anywhere-advance (covers the +-sign
+   and any visual gap), so any tap on the sub-card screen advances. */
+function advanceSubCards() {
+  setCabinState('press');
+  setTimeout(() => setCabinState('', 0), 600);
+  if (currentFlow === 'bakery')        setTimeout(() => goTo(4), 280);
+  else if (currentFlow === 'dogpark')  setTimeout(() => goTo(8), 280);
+  else if (currentFlow === 'birdsong') setTimeout(() => goTo(5), 280);
+}
 document.querySelectorAll('[data-sub]').forEach((sub) => {
-  sub.addEventListener('click', () => {
-    setCabinState('press');
-    setTimeout(() => setCabinState('', 0), 600);
-    if (currentFlow === 'bakery')   setTimeout(() => goTo(4), 280);
-    else if (currentFlow === 'dogpark') setTimeout(() => goTo(8), 280);
-    else if (currentFlow === 'birdsong') setTimeout(() => goTo(5), 280);
+  sub.addEventListener('click', advanceSubCards);
+});
+['3', '7', '10'].forEach((n) => {
+  const screen = document.querySelector(`.tui-screen[data-screen="${n}"]`);
+  if (screen) screen.addEventListener('click', (e) => {
+    if (e.target.closest('[data-sub]')) return;
+    advanceSubCards();
   });
 });
 
@@ -282,24 +292,21 @@ function startSuccess() {
 
   sizeCanvas(canvas, ctx);
   const r = canvas.getBoundingClientRect();
-  /* mix: ~75% brand-color shapes (Lichen + Electric), ~25% activity icons */
-  confettiState.particles = Array.from({ length: 60 }, () => {
-    const isShape = Math.random() < 0.75;
-    return {
-      x: Math.random() * r.width,
-      y: -60 - Math.random() * 240,
-      vx: (Math.random() - 0.5) * 0.9,
-      vy: 0.7 + Math.random() * 0.9,        // gentler drift down
-      rot: (Math.random() - 0.5) * 0.5,
-      vrot: (Math.random() - 0.5) * 0.04,    // slower spin
-      kind: isShape ? 'shape' : 'icon',
-      coord: isShape ? null : ICON_COORDS[Math.floor(Math.random() * ICON_COORDS.length)],
-      color: isShape ? BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)] : null,
-      shape: isShape ? SHAPE_KINDS[Math.floor(Math.random() * SHAPE_KINDS.length)] : null,
-      size: isShape ? 8 + Math.random() * 12 : 22 + Math.random() * 14,
-      stretch: isShape ? 1 + Math.random() * 2 : 1, // rectangles are taller
-    };
-  });
+  /* pure brand-color shapes — Lichen + Electric Blue circles, rectangles,
+     triangles in varied sizes. dropped activity icons for now (the white
+     card backgrounds read as cropped junk in the falling shower). */
+  confettiState.particles = Array.from({ length: 64 }, () => ({
+    x: Math.random() * r.width,
+    y: -60 - Math.random() * 240,
+    vx: (Math.random() - 0.5) * 0.9,
+    vy: 0.7 + Math.random() * 0.9,
+    rot: (Math.random() - 0.5) * 0.5,
+    vrot: (Math.random() - 0.5) * 0.04,
+    color: BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)],
+    shape: SHAPE_KINDS[Math.floor(Math.random() * SHAPE_KINDS.length)],
+    size: 8 + Math.random() * 14,
+    stretch: 1 + Math.random() * 2,
+  }));
   confettiState.active = true;
   confettiState.started = performance.now();
   cancelAnimationFrame(confettiState.raf);
@@ -328,26 +335,21 @@ function tickConfetti() {
     ctx.rotate(p.rot);
     ctx.globalAlpha = alpha;
 
-    if (p.kind === 'icon' && spriteReady) {
-      const [sx, sy, sw, sh] = p.coord;
-      ctx.drawImage(spriteImg, sx, sy, sw, sh, -p.size / 2, -p.size / 2, p.size, p.size);
-    } else if (p.kind === 'shape') {
-      ctx.fillStyle = p.color;
-      const w = p.size, h = p.size * p.stretch;
-      if (p.shape === 'circle') {
-        ctx.beginPath();
-        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (p.shape === 'tri') {
-        ctx.beginPath();
-        ctx.moveTo(0, -h / 2);
-        ctx.lineTo(w / 2, h / 2);
-        ctx.lineTo(-w / 2, h / 2);
-        ctx.closePath();
-        ctx.fill();
-      } else {
-        ctx.fillRect(-w / 2, -h / 2, w, h);
-      }
+    ctx.fillStyle = p.color;
+    const w = p.size, h = p.size * p.stretch;
+    if (p.shape === 'circle') {
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (p.shape === 'tri') {
+      ctx.beginPath();
+      ctx.moveTo(0, -h / 2);
+      ctx.lineTo(w / 2, h / 2);
+      ctx.lineTo(-w / 2, h / 2);
+      ctx.closePath();
+      ctx.fill();
+    } else {
+      ctx.fillRect(-w / 2, -h / 2, w, h);
     }
     ctx.restore();
   });

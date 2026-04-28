@@ -287,19 +287,22 @@
   height: 18%;
   border-radius: 999px;
 }
-/* B2 activity cards: 5 cards spanning lower half of screen */
-.tui-hit--card { top: 50%; height: 36%; width: 18%; border-radius: 8px; }
+/* B2 activity cards: 5 cards spanning lower half of screen.
+   moved up so the top of the cards is clickable. */
+.tui-hit--card { top: 47%; height: 36%; width: 18%; border-radius: 8px; }
 .tui-hit--listen  { left: 9%;  }
 .tui-hit--outside { right: 23%; }
 .tui-hit--nourish { right: 5%;  }
 
-/* B3 / B7 / B10 sub-cards row — generous overlap with the icon row */
+/* B3 / B7 / B10 sub-cards row — generous overlap, plus the entire
+   screen is also click-anywhere-advance via JS, so the +-sign is
+   covered without a separate hit zone. */
 .tui-hit--sub-row {
-  top: 49%;
+  top: 47%;
   left: 50%;
   transform: translateX(-50%);
-  width: 76%;
-  height: 18%;
+  width: 80%;
+  height: 22%;
   border-radius: 8px;
 }
 
@@ -1027,55 +1030,88 @@
      "note cards" mixed into the confetti shower. */
 }
 
-/* ── B5 live slider overlay ───────────────────────────────────
-   sits over the Figma slider in the bg image. pct + bar use the
-   fogbound dashboard color to mask the static slider underneath. */
-.tui-slider-live {
-  position: absolute;
-  top: 47%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  z-index: 5;
-  pointer-events: none;
-}
-.tui-slider-live__pct {
-  display: block;
+/* ── B5 native slider screen ───────────────────────────────
+   rebuilt without a Figma bg image. pure HTML/CSS so the slider
+   actually behaves: animates, scales, drags. matches Figma layout
+   in proportion + color but driven entirely by code. ────── */
+.tui-screen--native {
   background: var(--tui-fogbound);
+  display: grid;
+  grid-template-rows: auto 1fr auto auto auto;
+  gap: clamp(10px, 1.6vh, 22px);
+  padding: clamp(20px, 4%, 48px) clamp(28px, 6%, 72px) clamp(40px, 6%, 70px);
+  align-items: center;
+  justify-items: center;
   font-family: 'Manrope', system-ui, sans-serif;
+  color: var(--tui-battery);
+}
+.tui-corners {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  grid-row: 1;
+}
+.tui-corner-cluster { display: flex; gap: clamp(8px, 1.2%, 16px); }
+.tui-corner-icon {
+  width: clamp(38px, 4.4%, 56px);
+  height: clamp(38px, 4.4%, 56px);
+  border-radius: 999px;
+  background: var(--tui-pure);
+  display: grid;
+  place-items: center;
+  color: var(--tui-battery);
+  box-shadow: -2px -2px 4px var(--tui-pure), 3px 3px 8px rgba(178,174,167,0.55);
+}
+.tui-corner-icon svg { width: 56%; height: 56%; }
+
+.tui-slider-heading {
+  font-weight: 500;
+  font-size: clamp(20px, 2.6vw, 36px);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin: 0;
+  text-wrap: balance;
+  align-self: end;
+  grid-row: 2;
+}
+
+.tui-slider-shell {
+  width: clamp(280px, 50%, 520px);
+  display: grid;
+  gap: clamp(8px, 1.2vh, 14px);
+  grid-row: 3;
+  align-self: center;
+}
+.tui-slider-pct {
   font-weight: 600;
   font-size: clamp(36px, 5vw, 64px);
   letter-spacing: -0.02em;
-  color: var(--tui-battery);
   text-align: center;
-  width: 100%;
-  padding: 4px 0;
-  margin-bottom: clamp(6px, 0.8vh, 10px);
   line-height: 1;
 }
-.tui-slider-live__bar {
+.tui-slider-track {
   position: relative;
-  height: clamp(18px, 2.4vh, 28px);
+  height: clamp(18px, 2.4vh, 26px);
   border-radius: 999px;
   background: var(--tui-pure);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
   overflow: visible;
-  /* a slight fogbound buffer ring so the bar fully masks the Figma track */
-  outline: 6px solid var(--tui-fogbound);
 }
-.tui-slider-live__fill {
+.tui-slider-fill {
   position: absolute;
   left: 0; top: 0; bottom: 0;
   width: 10%;
   background: linear-gradient(90deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
   border-radius: 999px;
 }
-.tui-slider-live__knob {
+.tui-slider-knob {
   position: absolute;
   top: 50%;
   left: 10%;
   transform: translate(-50%, -50%);
-  width: clamp(36px, 5vh, 56px);
+  width: clamp(34px, 4.6vh, 50px);
   aspect-ratio: 1;
   border-radius: 999px;
   background: var(--tui-electric);
@@ -1083,13 +1119,64 @@
     0 4px 12px rgba(0,0,0,0.3),
     inset 0 -3px 6px rgba(0,0,0,0.18),
     inset 0 2px 3px rgba(255,255,255,0.4);
+  transition: box-shadow 0.18s;
 }
-.tui-screen--slider.is-dragging .tui-slider-live__knob {
+.tui-screen--slider.is-dragging .tui-slider-knob {
   box-shadow:
     0 0 0 14px rgba(54,113,199,0.18),
     0 4px 12px rgba(0,0,0,0.3),
     inset 0 -3px 6px rgba(0,0,0,0.18),
     inset 0 2px 3px rgba(255,255,255,0.5);
+}
+.tui-slider-hint {
+  font-weight: 700;
+  font-size: clamp(11px, 1.1vw, 14px);
+  letter-spacing: 0.4em;
+  color: var(--tui-carbon);
+  text-align: center;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.tui-slider-skip {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  background: var(--tui-pure);
+  color: rgba(14,14,14,0.6);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(13px, 1.2vw, 16px);
+  border-radius: 999px;
+  padding: clamp(10px, 1.6vh, 14px) clamp(20px, 3%, 32px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: -2px -2px 4px var(--tui-pure), 3px 3px 8px rgba(178,174,167,0.55);
+  grid-row: 4;
+}
+
+.tui-progress-pill {
+  display: flex;
+  gap: clamp(10px, 1.4%, 14px);
+  padding: clamp(6px, 1%, 12px) clamp(14px, 2.4%, 24px);
+  background: var(--tui-pure);
+  border-radius: 999px;
+  box-shadow: var(--tui-shadow-out);
+  grid-row: 5;
+}
+.tui-progress-pill span {
+  width: clamp(8px, 0.9%, 11px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--tui-carbon);
+  opacity: 0.55;
+}
+.tui-progress-pill span.is-active {
+  background: linear-gradient(135deg, var(--tui-lichen), var(--tui-electric));
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(223,255,0,0.5);
+  transform: scale(1.2);
 }
 
 /* ── 2 · THE PROBLEM — 42-min stat punch ─────────────────── */
