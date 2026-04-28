@@ -1164,12 +1164,12 @@
   margin: clamp(16px, 3vh, 40px) 0 0;
   display: inline-flex;
   align-items: baseline;
-  gap: 0.18em;
+  gap: 0.34em;
   color: var(--text);
   line-height: 1;
 }
 .tui-problem__num {
-  font-size: clamp(96px, 18vw, 240px);
+  font-size: clamp(88px, 16vw, 220px);
   background: linear-gradient(92deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
   -webkit-background-clip: text;
           background-clip: text;
@@ -1178,10 +1178,12 @@
   text-shadow: 0 0 80px rgb(223 255 0 / 0.3);
 }
 .tui-problem__unit {
-  font-size: clamp(20px, 2.4vw, 36px);
+  font-size: clamp(26px, 3.2vw, 48px);
   font-style: italic;
+  font-weight: 500;
   color: var(--text-dim);
   letter-spacing: -0.01em;
+  line-height: 1;
 }
 .tui-problem__lede {
   font-family: var(--f-display);
@@ -1189,17 +1191,25 @@
   font-size: clamp(20px, 2.2vw, 32px);
   line-height: 1.35;
   margin: 0;
-  max-width: 30ch;
+  max-width: 38ch;
   text-wrap: balance;
 }
-.tui-problem__lede em { font-style: italic; color: var(--neon); }
+.tui-problem__lede em {
+  font-style: italic;
+  background: linear-gradient(92deg, var(--tui-lichen) 0%, var(--tui-electric) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .tui-problem__sub {
-  font-family: var(--f-mono);
-  font-size: clamp(14px, 1.1vw, 17px);
-  line-height: 1.6;
+  font-family: var(--f-display);
+  font-size: clamp(15px, 1.3vw, 19px);
+  font-weight: 400;
+  line-height: 1.5;
   color: var(--text-dim);
   margin: 0;
-  max-width: 52ch;
+  max-width: 48ch;
+  text-wrap: balance;
 }
 .tui-problem__src {
   font-family: var(--f-mono);
