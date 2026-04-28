@@ -159,10 +159,7 @@
   z-index: 0;
 }
 .tui-cabin__vignette {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 50%, rgba(0,0,0,0.6) 100%);
-  pointer-events: none;
-  z-index: 4;
+  display: none;
 }
 /* THE cabin-light bleed: a screen-blended halo over the cabin that radiates
    from the dashboard center. opacity is driven by data-state on .tui-cabin
@@ -290,24 +287,24 @@
   aspect-ratio: 1;
   border-radius: 999px;
 }
-/* Bakery 2 Nourish card: rightmost of 5 activity cards, lower-half */
-.tui-hit--nourish {
-  bottom: 14%;
-  right: 7%;
-  width: 16%;
-  height: 36%;
-  border-radius: 8px;
-}
-/* Bakery 3 Bakery sub-card: 3rd of 6 sub-cards in the bottom row */
-.tui-hit--bakery {
+/* B2 activity cards: 5 across the lower half of the screen */
+.tui-hit--card { bottom: 14%; width: 16%; height: 36%; border-radius: 8px; }
+.tui-hit--listen  { left: 7%;  }
+.tui-hit--outside { right: 24%; }
+.tui-hit--nourish { right: 7%; }
+
+/* B3/B7/B10 sub-cards: a single wide hit zone over the full row of
+   6 sub-cards near the bottom of the screen. any tap advances. */
+.tui-hit--sub-row {
   bottom: 18%;
   left: 50%;
   transform: translateX(-50%);
-  width: 8%;
+  width: 70%;
   height: 16%;
   border-radius: 8px;
 }
-/* Bakery 4 Yes-send-a-map gradient pill: middle of the dashboard */
+
+/* B4 / B8 "Yes, send a map" gradient pill in the middle */
 .tui-hit--yes {
   top: 47%;
   left: 50%;
@@ -1026,6 +1023,9 @@
   height: 100%;
   pointer-events: none;
   z-index: 1;
+  /* multiply blend: white pixels of the icons disappear into the
+     fogbound dashboard bg, only the black silhouette stays visible. */
+  mix-blend-mode: multiply;
 }
 
 /* ── 2 · THE PROBLEM — 42-min stat punch ─────────────────── */

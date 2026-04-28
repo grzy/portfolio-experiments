@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=20" />
-<link rel="stylesheet" href="tui.css?v=9" />
+<link rel="stylesheet" href="tui.css?v=10" />
 </head>
 <body class="tui-body">
 
@@ -45,11 +45,11 @@
   <div class="tui-hero__text">
     <span class="tui-eyebrow"><span class="tui-eyebrow__glyph">✺</span> case story</span>
     <h1 class="tui-hero__title">
-      Forty-two minutes<br />of <em>doing nothing</em>.
+      42 minutes<br />of <em>waiting</em>.
     </h1>
     <p class="tui-hero__sub">
-      <span class="tui-hero__sub-line">An EV car-UI concept that turns charging downtime</span>
-      <span class="tui-hero__sub-line">into walking-distance moments — without forcing another app.</span>
+      <span class="tui-hero__sub-line">An EV car-UI to help find activities near charging stations.</span>
+      <span class="tui-hero__sub-line">Walking directions + charge status sent straight to your phone.</span>
     </p>
   </div>
 
@@ -75,8 +75,10 @@
           <button class="tui-hit tui-hit--orb" id="tuiTalkOrb" aria-label="Talk to Tūī"></button>
         </section>
 
-        <!-- ── Bakery 2 · activity grid ──────────────────────── -->
+        <!-- ── Bakery 2 · activity grid (shared, 3 hit zones) ─ -->
         <section class="tui-screen tui-screen--bg" data-screen="2" aria-label="Select an activity" style="background-image: url('assets/bakery-2-383-1236.png');">
+          <button class="tui-hit tui-hit--card tui-hit--listen" data-activity="listen" aria-label="Listen"></button>
+          <button class="tui-hit tui-hit--card tui-hit--outside" data-activity="outside" aria-label="Outside"></button>
           <button class="tui-hit tui-hit--card tui-hit--nourish" data-activity="nourish" aria-label="Nourish"></button>
         </section>
 
@@ -95,8 +97,32 @@
         </section>
 
         <!-- ── Bakery 6 · success + confetti ─────────────────── -->
-        <section class="tui-screen tui-screen--bg tui-screen--success" data-screen="6" aria-label="Success" style="background-image: url('assets/bakery-6-386-2076.png');">
-          <canvas class="tui-confetti" id="tuiConfetti" aria-hidden="true"></canvas>
+        <section class="tui-screen tui-screen--bg tui-screen--success" data-screen="6" aria-label="Bakery success" style="background-image: url('assets/bakery-6-386-2076.png');">
+          <canvas class="tui-confetti" data-flow="bakery" aria-hidden="true"></canvas>
+        </section>
+
+        <!-- ── Dog Park 3 · Outside drill-in ─────────────────── -->
+        <section class="tui-screen tui-screen--bg" data-screen="7" aria-label="Choose an outside activity" style="background-image: url('assets/dogpark-3-499-647.png');">
+          <button class="tui-hit tui-hit--sub-row" data-sub="park" aria-label="Pick a sub-activity"></button>
+        </section>
+
+        <!-- ── Dog Park 5 · confirmation ─────────────────────── -->
+        <section class="tui-screen tui-screen--bg" data-screen="8" aria-label="Confirm walking directions" style="background-image: url('assets/dogpark-5-1020-654.png');">
+          <button class="tui-hit tui-hit--yes" data-yes="dogpark" aria-label="Yes, send a map"></button>
+        </section>
+
+        <!-- ── Dog Park 7 · success + confetti ───────────────── -->
+        <section class="tui-screen tui-screen--bg tui-screen--success" data-screen="9" aria-label="Dog Park success" style="background-image: url('assets/dogpark-7-499-1380.png');">
+          <canvas class="tui-confetti" data-flow="dogpark" aria-hidden="true"></canvas>
+        </section>
+
+        <!-- ── Birdsong 3 · Listen drill-in ──────────────────── -->
+        <section class="tui-screen tui-screen--bg" data-screen="10" aria-label="Choose a sound" style="background-image: url('assets/birdsong-3-499-1053.png');">
+          <button class="tui-hit tui-hit--sub-row" data-sub="birdsong" aria-label="Pick a sound"></button>
+        </section>
+
+        <!-- ── Birdsong 5 · success (no confetti — listening IS the celebration) -->
+        <section class="tui-screen tui-screen--bg tui-screen--success" data-screen="11" aria-label="Birdsong listening" style="background-image: url('assets/birdsong-5-499-1600.png');">
         </section>
 
       </div>
@@ -105,9 +131,9 @@
 
   <!-- meta strip under the cabin: role, tools, scope, scroll cue -->
   <dl class="tui-meta">
-    <div><dt>Role</dt><dd>Concept · UI · interaction · prototype</dd></div>
-    <div><dt>Tools</dt><dd>Figma · Manrope · Web Speech API</dd></div>
-    <div><dt>Scope</dt><dd>UX class · one designer · end-to-end</dd></div>
+    <div><dt>Role</dt><dd>Concept · UI · interaction</dd></div>
+    <div><dt>Tools</dt><dd>Figma · Figma MCP · Web Speech API</dd></div>
+    <div><dt>Scope</dt><dd>One designer · end-to-end</dd></div>
     <div class="tui-meta__cue">
       <a class="tui-hero__scroll" href="#problem" data-hover aria-label="Read the case story">
         <span>case story</span>
@@ -299,6 +325,6 @@
 </button>
 
 <script type="module" src="../../script.js?v=38"></script>
-<script type="module" src="tui.js?v=5"></script>
+<script type="module" src="tui.js?v=6"></script>
 </body>
 </html>

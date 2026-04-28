@@ -73,128 +73,86 @@ if (cabin) {
   });
 }
 
-/* ── screen state machine ────────────────────────────────── */
+/* ── three-flow state machine ─────────────────────────────
+   Bakery: 1 → 2 → 3 → 4 → 5 → 6 (confetti success)
+   Dog Park: 1 → 2 → 7 → 8 → 5 → 9 (confetti success)
+   Birdsong: 1 → 2 → 10 → 5 → 11 (no confetti; quiet ending)
+   Click anywhere on success screen to restart. */
 const screens = document.querySelectorAll('.tui-screen');
+let currentFlow = 'bakery';
+const SUCCESS_SCREENS = ['6', '9', '11'];
+
 function goTo(n) {
   screens.forEach((s) => s.classList.toggle('is-active', s.dataset.screen === String(n)));
   cabin && cabin.setAttribute('data-screen', String(n));
-  if (n === 6) startSuccess();
+  if (SUCCESS_SCREENS.includes(String(n))) startSuccess();
 }
 
-/* B1 orb → B2 (replaces "talk" speech for now per Ivy's deferral note) */
+/* B1 orb → B2 (Talk-to-Tūī demo path; speech wiring deferred) */
 if (orb) orb.addEventListener('click', () => setTimeout(() => goTo(2), 320));
 
-/* B2 cards: only Nourish advances on the demo path; others give a tiny
-   shake hint so they feel responsive without forking the demo. */
+/* B2: pick an activity → branch into the matching flow */
 document.querySelectorAll('[data-activity]').forEach((card) => {
   card.addEventListener('click', () => {
     const a = card.dataset.activity;
-    if (a === 'nourish') goTo(3);
-    else { card.animate(
-      [{ transform: 'translateX(0)' }, { transform: 'translateX(-3px)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(0)' }],
-      { duration: 240, easing: 'ease-in-out' }
-    ); }
+    setCabinState('press');
+    setTimeout(() => setCabinState('', 0), 600);
+    if (a === 'nourish') { currentFlow = 'bakery';   setTimeout(() => goTo(3),  280); }
+    else if (a === 'outside') { currentFlow = 'dogpark';  setTimeout(() => goTo(7),  280); }
+    else if (a === 'listen')  { currentFlow = 'birdsong'; setTimeout(() => goTo(10), 280); }
   });
 });
 
-/* B3 sub-cards: Bakery advances; others shake. */
+/* sub-cards on B3 / B7 / B10 → confirm or slider depending on flow */
 document.querySelectorAll('[data-sub]').forEach((sub) => {
   sub.addEventListener('click', () => {
-    if (sub.dataset.sub === 'bakery') { setCabinState('press'); setTimeout(() => goTo(4), 320); }
-    else sub.animate(
-      [{ transform: 'translateX(0)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(2px)' }, { transform: 'translateX(0)' }],
-      { duration: 200, easing: 'ease-in-out' }
-    );
+    setCabinState('press');
+    setTimeout(() => setCabinState('', 0), 600);
+    if (currentFlow === 'bakery')   setTimeout(() => goTo(4), 280);
+    else if (currentFlow === 'dogpark') setTimeout(() => goTo(8), 280);
+    else if (currentFlow === 'birdsong') setTimeout(() => goTo(5), 280);
   });
 });
 
-/* B4 buttons → B5 */
-const yesMap = document.getElementById('tuiYesMap');
-const noMap  = document.getElementById('tuiNoMap');
-if (yesMap) yesMap.addEventListener('click', () => { setCabinState('press'); setTimeout(() => goTo(5), 280); });
-if (noMap)  noMap.addEventListener('click',  () => goTo(5));
+/* B4 / B8 "Yes, send a map" buttons → slider (B5) */
+document.querySelectorAll('[data-yes], #tuiYesMap').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    setCabinState('press');
+    setTimeout(() => goTo(5), 280);
+  });
+});
 
 /* B5 slider is part of the Figma background image — no live overlay.
    we just pulse the cabin halo during the dwell so something feels live. */
 const sliderScreen = document.querySelector('.tui-screen--slider');
 
-/* ── autoplay sequence — the prototype demos itself ──────
-   Hiring manager scrolls past, watches the whole bakery flow
-   without lifting a finger. User clicks act as optional "skips":
-   they advance the sequence early; autoplay resumes from there. */
-const AUTO_STEPS = [
-  { screen: 1, dwell: 2600 },
-  { screen: 2, dwell: 2600 },
-  { screen: 3, dwell: 2800 },
-  { screen: 4, dwell: 2400 },
-  { screen: 5, dwell: 3400, action: animateSliderDrag },
-  { screen: 6, dwell: 4200 },
-];
-let autoIdx = 0;
-let autoTimer = null;
+/* ── interactive flow — user clicks each step ──────────────
+   No autoplay. The user picks an activity, picks a sub-option,
+   confirms, "drags" the slider (tap to advance), and lands on
+   success. Three flows branch at B2: Nourish → Bakery, Outside →
+   Dog Park, Listen → Birdsong. Tap success screen to start over. */
 
-function autoTick() {
-  const step = AUTO_STEPS[autoIdx];
-  goTo(step.screen);
-  if (step.action) setTimeout(step.action, 500);
-  clearTimeout(autoTimer);
-  autoTimer = setTimeout(() => {
-    autoIdx = (autoIdx + 1) % AUTO_STEPS.length;
-    autoTick();
-  }, step.dwell);
+/* B5 click → success screen for the current flow */
+const sliderScreenEl = document.querySelector('.tui-screen--slider');
+if (sliderScreenEl) {
+  sliderScreenEl.addEventListener('click', () => {
+    setCabinState('drag');
+    setTimeout(() => setCabinState('', 0), 600);
+    const target = currentFlow === 'bakery' ? 6
+                : currentFlow === 'dogpark' ? 9
+                : 11;
+    setTimeout(() => goTo(target), 320);
+  });
 }
 
-function animateSliderDrag() {
-  /* cabin halo pulse during the slider screen dwell so it feels live
-     even though the slider visual is static in the bg image. */
-  setCabinState('drag');
-  setTimeout(() => setCabinState('', 0), 2400);
-}
-
-/* user interaction skips: advance the sequence early. clicks on
-   demo-path buttons fast-forward; autoplay continues from the new
-   index next tick. */
-function jumpToScreen(n) {
-  const i = AUTO_STEPS.findIndex(s => s.screen === n);
-  if (i >= 0) autoIdx = i;
-  clearTimeout(autoTimer);
-  autoTick();
-}
-
-/* override the manual goTo handlers from earlier so they call
-   jumpToScreen instead — keeps autoplay in sync. */
-if (orb) orb.replaceWith(orb.cloneNode(true));
-const orbEl = document.getElementById('tuiTalkOrb');
-if (orbEl) orbEl.addEventListener('click', () => jumpToScreen(2));
-document.querySelectorAll('[data-activity="nourish"]').forEach(el =>
-  el.addEventListener('click', (e) => { e.stopImmediatePropagation(); jumpToScreen(3); }, true));
-document.querySelectorAll('[data-sub="bakery"]').forEach(el =>
-  el.addEventListener('click', (e) => { e.stopImmediatePropagation(); jumpToScreen(4); }, true));
-const yesEl = document.getElementById('tuiYesMap');
-if (yesEl) yesEl.addEventListener('click', (e) => { e.stopImmediatePropagation(); jumpToScreen(5); }, true);
-
-/* kick off autoplay when the dashboard scrolls into view. once started,
-   it runs forever (cheap timers, no rAF unless slider is animating). */
-const dashEl = document.getElementById('tuiDash');
-let autoStarted = false;
-if (dashEl && 'IntersectionObserver' in window) {
-  const dashIO = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting && !autoStarted) {
-        autoStarted = true;
-        autoTick();
-      }
-    });
-  }, { threshold: 0.3 });
-  dashIO.observe(dashEl);
-} else if (dashEl) {
-  autoStarted = true; autoTick();
-}
+/* any success screen → click to restart at B1 */
+document.querySelectorAll('.tui-screen--success').forEach((scr) => {
+  scr.addEventListener('click', () => goTo(1));
+});
 
 /* ── confetti — particles ARE the activity icons from the Figma sprite.
-   they rain DOWN from above the dashboard, not bunched in the middle. */
-const canvas = document.getElementById('tuiConfetti');
-const ctx = canvas && canvas.getContext('2d');
+   they rain DOWN from above the dashboard, not bunched in the middle.
+   each success screen has its own canvas; we fire on whichever is active. */
 
 /* sprite: 1024×192 PNG containing all the activity icons in 3 rows.
    coordinates are in ORIGINAL Figma units (1893 wide × 354 tall),
@@ -222,9 +180,9 @@ spriteImg.src = 'assets/confetti-icons-sprite.png';
 let spriteReady = false;
 spriteImg.addEventListener('load', () => { spriteReady = true; });
 
-let confettiState = { active: false, particles: [], raf: 0, started: 0 };
+let confettiState = { active: false, particles: [], raf: 0, started: 0, canvas: null, ctx: null };
 
-function sizeCanvas() {
+function sizeCanvas(canvas, ctx) {
   if (!canvas) return;
   const r = canvas.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
@@ -234,12 +192,19 @@ function sizeCanvas() {
 }
 
 function startSuccess() {
-  if (!canvas || !ctx) return;
   setCabinState('flash', 280);
   setTimeout(() => setCabinState('press', 700), 280);
   setTimeout(() => setCabinState('', 0), 1100);
 
-  sizeCanvas();
+  /* find the canvas inside the currently-active success screen.
+     birdsong success has no canvas — the listening IS the celebration. */
+  const canvas = document.querySelector('.tui-screen.is-active .tui-confetti');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  confettiState.canvas = canvas;
+  confettiState.ctx = ctx;
+
+  sizeCanvas(canvas, ctx);
   const r = canvas.getBoundingClientRect();
   /* spawn 44 pieces spread across the top, each falling at slight angle */
   confettiState.particles = Array.from({ length: 44 }, () => {
@@ -263,6 +228,8 @@ function startSuccess() {
 
 function tickConfetti() {
   if (!confettiState.active) return;
+  const { canvas, ctx } = confettiState;
+  if (!canvas || !ctx) return;
   const r = canvas.getBoundingClientRect();
   ctx.clearRect(0, 0, r.width, r.height);
   const elapsed = performance.now() - confettiState.started;
@@ -293,4 +260,6 @@ function tickConfetti() {
   if (elapsed < fadeEnd) confettiState.raf = requestAnimationFrame(tickConfetti);
   else { confettiState.active = false; ctx.clearRect(0, 0, r.width, r.height); }
 }
-window.addEventListener('resize', () => { if (confettiState.active) sizeCanvas(); });
+window.addEventListener('resize', () => {
+  if (confettiState.active) sizeCanvas(confettiState.canvas, confettiState.ctx);
+});
