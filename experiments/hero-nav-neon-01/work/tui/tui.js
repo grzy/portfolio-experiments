@@ -86,6 +86,7 @@ function goTo(n) {
   screens.forEach((s) => s.classList.toggle('is-active', s.dataset.screen === String(n)));
   cabin && cabin.setAttribute('data-screen', String(n));
   if (SUCCESS_SCREENS.includes(String(n))) startSuccess();
+  if (String(n) === '5' && typeof resetSlider === 'function') resetSlider();
   /* B1 has a 4.5s safety auto-advance so a passive viewer never gets
      stuck — gives time to read the greet + question. cleared on any
      other transition. */
@@ -159,17 +160,60 @@ const sliderScreen = document.querySelector('.tui-screen--slider');
    success. Three flows branch at B2: Nourish → Bakery, Outside →
    Dog Park, Listen → Birdsong. Tap success screen to start over. */
 
-/* B5 click → success screen for the current flow */
+/* B5 click → animate the slider 10% → 80%, then advance to success.
+   the live overlay sits on top of the Figma static slider in the bg
+   and "drags" itself. tap is the cue, animation does the work. */
 const sliderScreenEl = document.querySelector('.tui-screen--slider');
+let sliderAnimating = false;
+
+function animateSliderDrag(onDone) {
+  if (sliderAnimating) return;
+  const fill = document.getElementById('tuiSliderFill');
+  const knob = document.getElementById('tuiSliderKnob');
+  const pct  = document.getElementById('tuiSliderPct');
+  if (!fill || !knob || !pct) { onDone && onDone(); return; }
+  sliderAnimating = true;
+  sliderScreenEl && sliderScreenEl.classList.add('is-dragging');
+  setCabinState('drag');
+  const start = performance.now();
+  const duration = 4200;
+  const from = 10, to = 80;
+  const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
+  function tick(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const v = from + ease(t) * (to - from);
+    fill.style.width = v + '%';
+    knob.style.left  = v + '%';
+    pct.textContent  = Math.round(v) + '%';
+    if (t < 1) requestAnimationFrame(tick);
+    else {
+      sliderAnimating = false;
+      sliderScreenEl && sliderScreenEl.classList.remove('is-dragging');
+      setCabinState('', 0);
+      onDone && onDone();
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
 if (sliderScreenEl) {
   sliderScreenEl.addEventListener('click', () => {
-    setCabinState('drag');
-    setTimeout(() => setCabinState('', 0), 600);
+    if (sliderAnimating) return; // ignore extra clicks during the drag animation
     const target = currentFlow === 'bakery' ? 6
                 : currentFlow === 'dogpark' ? 9
                 : 11;
-    setTimeout(() => goTo(target), 320);
+    animateSliderDrag(() => goTo(target));
   });
+}
+
+/* reset slider position whenever the user (re-)enters B5 */
+function resetSlider() {
+  const fill = document.getElementById('tuiSliderFill');
+  const knob = document.getElementById('tuiSliderKnob');
+  const pct  = document.getElementById('tuiSliderPct');
+  if (fill) fill.style.width = '10%';
+  if (knob) knob.style.left  = '10%';
+  if (pct)  pct.textContent  = '10%';
 }
 
 /* any success screen → click to restart at B1 */
@@ -218,6 +262,11 @@ function sizeCanvas(canvas, ctx) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
+/* brand colors used as confetti pieces (majority) */
+const BRAND_COLORS = ['#dfff00', '#3671c7']; // Lichen, Electric Blue
+/* shape kinds: square (slim rectangle), circle, triangle */
+const SHAPE_KINDS = ['rect', 'circle', 'tri'];
+
 function startSuccess() {
   setCabinState('flash', 280);
   setTimeout(() => setCabinState('press', 700), 280);
@@ -233,18 +282,22 @@ function startSuccess() {
 
   sizeCanvas(canvas, ctx);
   const r = canvas.getBoundingClientRect();
-  /* spawn 44 pieces spread across the top, each falling at slight angle */
-  confettiState.particles = Array.from({ length: 44 }, () => {
-    const coord = ICON_COORDS[Math.floor(Math.random() * ICON_COORDS.length)];
+  /* mix: ~75% brand-color shapes (Lichen + Electric), ~25% activity icons */
+  confettiState.particles = Array.from({ length: 60 }, () => {
+    const isShape = Math.random() < 0.75;
     return {
       x: Math.random() * r.width,
-      y: -60 - Math.random() * 200,
-      vx: (Math.random() - 0.5) * 1.2,
-      vy: 1.5 + Math.random() * 1.5,
-      rot: (Math.random() - 0.5) * 0.4,
-      vrot: (Math.random() - 0.5) * 0.06,
-      coord,
-      size: 26 + Math.random() * 18,
+      y: -60 - Math.random() * 240,
+      vx: (Math.random() - 0.5) * 0.9,
+      vy: 0.7 + Math.random() * 0.9,        // gentler drift down
+      rot: (Math.random() - 0.5) * 0.5,
+      vrot: (Math.random() - 0.5) * 0.04,    // slower spin
+      kind: isShape ? 'shape' : 'icon',
+      coord: isShape ? null : ICON_COORDS[Math.floor(Math.random() * ICON_COORDS.length)],
+      color: isShape ? BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)] : null,
+      shape: isShape ? SHAPE_KINDS[Math.floor(Math.random() * SHAPE_KINDS.length)] : null,
+      size: isShape ? 8 + Math.random() * 12 : 22 + Math.random() * 14,
+      stretch: isShape ? 1 + Math.random() * 2 : 1, // rectangles are taller
     };
   });
   confettiState.active = true;
@@ -260,28 +313,43 @@ function tickConfetti() {
   const r = canvas.getBoundingClientRect();
   ctx.clearRect(0, 0, r.width, r.height);
   const elapsed = performance.now() - confettiState.started;
-  const fadeStart = 3000;
-  const fadeEnd   = 4000;
+  const fadeStart = 5500;
+  const fadeEnd   = 7000;
 
   confettiState.particles.forEach((p) => {
     p.x += p.vx;
     p.y += p.vy;
-    p.vy += 0.05;
+    p.vy += 0.018;          // very gentle gravity
     p.rot += p.vrot;
 
-    if (spriteReady) {
+    const alpha = elapsed > fadeStart ? Math.max(0, 1 - (elapsed - fadeStart) / (fadeEnd - fadeStart)) : 1;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.globalAlpha = alpha;
+
+    if (p.kind === 'icon' && spriteReady) {
       const [sx, sy, sw, sh] = p.coord;
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot);
-      ctx.globalAlpha = elapsed > fadeStart ? Math.max(0, 1 - (elapsed - fadeStart) / (fadeEnd - fadeStart)) : 1;
-      ctx.drawImage(
-        spriteImg,
-        sx, sy, sw, sh,
-        -p.size / 2, -p.size / 2, p.size, p.size
-      );
-      ctx.restore();
+      ctx.drawImage(spriteImg, sx, sy, sw, sh, -p.size / 2, -p.size / 2, p.size, p.size);
+    } else if (p.kind === 'shape') {
+      ctx.fillStyle = p.color;
+      const w = p.size, h = p.size * p.stretch;
+      if (p.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (p.shape === 'tri') {
+        ctx.beginPath();
+        ctx.moveTo(0, -h / 2);
+        ctx.lineTo(w / 2, h / 2);
+        ctx.lineTo(-w / 2, h / 2);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.fillRect(-w / 2, -h / 2, w, h);
+      }
     }
+    ctx.restore();
   });
 
   if (elapsed < fadeEnd) confettiState.raf = requestAnimationFrame(tickConfetti);

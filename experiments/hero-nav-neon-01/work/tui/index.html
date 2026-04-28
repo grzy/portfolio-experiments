@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../../style.css?v=20" />
-<link rel="stylesheet" href="tui.css?v=12" />
+<link rel="stylesheet" href="tui.css?v=14" />
 </head>
 <body class="tui-body">
 
@@ -92,8 +92,17 @@
           <button class="tui-hit tui-hit--yes" id="tuiYesMap" aria-label="Yes, send a map"></button>
         </section>
 
-        <!-- ── Bakery 5 · charge slider ──────────────────────── -->
+        <!-- ── Bakery 5 · charge slider (live overlay over Figma bg) ── -->
         <section class="tui-screen tui-screen--bg tui-screen--slider" data-screen="5" aria-label="Set charge level" style="background-image: url('assets/bakery-5-386-2023.png');">
+          <!-- the live slider sits exactly over the Figma slider in the bg.
+               positioned percentage-wise so it scales with the dashboard. -->
+          <div class="tui-slider-live" aria-hidden="true">
+            <div class="tui-slider-live__pct" id="tuiSliderPct">10%</div>
+            <div class="tui-slider-live__bar">
+              <div class="tui-slider-live__fill" id="tuiSliderFill"></div>
+              <div class="tui-slider-live__knob" id="tuiSliderKnob"></div>
+            </div>
+          </div>
         </section>
 
         <!-- ── Bakery 6 · success + confetti ─────────────────── -->
@@ -325,6 +334,6 @@
 </button>
 
 <script type="module" src="../../script.js?v=38"></script>
-<script type="module" src="tui.js?v=7"></script>
+<script type="module" src="tui.js?v=9"></script>
 </body>
 </html>
