@@ -453,7 +453,7 @@ img { display: block; max-width: 100%; }
   display: block;
 }
 .hero__title .line:nth-child(2) {
-  padding-left: clamp(20px, 6vw, 110px);
+  padding-left: clamp(0px, 4vw, 80px);
 }
 .hero__title .word {
   display: inline-block;
