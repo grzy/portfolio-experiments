@@ -230,12 +230,15 @@ img { display: block; max-width: 100%; }
 /* Contact link -- in flex flow, nav widens smoothly on hover.
    The nav itself transitions its centering transform so the
    shift is buttery-slow and feels like the pill is breathing wider. */
+/* contact-wrap stays inside the nav's flex flow so the nav box visibly
+   widens to include contact on hover. left edge is anchored by the
+   measured --nav-half-w so it doesn't move; only the right edge grows.
+   the negative margin-left swallows the flex-gap when contact is
+   collapsed so the right edge stays tight (no dead space). */
 .nav__links li.nav__contact-wrap {
   max-width: 0;
   opacity: 0;
   overflow: hidden;
-  /* swallow the flex-gap that would otherwise sit between "about"
-     and the collapsed contact li — keeps the right edge tight. */
   margin-left: calc(-1 * clamp(14px, 2vw, 28px));
   transition:
     max-width 1.1s cubic-bezier(.22, 1, .36, 1),
@@ -910,8 +913,9 @@ img { display: block; max-width: 100%; }
 .foot {
   position: relative;
   min-height: 100svh;
-  /* tightened top padding so the inbox-open eyebrow rides higher */
-  padding: clamp(40px, 6vh, 72px) clamp(24px, 5vw, 72px) clamp(36px, 5vh, 60px);
+  /* eyebrow + middle ride lower from the top; bottom row sits closer
+     to the actual bottom edge */
+  padding: clamp(70px, 9vh, 110px) clamp(24px, 5vw, 72px) clamp(20px, 3vh, 40px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -923,9 +927,10 @@ img { display: block; max-width: 100%; }
 }
 .foot__bloom {
   position: absolute;
-  /* leave breathing room at the bottom so the orchid doesn't crowd
-     the linkedin/twitter/github row + signature line */
-  inset: 0 0 18% 0;
+  /* push the bloom container's top down so the orchid centers lower
+     in the section (under the inbox-open eyebrow); still leaves room
+     above the linkedin/sig row at the bottom */
+  inset: 14% 0 16% 0;
   display: grid; place-items: center;
   z-index: -1;
   pointer-events: none;
@@ -970,7 +975,7 @@ img { display: block; max-width: 100%; }
      middle (title + email CTA) further down so they sit near the
      vertical center; bottom row pinned to bottom via margin-top: auto */
   justify-content: flex-start;
-  gap: clamp(140px, 22vh, 320px);
+  gap: clamp(180px, 28vh, 420px);
 }
 .foot__middle {
   display: flex;
