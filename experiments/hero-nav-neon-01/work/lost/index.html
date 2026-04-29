@@ -45,7 +45,7 @@
   <div class="lost-hero__grid">
     <div class="lost-hero__text">
       <span class="lost-eyebrow lost-eyebrow--story">✺ <span class="lost-eyebrow__phrase" data-a="case story" data-b="case study">case story</span></span>
-      <h1 class="lost-hero__title">What does<br /><em class="lost-decode" data-text="extinction">extinction</em><br />sound like?</h1>
+      <h1 class="lost-hero__title">What does<br /><em class="lost-hero-extinct" data-text="extinction">extinction</em><br />sound like?</h1>
       <p class="lost-hero__sub">
         <span class="lost-hero__sub-line">A field guide for birds at the edge of silence&nbsp;+</span>
         <span class="lost-hero__sub-line">A Figma prototype that almost went extinct itself.</span>
@@ -57,8 +57,8 @@
   </div>
 
   <dl class="lost-meta">
-    <div><dt class="lost-decode" data-text="Role">Role</dt><dd>Product + narrative + UI + imagery</dd></div>
-    <div><dt class="lost-decode" data-text="Tools">Tools</dt><dd>Figma + Flora AI + bioacoustic libraries</dd></div>
+    <div><dt class="lost-decode" data-text="Role">Role</dt><dd>Product · narrative · UI · imagery</dd></div>
+    <div><dt class="lost-decode" data-text="Tools">Tools</dt><dd>Figma · Flora AI · bioacoustic libraries</dd></div>
     <div><dt class="lost-decode" data-text="Scope">Scope</dt><dd>One designer, end-to-end</dd></div>
     <div class="lost-meta__cue">
       <a class="lost-hero__scroll" href="#built" data-hover aria-label="Jump to the listening room">
@@ -76,8 +76,7 @@
       <span class="lost-eyebrow lost-eyebrow--glitch" data-text="❋ extinction · by the numbers">❋ extinction · by the numbers</span>
 
       <p class="lost-trailer__stat">
-        <span class="lost-trailer__num" aria-label="99.9 percent">99<em class="lost-trailer__dec">.</em>9<em class="lost-trailer__pct">%</em></span>&nbsp;
-        <span class="lost-trailer__col2">
+        <span class="lost-trailer__num" aria-label="99.9 percent">99<em class="lost-trailer__dec">.</em>9<em class="lost-trailer__pct">%</em></span><span class="lost-trailer__col2">
           <span class="lost-trailer__unit">of all species that have ever lived are <em>extinct</em>.</span>
           <span class="lost-trailer__source">Source: <cite><em>American Museum of Natural History</em></cite></span>
         </span>
@@ -86,12 +85,12 @@
       <p class="lost-trailer__kicker">
         <span>Lost &amp; Endangered</span>
         <span>doesn&rsquo;t ask you to grieve.</span>
-        <span class="lost-trailer__listen">It asks you to <em>listen.</em></span>
+        <span class="lost-trailer__listen">It asks you to <em data-text="listen.">listen.</em></span>
       </p>
     </div>
 
     <figure class="lost-trailer__media">
-      <img src="../../images/lost/rainforest-hum-card.jpg" alt="Rainforest hum bioacoustic card from the Lost &amp; Endangered prototype" loading="lazy" />
+      <img src="../../images/lost/kauai-oo-card.png" alt="Kaua'i 'ō'ō species card — Rainforest Hum — from the Lost &amp; Endangered prototype" loading="lazy" />
     </figure>
   </div>
 </section>
@@ -141,10 +140,21 @@
 <section class="lost-thinking" id="thinking">
   <div class="lost-thinking__inner">
     <span class="lost-eyebrow lost-eyebrow--glitch" data-text="❀ product thinking">❀ product thinking</span>
-    <h2 class="lost-h2">Imagined for the room. <em>Prototyped on a screen.</em></h2>
+    <h2 class="lost-h2">Imagined for a room. Prototyped on a screen.</h2>
 
     <h3 class="lost-thinking__sub">The original concept</h3>
-    <p>Lost &amp; Endangered started as a <u class="lost-mark">shared, immersive experience</u>, not a website. The four cards on the hero are a residue of that idea: each one a portal into a bird&rsquo;s ecosystem, projected at room scale. Step into the rainforest where the Kaua&rsquo;i &lsquo;ō&rsquo;ō last called. Stand inside the old-growth forest the Spotted Owl is losing.</p>
+    <p>Lost &amp; Endangered started as a <u class="lost-mark">shared, immersive experience</u>, not a website. The four cards on the hero are a residue of that idea: each one a portal into a bird&rsquo;s ecosystem, projected at room scale.</p>
+
+    <ul class="lost-thinking__pair">
+      <li>
+        <span class="lost-thinking__pair-glyph">❖</span>
+        <span>Step into the rainforest where the Kaua&rsquo;i &lsquo;ō&rsquo;ō last called.</span>
+      </li>
+      <li>
+        <span class="lost-thinking__pair-glyph">❋</span>
+        <span>Stand inside the old-growth forest the Spotted Owl is losing.</span>
+      </li>
+    </ul>
   </div>
 
   <figure class="lost-thinking__fig">
@@ -159,9 +169,6 @@
     <h3 class="lost-thinking__sub">Honest about the pivot</h3>
     <p>I had ambitious thoughts about what this could be and how you&rsquo;d interact with it. Figma&rsquo;s prototype was the wall. <u class="lost-mark">That was the real pivot</u>. Not from one form factor to another, but from what I wanted to build to what the medium would let me build. Trackpad gestures became keyboard arrows. The room became a screen.</p>
     <p>A year ago that was acceptable. Designers shipped fake products and the medium absorbed it. Now the bar is <u class="lost-mark">feasibility</u>: code, vibe coding, prototypes that actually run.</p>
-
-    <h3 class="lost-thinking__sub">The medium I have now</h3>
-    <p>This entire case story page is built in <u class="lost-mark">Claude Code, in the terminal</u>. So is the rest of my portfolio. The Figma prototype was the medium I had then. This is the medium I have now, and the projector experience the project was always meant to be is closer to within reach because of it.</p>
   </div>
 
   <figure class="lost-thinking__fig lost-thinking__fig--terminal">
@@ -169,6 +176,9 @@
   </figure>
 
   <div class="lost-thinking__inner">
+    <h3 class="lost-thinking__sub">The medium I have now</h3>
+    <p>This entire case story page is built in <u class="lost-mark">Claude Code, in the terminal</u>. So is the rest of my portfolio. The Figma prototype was the medium I had then. This is the medium I have now, and it brings the projector experience the project was always meant to be within reach.</p>
+
     <h3 class="lost-thinking__sub">What this archive needs to be</h3>
     <p>The bird archives that exist today are educational and dated. They store information; they don&rsquo;t invite you in. Lost &amp; Endangered should feel like a <u class="lost-mark">public archive</u>: immersive enough to make you stay, accessible enough that no one needs special hardware to enter it.</p>
   </div>
@@ -259,7 +269,7 @@
 
     <div class="lost-kauai__quote-row">
       <blockquote class="lost-kauai__quote">
-        <p>Knowing they might be the <u class="lost-mark">last pair</u>, he recorded <u class="lost-mark">everything</u>: feeding, flight, call.</p>
+        <p>Knowing they might be the <u class="lost-mark">last pair</u>, he recorded <u class="lost-mark">everything</u>: feeding, flight &amp; call.</p>
         <cite>&mdash; D. Lewis, <a href="https://www.huntington.org/watch-read-listen/frontiers/counting-extinction" target="_blank" rel="noopener"><em>Counting Extinction</em></a></cite>
       </blockquote>
       <figure class="lost-kauai__memo">
@@ -294,8 +304,8 @@
       </figure>
     </div>
 
-    <p class="lost-kauai__outro lost-glitch" data-text="Last seen 1985. Last heard 1987.">
-      <span class="lost-outro__line">Last seen 1985. Last heard 1987.</span>
+    <p class="lost-kauai__outro">
+      <span class="lost-outro__line lost-outro__line--ghost" data-text="Last seen 1985. Last heard 1987.">Last seen 1985. Last heard 1987.</span>
       <span class="lost-outro__line">After thousands of years, the Kaua&rsquo;i &rsquo;ō&rsquo;ō was gone.</span>
       <span class="lost-outro__line">Its entire &lsquo;ō&rsquo;ō family line ended with it.</span>
     </p>
@@ -354,8 +364,8 @@
     <div class="lost-reflect__frame">
       <img src="../../images/lost/still-breathing.png" alt="Endangered birds screen layered over a mossy waterfall — Lost &amp; Endangered prototype" loading="lazy" />
       <figcaption class="lost-reflect__caption-overlay">
-        <span class="lost-reflect__phrase">Those who are</span>
-        <span class="lost-reflect__phrase">still breathing</span>
+        <span class="lost-reflect__phrase">The ones</span>
+        <span class="lost-reflect__phrase lost-reflect__phrase--ghost" data-text="still breathing">still breathing</span>
       </figcaption>
     </div>
   </figure>
@@ -373,7 +383,7 @@
 <!-- ── FOOTER (lost variant — bird card centered behind text) ── -->
 <footer id="contact" class="foot lost-foot">
   <figure class="foot__bloom lost-foot__card" id="lostFootCard">
-    <img src="../../images/lost/kauai-oo-card.png" alt="Kaua'i 'ō'ō species card" />
+    <img src="../../images/lost/kauaii-oo-footer.png" alt="Kaua'i 'ō'ō illustration" />
   </figure>
   <div class="foot__content">
     <span class="eyebrow">✢ inbox open</span>
@@ -390,7 +400,7 @@
         <li><a href="#" data-hover>twitter</a></li>
         <li><a href="https://github.com/grzy" target="_blank" rel="noopener" data-hover>github</a></li>
       </ul>
-      <p class="foot__sig">✺ built in the terminal with claude code • 2026</p>
+      <p class="foot__sig">built in the terminal w/ claude code <span class="foot__sig-glyph">•</span> 2026</p>
     </div>
   </div>
 </footer>

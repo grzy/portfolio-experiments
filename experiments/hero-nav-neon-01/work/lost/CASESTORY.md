@@ -4,6 +4,106 @@ A living log of decisions, pivots, and pattern-setting moments on the L&E case s
 
 ---
 
+## 2026-04-28 -- Site-wide design system + final L&E polish
+
+**Major: identity decision landed.** Ivy committed to **Design Technologist**
+(was deciding between creative / design technologist for two weeks).
+Updated landing hero "Design / Technologist", about hero "A Design
+Technologist building in the terminal," meta descriptions on both pages.
+
+**Two-tier radius system unified across the site:**
+- `--radius: 18px` for chrome (nav, cards, image frames, footer pill, CTA
+  buttons, the orchid bloom)
+- `--radius-sm: 6px` for small grid tiles (commit calendar cells)
+- Tūī internal phone UI not touched (it's design demo, not site chrome)
+
+**Footer architecture rebuilt** -- shared across landing, about, lost, tūī:
+- `.foot__content` flex column with `justify-content: flex-start`
+- Big gap (`clamp(140px, 22vh, 320px)`) between eyebrow and middle so
+  inbox-open sits at the top, "Let's build something w/ soul" + email
+  CTA drop down significantly
+- `.foot__bottom { margin-top: auto }` keeps linkedin / twitter / github +
+  signature pinned to the section bottom
+- Orchid bloom container `inset: 0 0 18% 0` leaves clean space below
+- Footer signature: "built in the terminal w/ claude code • 2026"
+  (• between code + year, no leading symbol)
+
+**Performance pass — kept every ghost effect intact, killed the jank:**
+- Stacked `drop-shadow` filters on the orchid bloom (60-160px) collapsed
+  to a single 100px shadow. Pulse animation now only animates `transform:
+  scale()` (was animating filter every frame — main jank source)
+- Bloom paused via Intersection Observer when not in viewport
+- Nav `backdrop-filter` blur 20px → 12px (40% cheaper per frame)
+- Footer mail pill blur 10px → 8px
+- `will-change: transform` on nav + bloom
+- Hero specimen image: dual drop-shadow → single
+- All chromatic ghost effects, gradient text, hover glitches, hero
+  "extinction" timing → untouched
+
+**Nav refactor — fixed the jolt + the hover shift:**
+- Anchored from a fixed left edge (`left: calc(50% - var(--nav-half-w))`)
+  with JS measuring initial width once
+- Nav hidden via `visibility: hidden` until JS adds `.is-measured` class
+  → no first-paint jolt
+- Hover-reveal contact link grows to the right only (no recentering shift)
+- The `gap` between collapsed contact-li and "about" cancelled with
+  matching negative `margin-left` so the right edge stays tight
+- Scroll shrink uses just `scale(0.97)` with `transform-origin: 50% 0`
+  — drops from top-center, never drifts horizontally
+- Nav corner radius now `var(--radius)` (18px), no longer a full pill
+- Removed the lilac underline animation on links (kept brightening on hover)
+
+**Lilac named** as a palette color (`#c8a2ff` / `#dca0d8`). Saved as
+`--lilac` and `--lilac-2` in the stylesheet for future use anywhere.
+
+**L&E case story page tweaks:**
+- "What remains" caption restructured: "The ones / still breathing"
+  (was "Those who are / still breathing") — chromatic ghost on hover
+  applies only to the second line via `.lost-reflect__phrase--ghost`
+- Caption is plain (non-italic) display type
+- Outro "Last seen 1985. Last heard 1987." line replaced legacy
+  `.lost-glitch` (continuous infinite flicker) with the modern
+  hover-triggered chromatic ghost (`.lost-outro__line--ghost`)
+- Hero "extinction" gradient restored (lime → mint), 60px text-shadow
+  glow dropped (was masking the chromatic ghost shudder)
+- Hero gradient ghost ::before / ::after explicitly opt out of the
+  parent's `-webkit-text-fill-color: transparent` so they render opaque
+- 99.9% stat: white digits + decimal, gradient ONLY on the `%` (full
+  gradient across all four chars looked muddy)
+- Trailer: "listen." has chromatic ghost on hover. Heavy 32px lime glow
+  removed for visibility. Element uses `display: inline + isolation:
+  isolate` (NOT inline-block — that creates an italic-text bounding
+  box artifact)
+- Role / Tools / Scope eyebrows: separators changed from `+` to `·`
+- Trailer text shifted right (`padding-left: clamp(64px, 9vw, 168px)`),
+  bird card stays put. Problem section inner padding bumped + max-width
+  on description reduced to 38ch for tighter rag.
+- Spotted Owl text padding-left bumped to clamp(64px, 9vw, 168px); image
+  position unchanged
+- Lost-page footer: bird card sits at `top: 38%`, eyebrow lifted with
+  `margin-top: clamp(-32px, -3vh, -16px)`
+- Takeaway "Build in code from day one." font dialed in at
+  `clamp(20px, 2.4vw, 32px)` (initial 56px was too big, my 16-22px swing
+  was too small)
+
+**Word-wrap JS for `.lost-mark`** is non-negotiable. Each underlined
+phrase has its words wrapped in `<span class="lost-mark__word">` so the
+chromatic ghost lands per-word — without this, anything that wraps onto
+multiple lines or sits at the end of a paragraph line loses the effect
+on continuation. `display: inline + isolation: isolate` is the only
+display mode that works: `inline-block` creates spurious flex-gap wrap
+opportunities (broke "last pair, he..." rag in the kauai quote).
+
+**Other cleanups:**
+- About page: "Birthday" → "bday" (Claude Code's 1st bday), Opacity
+  Design Meetup removed from upcoming events
+- Underline accent on "buildin" not "building" so the descender of "g"
+  doesn't tangle with the underline
+- Tūī card meta: "Automotive UI · Figma" → "Figma MCP · Claude Code"
+- Footer link separators ✺ → ✢ → • (dot, no color)
+
+---
+
 ## 2026-04-28 -- Product Thinking section + interaction polish
 
 ### What shipped

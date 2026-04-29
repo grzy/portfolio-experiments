@@ -581,6 +581,7 @@ if (document.querySelector(".hero__bloom")) {
     if (!nav.matches(":hover")) {
       const half = nav.offsetWidth / 2;
       nav.style.setProperty("--nav-half-w", half + "px");
+      nav.classList.add("is-measured");
     }
   };
   measure();
@@ -609,13 +610,32 @@ if (document.querySelector(".hero__bloom")) {
   });
 })();
 
+/* ── pause the footer bloom's pulse animation when the footer isn't
+   in view. the pulse animates transform every frame; if the user is
+   anywhere else on the page, those frames are wasted work. */
+(() => {
+  const foot = document.querySelector(".foot");
+  if (!foot || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      foot.classList.toggle("is-visible", entry.isIntersecting);
+    });
+  }, { threshold: 0.01 });
+  io.observe(foot);
+})();
+
 /* ── nav scroll state + scroll-to-top button visibility ── */
 (() => {
   const nav = document.querySelector(".nav");
   const toTop = document.querySelector(".to-top");
   const onScroll = () => {
     const y = window.scrollY;
-    if (nav) nav.style.scale = y > 40 ? "0.97" : "1";
+    if (nav) {
+      // nav is positioned via `left:` from a fixed anchor, so we only
+      // need transform for the scroll-shrink. transform-origin is set
+      // to 50% 0 in CSS — nav scales from top-center, no drift.
+      nav.style.transform = y > 40 ? "scale(0.97)" : "";
+    }
     if (toTop) toTop.classList.toggle("is-visible", y > window.innerHeight * 0.6);
   };
   window.addEventListener("scroll", onScroll, { passive: true });

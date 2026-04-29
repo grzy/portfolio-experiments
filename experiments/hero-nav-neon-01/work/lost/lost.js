@@ -146,12 +146,47 @@
   }
 }
 
-/* ── seed data-text on every .lost-mark so the chromatic glitch can
-   render on hover without manually annotating each <u> in the html ── */
+/* ── wrap each word inside .lost-mark in a span so the chromatic ghost
+   ::before/::after works per-word. inline elements with position:relative
+   only anchor absolute children to their FIRST line box, which is why
+   long underlines that wrap (or fall at the end of a paragraph line)
+   were missing the effect. wrapping each word makes every word its own
+   positioning context, so the ghost lands on every word regardless of
+   line wrapping. ── */
 {
   document.querySelectorAll('.lost-mark').forEach((el) => {
-    if (!el.dataset.text) el.dataset.text = el.textContent;
+    if (el.dataset.wrapped === '1') return;
+    if (el.querySelector('*')) return; // skip if nested html exists
+    const text = el.textContent;
+    el.textContent = '';
+    const tokens = text.split(/(\s+)/);
+    tokens.forEach((token) => {
+      if (token.length === 0) return;
+      if (/^\s+$/.test(token)) {
+        el.appendChild(document.createTextNode(token));
+      } else {
+        const span = document.createElement('span');
+        span.className = 'lost-mark__word';
+        span.setAttribute('data-text', token);
+        span.textContent = token;
+        el.appendChild(span);
+      }
+    });
+    el.dataset.wrapped = '1';
   });
+}
+
+/* ── hero "extinction" — fire a one-time chromatic ghost glitch ~6.5s
+   after page load (lets the preloader video settle) so it sequences
+   between the video and the case story↔study flip at 9s ── */
+{
+  const ext = document.querySelector('.lost-hero-extinct');
+  if (ext) {
+    setTimeout(() => {
+      ext.classList.add('is-glitching');
+      setTimeout(() => ext.classList.remove('is-glitching'), 900);
+    }, 6500);
+  }
 }
 
 /* ── decode effect: scramble → resolve per character
@@ -272,20 +307,12 @@ function teaseAndRestore(el, teaseText, finalText, opts = {}) {
   }, scrambleMs);
 }
 
-/* hero extinction — decode once after preloader settles (~5.5s) and stop */
+/* hero extinction — decode replaced by chromatic ghost; this block is a no-op
+   after the class swap from .lost-decode to .lost-hero-extinct on the hero
+   "extinction" element. kept only so the surrounding helpers stay valid. */
 {
   const heroDecode = document.querySelector('.lost-hero__title .lost-decode');
   if (heroDecode) {
-    // prepare spans immediately so layout is stable
-    const final = heroDecode.dataset.text || heroDecode.textContent.trim();
-    heroDecode.textContent = '';
-    for (const ch of final) {
-      const s = document.createElement('span');
-      s.className = 'lost-decode__char';
-      s.dataset.final = ch;
-      s.textContent = ch;
-      heroDecode.appendChild(s);
-    }
     setTimeout(() => decodeWord(heroDecode), 5500);
   }
 }
