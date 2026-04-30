@@ -222,7 +222,7 @@
 }
 .tui-nav-arrow--back    { left:  clamp(28px, 5%, 64px); }
 .tui-nav-arrow--forward { right: clamp(28px, 5%, 64px); }
-.tui-nav-arrow[disabled] { opacity: 0.25; cursor: default; pointer-events: none; }
+.tui-nav-arrow[disabled] { opacity: 0; pointer-events: none; visibility: hidden; }
 
 /* ── dashboard frame: 1366×1024, scaled to fit the cabin width ── */
 .tui-dash {
