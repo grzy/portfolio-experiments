@@ -88,37 +88,10 @@ function goTo(n) {
   if (SUCCESS_SCREENS.includes(String(n))) startSuccess();
   if (String(n) === '5' && typeof resetSlider === 'function') resetSlider();
   if (typeof updateNavState === 'function') updateNavState();
-  /* B1 has a 4.5s safety auto-advance so a passive viewer never gets
-     stuck — gives time to read the greet + question. cleared on any
-     other transition. */
-  clearTimeout(b1Timer);
-  if (String(n) === '1') {
-    b1Timer = setTimeout(() => {
-      if (document.querySelector('.tui-screen.is-active')?.dataset.screen === '1') goTo(2);
-    }, 4500);
-  }
 }
-let b1Timer = null;
 
-/* B1 orb → B2 (Talk-to-Tūī demo path; speech wiring deferred) */
-if (orb) orb.addEventListener('click', () => setTimeout(() => goTo(2), 320));
-
-/* kick off the B1 timer once when the dashboard first scrolls into view */
-const dashEl = document.getElementById('tuiDash');
-if (dashEl && 'IntersectionObserver' in window) {
-  let started = false;
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting && !started) {
-        started = true;
-        b1Timer = setTimeout(() => {
-          if (document.querySelector('.tui-screen.is-active')?.dataset.screen === '1') goTo(2);
-        }, 4500);
-      }
-    });
-  }, { threshold: 0.4 });
-  io.observe(dashEl);
-}
+/* B1 + its preloader timer have been removed — the prototype now
+   starts directly at B2 (the activity grid). */
 
 /* B2: pick an activity → branch into the matching flow */
 document.querySelectorAll('[data-activity]').forEach((card) => {
@@ -248,18 +221,18 @@ function resetSlider() {
   sliderScreenEl && sliderScreenEl.classList.remove('is-dragging');
 }
 
-/* any success screen → click to restart at B1 */
+/* any success screen → click to restart at B2 (the new entry point) */
 document.querySelectorAll('.tui-screen--success').forEach((scr) => {
-  scr.addEventListener('click', () => goTo(1));
+  scr.addEventListener('click', () => goTo(2));
 });
 
 /* ── back / forward navigation arrows ────────────────────
    each flow has a known sequence of screen IDs. arrows step
    backwards or forwards through that sequence. */
 const FLOWS = {
-  bakery:   [1, 2, 3, 4, 5, 6],
-  dogpark:  [1, 2, 7, 12, 8, 5, 9],   // 12 = expanded grid (after +-tap)
-  birdsong: [1, 2, 10, 5, 11],
+  bakery:   [2, 3, 4, 5, 6],
+  dogpark:  [2, 7, 12, 8, 5, 9],   // 12 = expanded grid (after +-tap)
+  birdsong: [2, 10, 5, 11],
 };
 function currentFlowSeq() { return FLOWS[currentFlow] || FLOWS.bakery; }
 function currentScreenIdx() {
