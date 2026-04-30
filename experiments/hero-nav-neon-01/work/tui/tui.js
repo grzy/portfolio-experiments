@@ -262,6 +262,10 @@ if (navFwd) navFwd.addEventListener('click', (e) => {
   if (i >= 0 && i < seq.length - 1) goTo(seq[i + 1]);
 });
 
+/* set initial nav state on load — without this, the back arrow stays
+   visible on B2 (the entry screen) because goTo was never called. */
+updateNavState();
+
 /* ── confetti — particles ARE the activity icons from the Figma sprite.
    they rain DOWN from above the dashboard, not bunched in the middle.
    each success screen has its own canvas; we fire on whichever is active. */
