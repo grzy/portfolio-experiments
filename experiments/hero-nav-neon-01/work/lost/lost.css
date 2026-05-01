@@ -1153,6 +1153,11 @@
   justify-items: center;
   text-align: center;
 }
+/* extra breathing room above the play button when the sketch + field
+   footage grid sits directly above it */
+.lost-kauai__player--breathing {
+  margin-top: clamp(72px, 11vh, 160px);
+}
 .lost-kauai__player::before {
   /* subtle bio-green horizon line above the play moment, centered */
   content: '';
@@ -1444,6 +1449,17 @@
   color: var(--text-mute);
   line-height: 1.6;
   text-align: left;
+}
+/* date label that sits above each image, left-aligned with the image's
+   left edge. inherits the green italic + chromatic ghost from
+   .lost-outro__line + .lost-outro__line--ghost */
+.lost-kauai__cell-date {
+  display: inline-block;
+  font-size: clamp(18px, 2.2vw, 28px);
+  margin: 0 0 clamp(8px, 1.4vh, 16px);
+  text-align: left;
+  align-self: start;
+  justify-self: start;
 }
 
 /* ── 7 · PIVOT: SPOTTED OWL ───────────────────────────────── */
@@ -1829,7 +1845,7 @@
   display: grid;
   gap: clamp(36px, 6vh, 72px);
   justify-items: center;
-  width: min(92vw, 1080px);
+  width: min(78vw, 880px);
 }
 .lost-reflect__eyebrow--above {
   /* this version sits ABOVE the image, not over the fog -- always readable */
@@ -1889,7 +1905,7 @@
   display: inline-block;
   font-family: var(--f-display);
   font-weight: 500;
-  font-size: clamp(34px, 4.2vw, 74px);
+  font-size: clamp(26px, 3.4vw, 58px);
   line-height: 1.05;
   letter-spacing: -0.01em;
   color: #FFFFFF;

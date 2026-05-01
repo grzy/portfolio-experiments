@@ -38,6 +38,24 @@
   });
 }
 
+/* ── reveal "Last seen 1985." / "Last heard 1987." per-cell labels
+   when the kauai sketch + field footage grid scrolls into view.
+   delay class on the right one stages them left → right like reading. */
+{
+  const dates = document.querySelectorAll('.lost-kauai__cell-date');
+  if (dates.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4, rootMargin: '0px 0px -8% 0px' });
+    dates.forEach((el) => io.observe(el));
+  }
+}
+
 /* ── interactive EKG waveform: the spike drifts with scroll position
    and jitters subtly as the user moves through the insight section.
    scroll position inside the section controls the spike's x-anchor
