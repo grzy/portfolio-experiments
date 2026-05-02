@@ -84,6 +84,38 @@
   color: var(--lilac);
 }
 
+/* ── experiments-page-only chrome overrides: lilac signature ───────
+   the experiments page leans lilac as its signature color (the rest
+   of the site keeps pink). these rules ride on top of the global
+   chrome via cascade — only loaded when experiments.css is loaded,
+   which is only on /experiments/. */
+
+/* back-to-top: lilac border + lilac glow on hover instead of pink */
+.to-top:hover {
+  border-color: var(--lilac) !important;
+  box-shadow:
+    -18px 0 60px -10px color-mix(in oklch, var(--lilac) 70%, transparent),
+     18px 0 60px -10px color-mix(in oklch, var(--lilac) 50%, transparent) !important;
+}
+
+/* footer mail CTA: lilac border + lilac glow on hover */
+.foot__mail:hover {
+  border-color: var(--lilac) !important;
+  box-shadow:
+    0 0 22px -2px color-mix(in oklch, var(--lilac) 70%, transparent),
+    0 0 52px -8px color-mix(in oklch, var(--lilac) 35%, transparent) !important;
+}
+
+/* "with soul" gradient: orange → lilac (orange first so the lilac
+   doesn't blend into the dark void background; lilac stays bright
+   against dark anyway, just keeps the warmth on the entry) */
+.foot__title em {
+  background: linear-gradient(92deg, var(--orange), var(--lilac)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
 .exp-hero__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -103,7 +135,9 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  background: linear-gradient(92deg, var(--text) 0%, var(--lilac) 100%);
+  /* stronger lilac shift — lilac starts earlier and ends on the deeper
+     lilac-2 so the gradient is actually visible on a 10-letter title */
+  background: linear-gradient(92deg, var(--text) 15%, var(--lilac) 60%, var(--lilac-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -146,8 +180,10 @@
    figure now, so it inherits the same 4:3 aspect ratio + radius +
    masking as every other card. only difference: lilac glow background. */
 .exp-badges-media {
+  /* lilac glow now actually visible (8% → 22%) so the badge card reads
+     as the page's signature-color moment */
   background:
-    radial-gradient(ellipse 70% 60% at 50% 30%, color-mix(in oklch, var(--lilac) 8%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 75% 65% at 50% 30%, color-mix(in oklch, var(--lilac) 22%, transparent) 0%, transparent 65%),
     var(--void-2);
   cursor: grab;
 }
