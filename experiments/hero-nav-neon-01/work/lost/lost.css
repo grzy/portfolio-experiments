@@ -1235,7 +1235,7 @@
   top: -18px;
   left: 50%;
   transform: translateX(-50%);
-  width: clamp(60px, 10vw, 140px);
+  width: clamp(120px, 18vw, 260px);
   height: 1px;
   background: linear-gradient(90deg, transparent 0%, var(--bio) 50%, transparent 100%);
   opacity: 0.55;
@@ -1841,7 +1841,7 @@
    margin-top actually applies. without this, the green divider
    line sits glued to the last bullet. */
 .lost-reflect .lost-reflect__close {
-  margin-top: clamp(96px, 13vh, 140px);
+  margin-top: clamp(72px, 10vh, 108px);
   padding-top: clamp(28px, 4vh, 48px);
   font-family: var(--f-display);
   font-weight: 400;
