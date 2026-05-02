@@ -355,7 +355,7 @@ function teaseAndRestore(el, teaseText, finalText, opts = {}) {
     const set = (p) => {
       cBtn.classList.toggle('is-playing', p);
       cBtn.setAttribute('aria-pressed', String(p));
-      cLabel.textContent = p ? 'Listening...' : 'Press play to hear a soundscape in motion';
+      cLabel.textContent = p ? 'Listening...' : 'Press play to hear the soundscape';
     };
     cBtn.addEventListener('click', () => {
       if (cAudio.paused) {

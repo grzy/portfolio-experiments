@@ -575,6 +575,33 @@ img { display: block; max-width: 100%; }
 }
 .work__head--minimal {
   margin: 0 auto 40px;
+  /* now that experiments has its own page, the head row carries an
+     eyebrow on the left + a link to /experiments/ on the right */
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px;
+}
+.work__head-link {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px dotted color-mix(in oklch, var(--text) 30%, transparent);
+  padding-bottom: 1px;
+  justify-self: end;
+  align-self: end;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.work__head-link em {
+  font-style: normal;
+  color: var(--text);
+  margin: 0 0.15em;
+}
+.work__head-link:hover {
+  color: var(--lilac);
+  border-color: var(--lilac);
 }
 .eyebrow {
   font-family: var(--f-mono);

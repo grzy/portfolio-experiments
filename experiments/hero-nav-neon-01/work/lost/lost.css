@@ -1699,7 +1699,7 @@
    the CTA outline */
 .lost-reflect .lost-reflect__cta-note {
   display: block;
-  margin: 14px 0 0;
+  margin: clamp(18px, 2vh, 24px) 0 0;
   padding-top: 0;
   font-family: var(--f-mono);
   font-size: clamp(11px, 0.88vw, 13px);
@@ -2284,7 +2284,7 @@
 /* lift the eyebrow above the shared foot's top padding — sits close
    to the section top but not flush */
 .lost-body .foot__content > .eyebrow {
-  margin-top: clamp(-150px, -15vh, -110px);
+  margin-top: clamp(-180px, -18vh, -135px);
 }
 .lost-body .lost-foot__card {
   /* override the shared orchid bloom — we replace its role entirely */

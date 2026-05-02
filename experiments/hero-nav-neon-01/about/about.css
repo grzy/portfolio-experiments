@@ -317,9 +317,12 @@ iframe[src*="unicornstudio"] {
   margin: 0 auto;
 }
 /* lift the "✢ San Francisco" eyebrow up off "in-person events" so it
-   reads as a separate beat, not crowding the title */
+   reads as a separate beat, not crowding the title. small margin-top
+   nudges it a touch lower from the section's top edge — barely
+   noticeable, just a calmer entry into the events section. */
 .about-events .eyebrow {
   display: inline-block;
+  margin-top: clamp(12px, 2vh, 24px);
   margin-bottom: clamp(36px, 6vh, 72px);
 }
 .about-events__sub {
