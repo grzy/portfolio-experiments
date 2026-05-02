@@ -558,6 +558,12 @@
   gap: 0.05em;
 }
 .lost-trailer__kicker span { display: block; }
+/* lock each kicker line to a single line on anything ≥600px wide so
+   "doesn't ask you to grieve." can never split — that wrap was making
+   the kicker render as 4 lines instead of 3 on wider desktops */
+@media (min-width: 600px) {
+  .lost-trailer__kicker span { white-space: nowrap; }
+}
 .lost-trailer__listen { color: var(--text); }
 .lost-trailer__listen em {
   position: relative;
