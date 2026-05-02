@@ -38,11 +38,10 @@
   });
 }
 
-/* ── reveal "Last seen 1985." / "Last heard 1987." per-cell labels
-   when the kauai sketch + field footage grid scrolls into view.
-   delay class on the right one stages them left → right like reading. */
+/* ── reveal "Last seen 1985. Last heard 1987." date label
+   when the kauai sketch + field footage grid scrolls into view. */
 {
-  const dates = document.querySelectorAll('.lost-kauai__cell-date');
+  const dates = document.querySelectorAll('.lost-kauai__grid-date, .lost-kauai__cell-date');
   if (dates.length) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
