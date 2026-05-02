@@ -77,6 +77,13 @@
   }
 }
 
+/* hero ticker — same scroll mechanic as the about-page ticker, but
+   ornaments are lilac instead of pink so it reads as its own thing.
+   chained selector beats .ticker__row span:nth-child(even) { color: pink } */
+.exp-hero__ticker .ticker__row span:nth-child(even) {
+  color: var(--lilac);
+}
+
 .exp-hero__eyebrow {
   display: inline-flex;
   align-items: center;
