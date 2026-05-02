@@ -257,22 +257,26 @@
 (function(){
   const container = document.getElementById('volcanoParticles');
   if (!container) return;
-  // equal weight: 1 UFO + 4 ornaments. with the no-repeat picker
-  // below, you'll get a varied stream and never the same glyph twice
-  // back to back.
+  // 1 UFO + 4 ornaments at equal weight. UFO has a 2-symbol cooldown
+  // (so it can't appear back-to-back-ish), ornaments just can't repeat.
   const SYMBOLS = ['🛸', '❀', '✸', '✿', '✺'];
   const SMOKE = '#e8e0ce'; // warm off-white lava-smoke (ornaments only)
   let active = 0;
-  const MAX_ACTIVE = 14;
-  let lastSymbol = null;
+  const MAX_ACTIVE = 8; // tightened so the field never feels crowded
+  const recent = []; // last 2 picks
 
   function pickSymbol() {
     let candidate;
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
       candidate = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-      if (candidate !== lastSymbol) break;
+      // UFO gets a 2-symbol cooldown so it lands as a rare delight
+      if (candidate === '🛸' && recent.includes('🛸')) continue;
+      // ornaments just can't repeat back-to-back
+      if (candidate !== '🛸' && candidate === recent[recent.length - 1]) continue;
+      break;
     }
-    lastSymbol = candidate;
+    recent.push(candidate);
+    if (recent.length > 2) recent.shift();
     return candidate;
   }
 
@@ -306,11 +310,14 @@
     anim.onfinish = () => { el.remove(); active--; };
   }
 
-  // gentle initial burst
-  for (let i = 0; i < 4; i++) setTimeout(spawn, i * 250);
-  // irregular spawning — varying delays so it doesn't feel mechanical
+  // single particle to start — no opening burst (the ticker's already
+  // moving, so the hero doesn't need a flurry).
+  setTimeout(spawn, 600);
+  // calm, mostly-consistent cadence: 1.8–3.4s between spawns. slow
+  // enough that you never see 3 in the air at once, fast enough that
+  // it stays alive without dominating the eye against the ticker.
   function scheduleNext() {
-    const delay = 700 + Math.random() * 1900; // 0.7s – 2.6s
+    const delay = 1800 + Math.random() * 1600;
     setTimeout(() => { spawn(); scheduleNext(); }, delay);
   }
   scheduleNext();
