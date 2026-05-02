@@ -417,47 +417,52 @@ if (document.querySelector(".hero__bloom")) {
   const username = "grzy";
   const apiUrl = `https://github-contributions-api.jogruber.de/v4/${username}?y=last`;
 
+  // Rolling 5-week window: 3 weeks past + current week + 1 week ahead.
+  // Always feels populated regardless of where in the month a viewer
+  // lands, and shows momentum + upcoming days as empty placeholders.
+  const WINDOW_DAYS = 35;
+  const FUTURE_DAYS = 7;
+
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const monthNames = ["January", "February", "March", "April", "May", "June",
-                      "July", "August", "September", "October", "November", "December"];
-  const monthName = monthNames[month];
-  if (monthNameEl) monthNameEl.textContent = monthName.toLowerCase();
-  if (watermarkEl) watermarkEl.textContent = monthName;
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+  // End of grid = today + future days. Start = end - (WINDOW_DAYS - 1).
+  const endDate = new Date(today);
+  endDate.setDate(endDate.getDate() + FUTURE_DAYS - 1);
+  const startDate = new Date(endDate);
+  startDate.setDate(startDate.getDate() - (WINDOW_DAYS - 1));
+
+  // Replace section labels (was "april commits") with rolling-window framing
+  if (monthNameEl) monthNameEl.textContent = "recent";
+  if (watermarkEl) watermarkEl.textContent = "Recent";
   const monthLabelEl = document.getElementById("commits-month-label");
-  if (monthLabelEl) monthLabelEl.textContent = monthName.toLowerCase();
+  if (monthLabelEl) monthLabelEl.textContent = "recent";
 
-  const firstOfMonth = new Date(year, month, 1);
-  const firstDayOfWeek = firstOfMonth.getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const todayDate = now.getDate();
-
-  const dateKey = (y, m, d) =>
-    `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-
+  const dateKey = (date) =>
+    `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
   const buildGrid = (contribMap) => {
     const frag = document.createDocumentFragment();
     let total = 0;
-    for (let i = 0; i < firstDayOfWeek; i++) {
-      const blank = document.createElement("span");
-      blank.className = "commit-cell commit-cell--empty";
-      frag.appendChild(blank);
-    }
-    for (let d = 1; d <= daysInMonth; d++) {
-      const key = dateKey(year, month, d);
+    const cursor = new Date(startDate);
+    for (let i = 0; i < WINDOW_DAYS; i++) {
+      const key = dateKey(cursor);
+      const isFuture = cursor > today;
       const entry = contribMap.get(key);
       const count = entry ? entry.count : 0;
       const level = entry ? entry.level : 0;
-      total += count;
+      if (!isFuture) total += count;
+
       const cell = document.createElement("span");
       cell.className = "commit-cell";
       cell.dataset.level = String(level);
       cell.title = `${key}: ${count} contribution${count === 1 ? "" : "s"}`;
-      if (d > todayDate) cell.classList.add("commit-cell--future");
-      if (d === todayDate) cell.classList.add("commit-cell--today");
+      if (isFuture) cell.classList.add("commit-cell--future");
+      if (key === todayKey) cell.classList.add("commit-cell--today");
       frag.appendChild(cell);
+
+      cursor.setDate(cursor.getDate() + 1);
     }
     gridEl.appendChild(frag);
     return total;

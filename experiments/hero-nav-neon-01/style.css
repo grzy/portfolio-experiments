@@ -641,6 +641,52 @@ img { display: block; max-width: 100%; }
   box-shadow: var(--glow-dual-soft);
   will-change: transform;
 }
+
+/* "Coming Soon" badge for non-clickable cards (Unicorn, Living Vault).
+   Centered inside the card image area so it reads as an unmissable
+   signal that the card isn't a link. */
+.card--soon {
+  cursor: default;
+}
+.card--soon .card__img {
+  position: relative;
+}
+.card--soon .card__img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: oklch(0 0 0 / 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 2;
+  transition: opacity 0.3s var(--ease);
+}
+.card__soon-badge {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: var(--f-mono);
+  font-size: clamp(11px, 0.95vw, 14px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: color-mix(in oklch, var(--void) 70%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: color 0.3s var(--ease);
+}
+/* hover anywhere on the card → badge text flips pink */
+.card--soon:hover .card__soon-badge {
+  color: var(--pink);
+}
 .card:hover {
   box-shadow: var(--glow-dual);
   border-color: oklch(1 0 0 / 0.18);
@@ -927,10 +973,10 @@ img { display: block; max-width: 100%; }
 }
 .foot__bloom {
   position: absolute;
-  /* push the bloom container's top down so the orchid centers lower
-     in the section (under the inbox-open eyebrow); still leaves room
-     above the linkedin/sig row at the bottom */
-  inset: 14% 0 16% 0;
+  /* top inset unchanged — keeps eyebrow + CTA breathing room intact.
+     bottom inset tightened (16% → 7%) so the orchid sits closer to
+     the linkedin/twitter/github row, killing the empty gap below it. */
+  inset: 14% 0 7% 0;
   display: grid; place-items: center;
   z-index: -1;
   pointer-events: none;
@@ -976,6 +1022,11 @@ img { display: block; max-width: 100%; }
      vertical center; bottom row pinned to bottom via margin-top: auto */
   justify-content: flex-start;
   gap: clamp(180px, 28vh, 420px);
+}
+/* nudge the "inbox open" eyebrow down from the very top of the
+   footer so it doesn't sit right against the upper edge */
+.foot__content > .eyebrow {
+  margin-top: clamp(80px, 10vh, 140px);
 }
 .foot__middle {
   display: flex;
@@ -1037,7 +1088,7 @@ img { display: block; max-width: 100%; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
+  gap: clamp(36px, 5vh, 56px);
   width: 100%;
   /* push the bottom row to the actual bottom of the section
      (since foot__content uses flex-start now) */

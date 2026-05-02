@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Experiments ✺ Ivy Grzybowski</title>
+<meta name="description" content="A feed of WebGL toys, scroll-driven sequences, and vibe-coded experiments by Ivy Grzybowski." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400..700&family=Dela+Gothic+One&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../style.css?v=27" />
+<link rel="stylesheet" href="experiments.css?v=23" />
+<!-- importmap so Three.js bare specifiers ("three", "three/addons/...")
+     resolve in the browser, plus rapier3d-compat (WASM-bundled vanilla
+     build of the same Rapier physics the React version uses). -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+    "@dimforge/rapier3d-compat": "https://esm.sh/@dimforge/rapier3d-compat@0.12.0"
+  }
+}
+</script>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="backdrop" aria-hidden="true">
+  <span class="orb orb--pink"></span>
+</div>
+
+<div class="cursor" aria-hidden="true">
+  <span class="cursor__dot"></span>
+  <span class="cursor__ring"></span>
+</div>
+
+<!-- nav -->
+<nav class="nav" aria-label="Primary">
+  <a class="nav__mark" href="/" data-hover>
+    <span class="nav__glyph">✺</span>
+    <span class="nav__name">ivy grzybowski</span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="/#work" data-hover>work</a></li>
+    <li><a href="/experiments/" data-hover aria-current="page">experiments</a></li>
+    <li><a href="/about/" data-hover>about</a></li>
+    <li class="nav__contact-wrap"><a href="mailto:ivygrzybowski@gmail.com" class="nav__contact" data-hover>contact</a></li>
+  </ul>
+  <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<header id="top" class="exp-hero">
+  <div class="exp-hero__row">
+    <div class="exp-hero__stage">
+      <span class="exp-hero__eyebrow"><span class="tick"></span>live</span>
+      <h1 class="exp-hero__title">Play Studio</h1>
+      <p class="exp-hero__lede">
+        WebGL shaders, cursor-driven motion, creative coding. Quick experiments in mood &amp; material
+      </p>
+    </div>
+    <div class="exp-hero__volcano" aria-hidden="true">
+      <div class="exp-hero__particles" id="volcanoParticles"></div>
+      <span class="exp-hero__emoji">🌋</span>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#feed" data-hover aria-label="Scroll to experiments">
+    <span>scroll</span>
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
+  </a>
+</header>
+
+<!-- FEED -->
+<section id="feed" class="exp-feed">
+  <div class="exp-feed__head">
+    <span class="eyebrow">✺ experiments</span>
+    <h2 class="exp-section-title">Always in motion</h2>
+  </div>
+
+  <ol class="exp-feed__list">
+
+    <li class="exp-card">
+      <figure class="exp-card__media exp-card__media--unicorn">
+        <div data-us-project="aXfzSHj3AXLrDhRBHsgu" class="exp-card__embed"></div>
+      </figure>
+      <div class="exp-card__body">
+        <span class="exp-card__num">01</span>
+        <h3 class="exp-card__title">About-page glow</h3>
+        <p class="exp-card__desc">Hover the canvas. The light follows. WebGL</p>
+      </div>
+    </li>
+
+    <li class="exp-card">
+      <figure class="exp-card__media exp-bloom-card" id="bloomCard">
+        <img class="exp-bloom-card__img" src="../images/bloom/f001.jpg" alt="A neon orchid that opens as the cursor moves down" />
+      </figure>
+      <div class="exp-card__body">
+        <span class="exp-card__num">02</span>
+        <h3 class="exp-card__title">Cursor bloom</h3>
+        <p class="exp-card__desc">Move the cursor over the orchid to open it. 63-frame image sequence</p>
+      </div>
+    </li>
+
+    <li class="exp-card">
+      <figure class="exp-card__media exp-badges-media">
+        <div class="exp-badges__stage" id="badgeStage" aria-label="Drag the dangling badge to swing it. Click anywhere to cycle through the badges."></div>
+      </figure>
+      <div class="exp-card__body">
+        <span class="exp-card__num">03</span>
+        <h3 class="exp-card__title">Accomplishment badges</h3>
+        <p class="exp-card__desc">Drag to swing &middot; click to cycle &middot; code adapted from Vercel&rsquo;s <a href="https://vercel.com/" target="_blank" rel="noopener" data-hover>open-source ship-conference badges</a></p>
+      </div>
+    </li>
+
+    <li class="exp-card">
+      <figure class="exp-card__media exp-card__media--unicorn">
+        <div data-us-project="QDjqxMFJ5sO13cXCGPNG" class="exp-card__embed"></div>
+      </figure>
+      <div class="exp-card__body">
+        <span class="exp-card__num">04</span>
+        <h3 class="exp-card__title">Interactive record</h3>
+        <p class="exp-card__desc">Drag a circle to spin it. Shake it to scratch. WebGL</p>
+      </div>
+    </li>
+
+    <li class="exp-card">
+      <figure class="exp-card__media exp-shapes-card">
+        <video class="exp-shapes-card__video" id="shapesVideo" src="../images/experiments/shapes-to-music.mp4" playsinline preload="auto" aria-label="Shapes to Music — After Effects piece with steel drum and goat sounds"></video>
+        <span class="exp-shapes-card__veil" aria-hidden="true"></span>
+        <button class="exp-shapes-card__play" id="shapesPlay" aria-label="Play Shapes to Music" data-state="paused">
+          <svg class="exp-shapes-card__icon exp-shapes-card__icon--play" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="exp-shapes-card__icon exp-shapes-card__icon--pause" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+      </figure>
+      <div class="exp-card__body">
+        <span class="exp-card__num">05</span>
+        <h3 class="exp-card__title">Shapes to Music</h3>
+        <p class="exp-card__desc">An After Effects piece. Steel drum, goat sounds, keyframes to the beat. Press play</p>
+      </div>
+    </li>
+
+    <li class="exp-card">
+      <figure class="exp-card__media">
+        <video src="../images/experiments/playful-particles.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Animated particles drifting in motion"></video>
+      </figure>
+      <div class="exp-card__body">
+        <span class="exp-card__num">06</span>
+        <h3 class="exp-card__title">Playful particles</h3>
+        <p class="exp-card__desc">Particles drifting. Pure dopamine</p>
+      </div>
+    </li>
+
+  </ol>
+</section>
+
+<!-- Unicorn Studio bootstrap -->
+<script type="text/javascript">
+(function(){
+  if (!document.querySelector('[data-us-project]')) return;
+  if (window.UnicornStudio && window.UnicornStudio.isInitialized) return;
+  if (!window.UnicornStudio) window.UnicornStudio = { isInitialized: false };
+  var i = document.createElement('script');
+  i.src = 'https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.2/dist/unicornStudio.umd.js';
+  i.onload = function(){
+    if (!window.UnicornStudio.isInitialized) {
+      UnicornStudio.init();
+      window.UnicornStudio.isInitialized = true;
+    }
+  };
+  (document.head || document.body).appendChild(i);
+})();
+</script>
+
+<!-- FOOTER -->
+<footer id="contact" class="foot">
+  <figure class="foot__bloom">
+    <img src="../images/orchid-01.png" alt="" />
+  </figure>
+  <div class="foot__content">
+    <span class="eyebrow">✢ inbox open</span>
+    <div class="foot__middle">
+      <h2 class="foot__title">
+        <span class="foot__title-sm">Let&rsquo;s build something</span>
+        <em>w/&nbsp;soul</em>
+      </h2>
+      <a class="foot__mail" href="mailto:ivygrzybowski@gmail.com" data-hover>ivygrzybowski@gmail.com</a>
+    </div>
+    <div class="foot__bottom">
+      <ul class="foot__links">
+        <li><a href="https://www.linkedin.com/in/ivygrzy/" target="_blank" rel="noopener" data-hover>linkedin</a></li>
+        <li><a href="#" data-hover>twitter</a></li>
+        <li><a href="https://github.com/grzy" target="_blank" rel="noopener" data-hover>github</a></li>
+      </ul>
+      <p class="foot__sig">built in the terminal w/ claude code <span class="foot__sig-glyph">•</span> 2026</p>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" aria-label="Scroll to top" data-hover>
+  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20V4M6 10l6-6 6 6"/></svg>
+</button>
+
+<script data-goatcounter="https://grzy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!-- volcano hero: ornaments + a couple of emojis erupt at irregular
+     intervals and rise / fade. no glow, small palette. -->
+<script>
+(function(){
+  const container = document.getElementById('volcanoParticles');
+  if (!container) return;
+  // equal weight: 1 UFO + 4 ornaments. with the no-repeat picker
+  // below, you'll get a varied stream and never the same glyph twice
+  // back to back.
+  const SYMBOLS = ['🛸', '❀', '✸', '✿', '✺'];
+  const SMOKE = '#e8e0ce'; // warm off-white lava-smoke (ornaments only)
+  let active = 0;
+  const MAX_ACTIVE = 14;
+  let lastSymbol = null;
+
+  function pickSymbol() {
+    let candidate;
+    for (let i = 0; i < 6; i++) {
+      candidate = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+      if (candidate !== lastSymbol) break;
+    }
+    lastSymbol = candidate;
+    return candidate;
+  }
+
+  function spawn() {
+    if (active >= MAX_ACTIVE) return;
+    if (document.hidden) return;
+    const el = document.createElement('span');
+    el.className = 'exp-hero__particle';
+    el.textContent = pickSymbol();
+    const scale = 0.85 + Math.random() * 0.4;
+    const fontSize = 22 + Math.random() * 14;
+    el.style.fontSize = fontSize + 'px';
+    el.style.color = SMOKE;
+    el.style.opacity = '0';
+    container.appendChild(el);
+    active++;
+
+    // unified gentle movement for all (UFO + ornaments) — slow,
+    // mostly-vertical rise with light wobble, fade out smoothly as
+    // they reach the top. no scale-down at the end.
+    const driftX = (Math.random() - 0.5) * 70;
+    const riseY = 200 + Math.random() * 140;
+    const wobble = (Math.random() - 0.5) * 25;
+    const dur = 3400 + Math.random() * 1800;
+    const anim = el.animate([
+      { transform: 'translate(-50%, -50%) scale(' + (scale * 0.7) + ') rotate(0deg)', opacity: 0, offset: 0 },
+      { transform: 'translate(calc(-50% + ' + (driftX * 0.2) + 'px), calc(-50% - ' + (riseY * 0.15) + 'px)) scale(' + scale + ') rotate(' + (wobble * 0.3) + 'deg)', opacity: 0.95, offset: 0.28 },
+      { transform: 'translate(calc(-50% + ' + (driftX * 0.6) + 'px), calc(-50% - ' + (riseY * 0.55) + 'px)) scale(' + scale + ') rotate(' + (wobble * 0.7) + 'deg)', opacity: 0.7, offset: 0.65 },
+      { transform: 'translate(calc(-50% + ' + driftX + 'px), calc(-50% - ' + riseY + 'px)) scale(' + scale + ') rotate(' + wobble + 'deg)', opacity: 0, offset: 1 }
+    ], { duration: dur, easing: 'cubic-bezier(0.25, 0.45, 0.4, 1)' });
+    anim.onfinish = () => { el.remove(); active--; };
+  }
+
+  // gentle initial burst
+  for (let i = 0; i < 4; i++) setTimeout(spawn, i * 250);
+  // irregular spawning — varying delays so it doesn't feel mechanical
+  function scheduleNext() {
+    const delay = 700 + Math.random() * 1900; // 0.7s – 2.6s
+    setTimeout(() => { spawn(); scheduleNext(); }, delay);
+  }
+  scheduleNext();
+})();
+</script>
+
+<!-- card-scoped bloom: cursor Y inside the card scrubs the orchid frames -->
+<script>
+(function(){
+  const FRAME_COUNT = 63;
+  const card = document.getElementById('bloomCard');
+  const img = card && card.querySelector('img');
+  if (!card || !img) return;
+  const pad = (n) => String(n).padStart(3, "0");
+  const url = (i) => `../images/bloom/f${pad(i)}.jpg`;
+  const preloaded = [];
+  let loaded = 0, ready = false;
+  for (let i = 1; i <= FRAME_COUNT; i++) {
+    const im = new Image();
+    im.src = url(i);
+    im.onload = () => { loaded++; if (loaded >= FRAME_COUNT) ready = true; };
+    preloaded.push(im);
+  }
+  let target = 0, current = 0, last = 0;
+  const onMove = (e) => {
+    const rect = card.getBoundingClientRect();
+    const ny = (e.clientY - rect.top) / rect.height;
+    target = Math.max(0, Math.min(1, ny));
+  };
+  card.addEventListener('mousemove', onMove);
+  card.addEventListener('mouseleave', () => { target = 0; });
+  const tick = () => {
+    if (ready) {
+      current += (target - current) * 0.14;
+      const f = Math.max(1, Math.min(FRAME_COUNT, Math.round(current * (FRAME_COUNT - 1)) + 1));
+      if (f !== last) {
+        img.src = preloaded[f - 1].src;
+        last = f;
+      }
+    }
+    requestAnimationFrame(tick);
+  };
+  tick();
+})();
+</script>
+
+<!-- shapes-to-music play/pause toggle -->
+<script>
+(function(){
+  const video = document.getElementById('shapesVideo');
+  const btn = document.getElementById('shapesPlay');
+  if (!video || !btn) return;
+  const sync = () => { btn.dataset.state = video.paused ? 'paused' : 'playing'; };
+  btn.addEventListener('click', () => {
+    if (video.paused) video.play(); else video.pause();
+  });
+  video.addEventListener('play', sync);
+  video.addEventListener('pause', sync);
+  video.addEventListener('ended', sync);
+})();
+</script>
+
+<script type="module" src="badges-3d.js?v=14"></script>
+<script type="module" src="../script.js?v=42"></script>
+</body>
+</html>
