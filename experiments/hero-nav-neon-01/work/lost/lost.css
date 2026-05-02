@@ -1661,7 +1661,7 @@
    page so the note lines up directly under the button */
 .lost-reflect__cta-wrap {
   text-align: center;
-  margin-top: clamp(48px, 7vh, 88px);
+  margin-top: clamp(80px, 11vh, 140px);
 }
 /* prototype CTA at the bottom of the reflection section. styled to
    feel related to the "Up next: Tūī" pill in the signoff (.lost-next):
@@ -1850,17 +1850,21 @@
   color: var(--text);
   font-style: normal;
   position: relative;
+  /* center the two lines so they line up w/ the centered prototype CTA */
+  text-align: center;
 }
 .lost-reflect__close::before {
-  /* left-aligned bio-green horizon line, fading off to the right.
-     same hue as the one above the Kaua'i listening-room play button. */
+  /* centered bio-green horizon line, fading off both sides — sits
+     directly above the centered "Design begins in Figma." line so the
+     full block reads as one centered group with the CTA below. */
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: clamp(80px, 14vw, 180px);
   height: 1px;
-  background: linear-gradient(90deg, var(--bio) 0%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--bio) 50%, transparent 100%);
   opacity: 0.55;
 }
 .lost-reflect__close {
