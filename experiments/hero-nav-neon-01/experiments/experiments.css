@@ -5,7 +5,9 @@
 /* hero ─ shorter than the landing hero, no specimen image */
 .exp-hero {
   position: relative;
-  min-height: 52svh;
+  /* lifted min-height so the row stretches more (via flex: 1) which
+     pushes the ticker + scroll arrow lower in the viewport */
+  min-height: 62svh;
   padding: clamp(140px, 18vh, 200px) clamp(24px, 5vw, 72px) clamp(30px, 4vh, 50px);
   display: flex;
   flex-direction: column;
