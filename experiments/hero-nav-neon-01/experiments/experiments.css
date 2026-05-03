@@ -29,9 +29,10 @@
   flex-direction: column;
   justify-content: center;
   gap: 18px;
-  /* nudge the eyebrow + title + lede down a touch from the row's
-     vertical center — feels more grounded against the volcano column */
-  padding-top: clamp(40px, 6vh, 80px);
+  /* push the title block down so "Play Studio" baseline lines up with
+     the BASE of the 🌋 emoji on the right (rule of thirds — title
+     anchors the lower-third of the hero, volcano its right-third). */
+  padding-top: clamp(160px, 24vh, 300px);
 }
 
 /* volcano column — emoji centered (lined up with the middle of the
@@ -138,14 +139,15 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* end pushed brighter + oranger — the previous chroma 0.22 was
-     reading coral-pink at the visual end; bumping to 0.26 + lightness
-     0.74 forces the "io" into proper bright lava-orange territory. */
+  /* using known-vivid hex stops for the warm side. oklch values were
+     reading coral-pink because chroma was capping inside sRGB and
+     the violet→orange blend dulls toward pink-grey in the middle.
+     Hex values force the rendered color and skip the gamut clamp. */
   background: linear-gradient(92deg,
     oklch(0.62 0.30 295) 0%,        /* vibrant violet (Play) */
     oklch(0.62 0.30 295) 35%,       /* violet holds through "Stu" */
-    oklch(0.76 0.21 48) 70%,        /* warm orange transitioning */
-    oklch(0.74 0.26 35) 100%        /* brighter, oranger lava (final "o") */
+    #ff8a3c 65%,                    /* punchy warm orange (mid) */
+    #ff5722 100%                    /* vivid Material deep-orange lava (final "o") */
   );
   -webkit-background-clip: text;
   background-clip: text;
