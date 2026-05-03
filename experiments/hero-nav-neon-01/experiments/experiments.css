@@ -65,8 +65,8 @@
 }
 .exp-hero__emoji {
   position: absolute;
-  /* moderate lift — was 110-170 (too high), now 80-140 */
-  bottom: clamp(80px, 10vh, 140px);
+  /* lifted a touch more from 80-140 → 110-170 */
+  bottom: clamp(110px, 12vh, 170px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
@@ -84,10 +84,9 @@
 }
 .exp-hero__particle {
   position: absolute;
-  /* spawn near the emoji's top edge (emoji's bottom: 60-110px,
-     emoji height ~96-160px → emoji top is at column_height - ~210px,
-     which is roughly 75% from the top of the column on most viewports) */
-  top: 75%;
+  /* spawn near the emoji's top edge — moved up to 68% to follow the
+     volcano emoji which lifted to bottom: 110-170px */
+  top: 68%;
   left: 50%;
   user-select: none;
   pointer-events: none;
