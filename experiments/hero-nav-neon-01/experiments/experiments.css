@@ -29,6 +29,9 @@
   flex-direction: column;
   justify-content: center;
   gap: 18px;
+  /* nudge the eyebrow + title + lede down a touch from the row's
+     vertical center — feels more grounded against the volcano column */
+  padding-top: clamp(40px, 6vh, 80px);
 }
 
 /* volcano column — emoji centered (lined up with the middle of the
