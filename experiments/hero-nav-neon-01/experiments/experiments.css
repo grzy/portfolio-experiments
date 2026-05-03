@@ -114,7 +114,7 @@
    lower in the viewport. overrides only margin-top from the global
    .hero__ticker shorthand. */
 .exp-hero__ticker {
-  margin-top: clamp(88px, 10.5vh, 142px);
+  margin-top: clamp(94px, 11vh, 150px);
 }
 
 /* ── experiments-page-only chrome overrides: lilac signature ───────
