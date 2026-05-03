@@ -110,11 +110,11 @@
 .exp-hero__ticker .ticker__row span:nth-child(even) {
   color: var(--lilac);
 }
-/* push the ticker down further from the row above so it (+ scroll
-   below it) sit lower in the viewport. overrides only margin-top
-   from the global .hero__ticker shorthand. */
+/* push the ticker down from the row so it (+ scroll below it) sit
+   lower in the viewport. overrides only margin-top from the global
+   .hero__ticker shorthand. */
 .exp-hero__ticker {
-  margin-top: clamp(100px, 12vh, 160px);
+  margin-top: clamp(76px, 9vh, 124px);
 }
 
 /* ── experiments-page-only chrome overrides: lilac signature ───────
