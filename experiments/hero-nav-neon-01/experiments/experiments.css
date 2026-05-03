@@ -5,11 +5,10 @@
 /* hero ─ shorter than the landing hero, no specimen image */
 .exp-hero {
   position: relative;
-  /* pulled in further so the ticker + scroll actually move up. with
-     row taking flex:1, the row stretches to fill remaining space —
-     a smaller min-height means less space for the row to stretch
-     into, so ticker + scroll sit higher. */
-  min-height: 52svh;
+  /* min-height was less binding than the volcano column's fixed
+     height (which was the real culprit holding the row tall and
+     keeping ticker low). still trimming this a touch as backup. */
+  min-height: 48svh;
   padding: clamp(140px, 18vh, 200px) clamp(24px, 5vw, 72px) clamp(30px, 4vh, 50px);
   display: flex;
   flex-direction: column;
@@ -32,10 +31,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  /* title baseline lines up with the row bottom — volcano emoji is
-     positioned absolutely just above this baseline so the LIVE
-     eyebrow + title + lede + 🌋 base all sit on the same horizon. */
-  padding-bottom: clamp(20px, 4vh, 60px);
+  /* lifted padding-bottom (was 20-60px) pushes the title baseline up,
+     keeping it aligned with the volcano emoji which also moved up */
+  padding-bottom: clamp(80px, 12vh, 150px);
   /* extra right padding so the gradient-clipped "o" of "Studio"
      doesn't get visually cut by the hero's right inset */
   padding-right: clamp(8px, 1.5vw, 28px);
@@ -61,13 +59,17 @@
 .exp-hero__volcano {
   position: relative;
   width: clamp(160px, 18vw, 240px);
-  height: clamp(380px, 50vw, 560px);
+  /* column shrunk significantly — this was what kept the row tall
+     (and the ticker/scroll low) regardless of min-height tweaks */
+  height: clamp(280px, 36vw, 400px);
   margin-left: clamp(40px, 5vw, 90px);
   margin-right: 0;
 }
 .exp-hero__emoji {
   position: absolute;
-  bottom: clamp(60px, 8vh, 110px);
+  /* emoji lifted within its column — the most extra rise on the page,
+     since Ivy wants the volcano to come up the most */
+  bottom: clamp(110px, 13vh, 170px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
