@@ -5,9 +5,10 @@
 /* hero ─ shorter than the landing hero, no specimen image */
 .exp-hero {
   position: relative;
-  min-height: 70svh;
-  /* bottom padding trimmed (60-100px → 30-50px) so the ticker + scroll
-     arrow sit a bit higher, closer to the landing page rhythm. */
+  /* min-height pulled in (70svh → 60svh) so the ticker + scroll sit
+     visibly higher — the previous attempt didn't move them because
+     min-height was holding the box too tall. */
+  min-height: 60svh;
   padding: clamp(140px, 18vh, 200px) clamp(24px, 5vw, 72px) clamp(30px, 4vh, 50px);
   display: flex;
   flex-direction: column;
@@ -15,39 +16,42 @@
   isolation: isolate;
 }
 
-/* hero row — text on the left, volcano with rising ornaments on the right */
+/* hero row — VOLCANO on the left now, text right-aligned on the right */
 .exp-hero__row {
   flex: 1;
   width: 100%;
   max-width: 1400px;
   margin-inline: auto;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr;
   gap: clamp(40px, 5vw, 100px);
-  align-items: center;
+  align-items: end;
 }
 .exp-hero__stage {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: flex-end;
   gap: 18px;
-  /* push the title block down so the rule-of-thirds anchor sits near
-     the volcano base (was overshot at 160-300; pulled back to land
-     closer to the volcano's base without going past it) */
-  padding-top: clamp(100px, 16vh, 220px);
+  text-align: right;
+  /* title baseline lines up with the row bottom (= volcano base)
+     because both columns are align-items: end on the row. */
+  padding-bottom: clamp(20px, 4vh, 60px);
 }
 
-/* volcano column — emoji centered (lined up with the middle of the
-   text block), particles spawn near it and rise upward. */
+/* volcano column — on the LEFT now. emoji at the column bottom so
+   its base aligns with the title baseline on the right (row uses
+   align-items: end so both columns bottom-out together). */
 .exp-hero__volcano {
   position: relative;
   width: clamp(160px, 18vw, 240px);
   height: clamp(380px, 50vw, 560px);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  /* shift the volcano slightly left, away from the right edge */
-  margin-right: clamp(40px, 5vw, 90px);
+  /* shift the volcano slightly right of the absolute left edge */
+  margin-left: clamp(40px, 5vw, 90px);
+  margin-right: 0;
 }
 .exp-hero__emoji {
   font-size: clamp(96px, 12vw, 160px);
