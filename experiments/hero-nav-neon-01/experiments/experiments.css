@@ -135,15 +135,15 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* violet stays the visual hero. warm side is dialed back — softer,
-     lighter, less saturated — so it gestures toward the 🌋 emoji
-     without fighting "Play" for attention. pulling from the LIGHTEST
-     warm orange around the volcano's smoke edges, not the molten core. */
+  /* middle ground — violet dominates "Play Stud" (still the hero),
+     but "io" reads clearly as lava orange. chroma's high enough
+     that the orange is recognizable as orange (not peach), bumping
+     above the washed-out previous attempt. */
   background: linear-gradient(92deg,
     oklch(0.62 0.30 295) 0%,        /* vibrant violet (Play) */
-    oklch(0.62 0.30 295) 45%,       /* violet holds through "Stu" */
-    oklch(0.78 0.13 55) 75%,        /* gentle warm orange around "i" */
-    oklch(0.78 0.16 38) 100%        /* soft peachy glow at the final "o" */
+    oklch(0.62 0.30 295) 35%,       /* violet holds through "Stu" */
+    oklch(0.74 0.19 50) 70%,        /* clear warm orange transitioning */
+    oklch(0.7 0.22 32) 100%         /* bright lava red-orange (final "o") */
   );
   -webkit-background-clip: text;
   background-clip: text;
