@@ -106,11 +106,11 @@
     0 0 52px -8px color-mix(in oklch, var(--lilac) 35%, transparent) !important;
 }
 
-/* "with soul" gradient: orange → lilac (orange first so the lilac
-   doesn't blend into the dark void background; lilac stays bright
-   against dark anyway, just keeps the warmth on the entry) */
+/* "w/ soul" gradient: orange entry → lilac mid → lilac-2 vibrant end.
+   matches the hero "Play Studio" gradient exactly so opener + closer
+   rhyme. */
 .foot__title em {
-  background: linear-gradient(92deg, var(--orange), var(--lilac)) !important;
+  background: linear-gradient(92deg, var(--orange) 0%, var(--lilac) 30%, var(--lilac-2) 100%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
@@ -135,10 +135,10 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* sunrise gradient: orange ties to the volcano emoji on the right;
-     lilac-2 is the brighter end of the lilac palette so the title
-     finishes on the page's signature color with real punch */
-  background: linear-gradient(92deg, var(--orange) 0%, var(--lilac-2) 100%);
+  /* orange punctuates the entry on "Pl", lilac kicks in by 30% so
+     all of "ay Studio" reads as lilac, lilac-2 at the very end pops
+     bright on the final "o". matches the footer "w/ soul" gradient. */
+  background: linear-gradient(92deg, var(--orange) 0%, var(--lilac) 30%, var(--lilac-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

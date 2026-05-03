@@ -2259,9 +2259,12 @@
 .lost-body .foot {
   position: relative;
   /* tighter section so the inbox eyebrow, middle group, and bottom
-     row aren't separated by huge dead space around the bird card */
+     row aren't separated by huge dead space around the bird card.
+     bottom padding now matches the shared global footer (20-40px) so
+     the "built in the terminal" sig sits the same distance from the
+     viewport bottom across all pages. */
   min-height: clamp(560px, 78vh, 720px);
-  padding-bottom: clamp(40px, 6vh, 72px);
+  padding-bottom: clamp(20px, 3vh, 40px);
   /* shared .foot uses isolation: isolate which clips the bird card's
      drop-shadow at the section seam -- override so the glow can bleed
      up into the signoff above without a hard cut line */
@@ -2284,7 +2287,7 @@
 /* lift the eyebrow above the shared foot's top padding — sits close
    to the section top but not flush */
 .lost-body .foot__content > .eyebrow {
-  margin-top: clamp(-180px, -18vh, -135px);
+  margin-top: clamp(-210px, -21vh, -160px);
 }
 .lost-body .lost-foot__card {
   /* override the shared orchid bloom — we replace its role entirely */
