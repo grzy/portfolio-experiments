@@ -5,14 +5,19 @@
 /* hero ─ shorter than the landing hero, no specimen image */
 .exp-hero {
   position: relative;
-  /* lifted min-height so the row stretches more (via flex: 1) which
-     pushes the ticker + scroll arrow lower in the viewport */
+  /* default for 14" laptops + smaller — current spec Ivy approved */
   min-height: 62svh;
   padding: clamp(140px, 18vh, 200px) clamp(24px, 5vw, 72px) clamp(30px, 4vh, 50px);
   display: flex;
   flex-direction: column;
   z-index: 1;
   isolation: isolate;
+}
+/* on tall desktop monitors (1080p+ effective viewport), bump the
+   hero close to viewport height so the next section ("Always in
+   motion") doesn't peek through underneath the scroll arrow */
+@media (min-height: 950px) {
+  .exp-hero { min-height: 90svh; }
 }
 
 /* hero row — VOLCANO on the left now, text right-aligned on the right */
@@ -65,8 +70,8 @@
 }
 .exp-hero__emoji {
   position: absolute;
-  /* lifted again — 110-170 → 140-200 */
-  bottom: clamp(140px, 14vh, 200px);
+  /* micro nudge down (140-200 → 128-184) */
+  bottom: clamp(128px, 13vh, 184px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
@@ -84,9 +89,9 @@
 }
 .exp-hero__particle {
   position: absolute;
-  /* spawn near the emoji's top edge — 68% → 62% to follow the
-     volcano emoji which lifted again to bottom: 140-200px */
-  top: 62%;
+  /* spawn near the emoji's top edge — micro nudge from 62% → 65%
+     to follow the slightly-lowered emoji */
+  top: 65%;
   left: 50%;
   user-select: none;
   pointer-events: none;
