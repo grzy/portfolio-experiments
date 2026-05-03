@@ -60,7 +60,7 @@
      row shorter than the original 380-560 so the ticker lifts, but
      not so short that everything looks crammed at the top */
   height: clamp(340px, 44vw, 480px);
-  margin-left: clamp(40px, 5vw, 90px);
+  margin-left: clamp(80px, 10vw, 180px);
   margin-right: 0;
 }
 .exp-hero__emoji {
