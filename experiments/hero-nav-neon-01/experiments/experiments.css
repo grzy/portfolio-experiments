@@ -6,7 +6,9 @@
 .exp-hero {
   position: relative;
   min-height: 70svh;
-  padding: clamp(140px, 18vh, 200px) clamp(24px, 5vw, 72px) clamp(60px, 8vh, 100px);
+  /* bottom padding trimmed (60-100px → 30-50px) so the ticker + scroll
+     arrow sit a bit higher, closer to the landing page rhythm. */
+  padding: clamp(140px, 18vh, 200px) clamp(24px, 5vw, 72px) clamp(30px, 4vh, 50px);
   display: flex;
   flex-direction: column;
   z-index: 1;
@@ -29,10 +31,10 @@
   flex-direction: column;
   justify-content: center;
   gap: 18px;
-  /* push the title block down so "Play Studio" baseline lines up with
-     the BASE of the 🌋 emoji on the right (rule of thirds — title
-     anchors the lower-third of the hero, volcano its right-third). */
-  padding-top: clamp(160px, 24vh, 300px);
+  /* push the title block down so the rule-of-thirds anchor sits near
+     the volcano base (was overshot at 160-300; pulled back to land
+     closer to the volcano's base without going past it) */
+  padding-top: clamp(100px, 16vh, 220px);
 }
 
 /* volcano column — emoji centered (lined up with the middle of the
