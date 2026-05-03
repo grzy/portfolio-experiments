@@ -135,15 +135,15 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* matching the Interactive Record card's purple→peach palette:
-     - left: saturated violet (NOT the soft lavender of var(--lilac))
-     - right: peachy-coral orange (NOT the deep red lava — that's
-       different from what the card actually shows)
-     drop-shadow removed entirely — it was making the title hazy. */
+  /* 4-stop gradient: violet hold across "Play", a midpoint warm
+     orange punches through the violet→orange transition (so the
+     pink mid-zone gets compressed into a tiny sliver, not "tudio"),
+     then the end deepens into proper lava red-orange like the 🌋. */
   background: linear-gradient(92deg,
-    oklch(0.62 0.30 295) 0%,        /* saturated violet, like the record card */
+    oklch(0.62 0.30 295) 0%,        /* saturated violet (Play) */
     oklch(0.62 0.30 295) 30%,
-    oklch(0.74 0.20 38) 100%        /* peachy-coral, like the card's right side */
+    oklch(0.72 0.22 48) 55%,        /* punch-through warm orange (around "S") */
+    oklch(0.62 0.27 25) 100%        /* deep lava red-orange (final "o") */
   );
   -webkit-background-clip: text;
   background-clip: text;
