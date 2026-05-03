@@ -136,10 +136,12 @@
   margin: 0;
   color: var(--text);
   /* "Play" reads solid lilac (the bright bluey-purple from the ticker
-     ornaments — var(--lilac), not the pinker var(--lilac-2)). transition
-     starts at 25% so all of "Play" stays lilac, then "Studio" smoothly
-     fades through to orange/lava at the final "o". */
-  background: linear-gradient(92deg, var(--lilac) 0%, var(--lilac) 25%, var(--orange) 100%);
+     ornaments). "Studio" transitions to a deep lava orange — using a
+     darker/redder orange than var(--orange) so the end reads molten,
+     not peachy. var(--orange) is oklch(0.72 0.22 40) which is too
+     light + too much yellow-side hue; we drop lightness to 0.6 and
+     hue to 28 for a saturated red-orange. */
+  background: linear-gradient(92deg, var(--lilac) 0%, var(--lilac) 30%, oklch(0.6 0.25 30) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
