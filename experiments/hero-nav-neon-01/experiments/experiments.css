@@ -135,15 +135,14 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* middle ground — violet dominates "Play Stud" (still the hero),
-     but "io" reads clearly as lava orange. chroma's high enough
-     that the orange is recognizable as orange (not peach), bumping
-     above the washed-out previous attempt. */
+  /* end pushed brighter + oranger — the previous chroma 0.22 was
+     reading coral-pink at the visual end; bumping to 0.26 + lightness
+     0.74 forces the "io" into proper bright lava-orange territory. */
   background: linear-gradient(92deg,
     oklch(0.62 0.30 295) 0%,        /* vibrant violet (Play) */
     oklch(0.62 0.30 295) 35%,       /* violet holds through "Stu" */
-    oklch(0.74 0.19 50) 70%,        /* clear warm orange transitioning */
-    oklch(0.7 0.22 32) 100%         /* bright lava red-orange (final "o") */
+    oklch(0.76 0.21 48) 70%,        /* warm orange transitioning */
+    oklch(0.74 0.26 35) 100%        /* brighter, oranger lava (final "o") */
   );
   -webkit-background-clip: text;
   background-clip: text;
