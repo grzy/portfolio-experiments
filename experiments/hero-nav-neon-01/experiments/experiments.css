@@ -135,10 +135,11 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* flipped — lilac-2 opens vibrant on "Pl", lilac dominates the body,
-     orange punctuates the final "o" with warmth. mirror of the footer
-     "w/ soul" gradient (which still goes orange → lilac → lilac-2). */
-  background: linear-gradient(92deg, var(--lilac-2) 0%, var(--lilac) 70%, var(--orange) 100%);
+  /* "Play" reads solid lilac (the bright bluey-purple from the ticker
+     ornaments — var(--lilac), not the pinker var(--lilac-2)). transition
+     starts at 25% so all of "Play" stays lilac, then "Studio" smoothly
+     fades through to orange/lava at the final "o". */
+  background: linear-gradient(92deg, var(--lilac) 0%, var(--lilac) 25%, var(--orange) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
