@@ -135,9 +135,10 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* stronger lilac shift — lilac starts earlier and ends on the deeper
-     lilac-2 so the gradient is actually visible on a 10-letter title */
-  background: linear-gradient(92deg, var(--text) 15%, var(--lilac) 60%, var(--lilac-2) 100%);
+  /* sunrise gradient: orange ties to the volcano emoji on the right;
+     lilac-2 is the brighter end of the lilac palette so the title
+     finishes on the page's signature color with real punch */
+  background: linear-gradient(92deg, var(--orange) 0%, var(--lilac-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
