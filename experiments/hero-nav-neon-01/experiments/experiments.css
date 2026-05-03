@@ -135,10 +135,10 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* orange punctuates the entry on "Pl", lilac kicks in by 30% so
-     all of "ay Studio" reads as lilac, lilac-2 at the very end pops
-     bright on the final "o". matches the footer "w/ soul" gradient. */
-  background: linear-gradient(92deg, var(--orange) 0%, var(--lilac) 30%, var(--lilac-2) 100%);
+  /* flipped — lilac-2 opens vibrant on "Pl", lilac dominates the body,
+     orange punctuates the final "o" with warmth. mirror of the footer
+     "w/ soul" gradient (which still goes orange → lilac → lilac-2). */
+  background: linear-gradient(92deg, var(--lilac-2) 0%, var(--lilac) 70%, var(--orange) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
