@@ -5,10 +5,11 @@
 /* hero ─ shorter than the landing hero, no specimen image */
 .exp-hero {
   position: relative;
-  /* min-height pulled in (70svh → 60svh) so the ticker + scroll sit
-     visibly higher — the previous attempt didn't move them because
-     min-height was holding the box too tall. */
-  min-height: 60svh;
+  /* pulled in further so the ticker + scroll actually move up. with
+     row taking flex:1, the row stretches to fill remaining space —
+     a smaller min-height means less space for the row to stretch
+     into, so ticker + scroll sit higher. */
+  min-height: 52svh;
   padding: clamp(140px, 18vh, 200px) clamp(24px, 5vw, 72px) clamp(30px, 4vh, 50px);
   display: flex;
   flex-direction: column;
@@ -29,35 +30,49 @@
 }
 .exp-hero__stage {
   display: flex;
-  flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
-  gap: 18px;
-  text-align: right;
-  /* title baseline lines up with the row bottom (= volcano base)
-     because both columns are align-items: end on the row. */
+  /* title baseline lines up with the row bottom — volcano emoji is
+     positioned absolutely just above this baseline so the LIVE
+     eyebrow + title + lede + 🌋 base all sit on the same horizon. */
   padding-bottom: clamp(20px, 4vh, 60px);
+  /* extra right padding so the gradient-clipped "o" of "Studio"
+     doesn't get visually cut by the hero's right inset */
+  padding-right: clamp(8px, 1.5vw, 28px);
+}
+/* the title block sits at the right of the stage, sized to its
+   widest child (the title). eyebrow + lede left-align WITHIN the
+   block — so eyebrow + lede share the title's left edge, and the
+   eyebrow naturally lands above "Play" instead of above "io". */
+.exp-hero__title-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  width: max-content;
+  max-width: 100%;
+  text-align: left;
 }
 
-/* volcano column — on the LEFT now. emoji at the column bottom so
-   its base aligns with the title baseline on the right (row uses
-   align-items: end so both columns bottom-out together). */
+/* volcano column — on the LEFT. column is positioning context for
+   the emoji + particles. emoji is absolutely positioned just above
+   the column bottom so its base aligns with the title baseline on
+   the right. */
 .exp-hero__volcano {
   position: relative;
   width: clamp(160px, 18vw, 240px);
   height: clamp(380px, 50vw, 560px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  /* shift the volcano slightly right of the absolute left edge */
   margin-left: clamp(40px, 5vw, 90px);
   margin-right: 0;
 }
 .exp-hero__emoji {
+  position: absolute;
+  bottom: clamp(60px, 8vh, 110px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
   font-size: clamp(96px, 12vw, 160px);
   line-height: 1;
-  position: relative;
-  z-index: 2;
   filter: drop-shadow(0 14px 28px oklch(0 0 0 / 0.5));
   user-select: none;
 }
@@ -70,7 +85,10 @@
 }
 .exp-hero__particle {
   position: absolute;
-  top: 50%;
+  /* spawn near the emoji's top edge (emoji's bottom: 60-110px,
+     emoji height ~96-160px → emoji top is at column_height - ~210px,
+     which is roughly 75% from the top of the column on most viewports) */
+  top: 75%;
   left: 50%;
   user-select: none;
   pointer-events: none;
@@ -145,15 +163,14 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* using known-vivid hex stops for the warm side. oklch values were
-     reading coral-pink because chroma was capping inside sRGB and
-     the violet→orange blend dulls toward pink-grey in the middle.
-     Hex values force the rendered color and skip the gamut clamp. */
+  /* FLIPPED: orange first (Play, closest to volcano on the left) →
+     violet end (Studio's "o", far right). Lava color now points AT
+     the volcano emoji instead of away from it. */
   background: linear-gradient(92deg,
-    oklch(0.62 0.30 295) 0%,        /* vibrant violet (Play) */
-    oklch(0.62 0.30 295) 35%,       /* violet holds through "Stu" */
-    #ff8a3c 65%,                    /* punchy warm orange (mid) */
-    #ff5722 100%                    /* vivid Material deep-orange lava (final "o") */
+    #ff5722 0%,                     /* vivid lava on "Pl" (next to 🌋) */
+    #ff8a3c 35%,                    /* punchy warm orange transitioning */
+    oklch(0.62 0.30 295) 65%,       /* violet kicks in by 65% */
+    oklch(0.62 0.30 295) 100%       /* vibrant violet end (final "o") */
   );
   -webkit-background-clip: text;
   background-clip: text;
