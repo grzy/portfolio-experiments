@@ -135,15 +135,15 @@
   letter-spacing: -0.04em;
   margin: 0;
   color: var(--text);
-  /* 4-stop gradient: violet hold across "Play", a midpoint warm
-     orange punches through the violet→orange transition (so the
-     pink mid-zone gets compressed into a tiny sliver, not "tudio"),
-     then the end deepens into proper lava red-orange like the 🌋. */
+  /* violet stays the visual hero. warm side is dialed back — softer,
+     lighter, less saturated — so it gestures toward the 🌋 emoji
+     without fighting "Play" for attention. pulling from the LIGHTEST
+     warm orange around the volcano's smoke edges, not the molten core. */
   background: linear-gradient(92deg,
-    oklch(0.62 0.30 295) 0%,        /* saturated violet (Play) */
-    oklch(0.62 0.30 295) 30%,
-    oklch(0.72 0.22 48) 55%,        /* punch-through warm orange (around "S") */
-    oklch(0.62 0.27 25) 100%        /* deep lava red-orange (final "o") */
+    oklch(0.62 0.30 295) 0%,        /* vibrant violet (Play) */
+    oklch(0.62 0.30 295) 45%,       /* violet holds through "Stu" */
+    oklch(0.78 0.13 55) 75%,        /* gentle warm orange around "i" */
+    oklch(0.78 0.16 38) 100%        /* soft peachy glow at the final "o" */
   );
   -webkit-background-clip: text;
   background-clip: text;
