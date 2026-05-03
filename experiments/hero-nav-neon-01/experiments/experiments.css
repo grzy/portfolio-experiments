@@ -5,10 +5,7 @@
 /* hero ─ shorter than the landing hero, no specimen image */
 .exp-hero {
   position: relative;
-  /* min-height was less binding than the volcano column's fixed
-     height (which was the real culprit holding the row tall and
-     keeping ticker low). still trimming this a touch as backup. */
-  min-height: 48svh;
+  min-height: 52svh;
   padding: clamp(140px, 18vh, 200px) clamp(24px, 5vw, 72px) clamp(30px, 4vh, 50px);
   display: flex;
   flex-direction: column;
@@ -31,11 +28,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  /* lifted padding-bottom (was 20-60px) pushes the title baseline up,
-     keeping it aligned with the volcano emoji which also moved up */
-  padding-bottom: clamp(80px, 12vh, 150px);
-  /* extra right padding so the gradient-clipped "o" of "Studio"
-     doesn't get visually cut by the hero's right inset */
+  /* dialed back from the over-lifted 80-150 to a moderate 50-110 —
+     keeps the title baseline lined up with the new emoji position */
+  padding-bottom: clamp(50px, 8vh, 110px);
   padding-right: clamp(8px, 1.5vw, 28px);
 }
 /* the title block sits at the right of the stage, sized to its
@@ -59,17 +54,17 @@
 .exp-hero__volcano {
   position: relative;
   width: clamp(160px, 18vw, 240px);
-  /* column shrunk significantly — this was what kept the row tall
-     (and the ticker/scroll low) regardless of min-height tweaks */
-  height: clamp(280px, 36vw, 400px);
+  /* dialed back from the over-shrunk 280-400 — we still want the
+     row shorter than the original 380-560 so the ticker lifts, but
+     not so short that everything looks crammed at the top */
+  height: clamp(340px, 44vw, 480px);
   margin-left: clamp(40px, 5vw, 90px);
   margin-right: 0;
 }
 .exp-hero__emoji {
   position: absolute;
-  /* emoji lifted within its column — the most extra rise on the page,
-     since Ivy wants the volcano to come up the most */
-  bottom: clamp(110px, 13vh, 170px);
+  /* moderate lift — was 110-170 (too high), now 80-140 */
+  bottom: clamp(80px, 10vh, 140px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
@@ -181,6 +176,11 @@
      pad the descender room without pushing the lede further down */
   padding-bottom: 0.18em;
   margin-bottom: -0.18em;
+  /* AND the gradient render extends a sliver past the glyph's right
+     edge — without padding-right, the final "o" gets visually clipped.
+     Negative margin-right keeps the layout width unchanged. */
+  padding-right: 0.12em;
+  margin-right: -0.12em;
 }
 
 .exp-hero__lede {
